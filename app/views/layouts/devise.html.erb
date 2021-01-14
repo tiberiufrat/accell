@@ -1,0 +1,27 @@
+<!--
+=========================================================
+* Argon Dashboard - v1.2.0
+=========================================================
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+
+
+* Copyright  Creative Tim (http://www.creative-tim.com)
+* Coded by www.creative-tim.com
+
+
+
+=========================================================
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html>
+  <%= render 'shared/head' %>
+  <body class="bg-default">
+    <%= render 'shared/logged_out_topnav' %>
+    <div class="main-content">
+      <%= render partial: 'shared/authentication_header', locals: { title: yield(:title), subtitle: yield(:subtitle) } %>
+      <%= yield %>
+    </div>
+    <%= render 'shared/logged_out_footer' %>
+  </body>
+</html>

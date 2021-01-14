@@ -1,0 +1,68 @@
+$fa-font-path: '@nguyenthanh1995/fontawesomepro/webfonts';
+@import '@nguyenthanh1995/fontawesomepro/scss/fontawesome';
+@import '@nguyenthanh1995/fontawesomepro/scss/solid';
+@import '@nguyenthanh1995/fontawesomepro/scss/regular';
+@import '@nguyenthanh1995/fontawesomepro/scss/brands';
+@import '@nguyenthanh1995/fontawesomepro/scss/light';
+@import '@nguyenthanh1995/fontawesomepro/scss/duotone';
+@import '@nguyenthanh1995/fontawesomepro/scss/v4-shims';
+
+@import "vendor/nucleo/css/nucleo";
+@import "vendor/font-awesome/css/font-awesome.min.css";
+@import "vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css";
+
+// Bootstrap functions
+@import 'bootstrap/functions';
+
+// Argon functions
+@import "custom/functions";
+@import "custom/variables";
+
+// Argon mixins
+@import "custom/mixins";
+
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+
+// Bootstrap components
+@import "bootstrap/root";
+@import "bootstrap/reboot";
+@import "bootstrap/type";
+@import "bootstrap/images";
+@import "bootstrap/code";
+@import "bootstrap/grid";
+@import "bootstrap/tables";
+@import "bootstrap/forms";
+@import "bootstrap/buttons";
+@import "bootstrap/transitions";
+@import "bootstrap/dropdown";
+@import "bootstrap/button-group";
+@import "bootstrap/input-group";
+@import "bootstrap/custom-forms";
+@import "bootstrap/nav";
+@import "bootstrap/navbar";
+@import "bootstrap/card";
+@import "bootstrap/breadcrumb";
+@import "bootstrap/pagination";
+@import "bootstrap/badge";
+@import "bootstrap/jumbotron";
+@import "bootstrap/alert";
+@import "bootstrap/progress";
+@import "bootstrap/media";
+@import "bootstrap/list-group";
+@import "bootstrap/close";
+@import "bootstrap/modal";
+@import "bootstrap/tooltip";
+@import "bootstrap/popover";
+@import "bootstrap/carousel";
+@import "bootstrap/utilities";
+@import "bootstrap/print";
+
+
+// Argon components
+@import 'custom/components';
+@import 'custom/utilities';
+@import 'custom/vendors';
+
+// custom
+@import "./custom"

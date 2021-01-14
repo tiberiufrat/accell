@@ -1,0 +1,57 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"><%%= t('activerecord.models.<%= singular_table_name %>.other').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item">
+                <%%= link_to t('activerecord.models.<%= singular_table_name %>.other').titleize, <%= plural_table_name %>_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page"><%%= t 'general.new' %> <%%= t('activerecord.models.<%= singular_table_name %>.one') %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral"><%%= t 'general.new' %></a>
+          <a href="#" class="btn btn-sm btn-neutral"><%%= t 'general.filters' %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0"><%%= t 'general.show' %> <%= singular_table_name.titleize %></h4>
+    </div>
+    <div class="card-body">
+      <dl class="row">
+	    <% attributes.each do |attribute| -%>
+	      <dt class="col-sm-3"><%%= t 'activerecord.attributes.<%= singular_table_name %>.<%= attribute.name %>' %>:</dt>
+	      <% if [:date, :datetime].include?(attribute.type) -%>
+	        <dd class="col-sm-9"><%%= l(@<%= singular_table_name %>.<%= attribute.name %>) %></dd>
+	      <% elsif [:time].include?(attribute.type) -%>
+	        <dd class="col-sm-9"><%%= l(@<%= singular_table_name %>.<%= attribute.name %>, format: :time) %></dd>
+	      <% elsif [:float, :decimal].include?(attribute.type) -%>
+	        <dd class="col-sm-9"><%%= np(@<%= singular_table_name %>.<%= attribute.name %>) %></dd>
+	      <% elsif attribute.type == :boolean -%>
+	        <dd class="col-sm-9"><%%= t(@<%= singular_table_name %>.<%= attribute.name %>) %></dd>
+	      <% else -%>
+	        <dd class="col-sm-9"><%%= @<%= singular_table_name %>.<%= attribute.name %> %></dd>
+	      <% end -%>
+	    <% end -%>
+      </dl>
+    </div>
+  </div>
+  <%%= link_to icon('far fa-arrow-left', t('general.back')), <%= plural_table_name %>_path, class: 'btn btn-icon icon-left btn-secondary d-mobile-none' %>
+  <%%= link_to icon('far fa-edit', t('general.edit')), edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: 'btn btn btn-icon icon-left btn-warning' %>
+  <%%= link_to icon('far fa-trash', t('general.delete')), @<%= singular_table_name %>, class: "btn btn btn-icon icon-left btn-danger", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
+</div>
+
+<%% content_for(:page_title, t('general.show') + " <%= singular_table_name.titleize %>") %>
