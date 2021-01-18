@@ -1,0 +1,63 @@
+<%= form_with(model: activity, data: { controller: 'validation' }) do |form| %>
+  <div class="form-group">
+        <div class="custom-control custom-checkbox">
+      <%= form.check_box :all_day, class: 'custom-control-input' %>
+      <%= form.label :all_day, class: 'custom-control-label' %>
+    </div>
+    </div>
+  <div class="form-group">
+      <%= form.label :start, class: 'form-control-label' %>
+        <%= form.datetime_local_field :start, value: l(activity.start), class: 'form-control', data: { controller: 'datetime' } %>
+    </div>
+  <div class="form-group">
+      <%= form.label :end, class: 'form-control-label' %>
+        <%= form.datetime_local_field :end, value: l(activity.end), class: 'form-control', data: { controller: 'datetime' } %>
+    </div>
+  <div class="form-group">
+      <%= form.label :days_of_week, class: 'form-control-label' %>
+        <%= form.text_field :days_of_week, class: 'form-control' %>
+    </div>
+  <div class="form-group">
+      <%= form.label :start_time, class: 'form-control-label' %>
+        <%= form.text_field :start_time, class: 'form-control' %>
+    </div>
+  <div class="form-group">
+      <%= form.label :end_time, class: 'form-control-label' %>
+        <%= form.text_field :end_time, class: 'form-control' %>
+    </div>
+  <div class="form-group">
+      <%= form.label :start_recur, class: 'form-control-label' %>
+        <%= form.date_field :start_recur, value: l(activity.start_recur), class: 'form-control', data: { controller: 'date' } %>
+    </div>
+  <div class="form-group">
+      <%= form.label :end_recur, class: 'form-control-label' %>
+        <%= form.date_field :end_recur, value: l(activity.end_recur), class: 'form-control', data: { controller: 'date' } %>
+    </div>
+  <div class="form-group">
+      <%= form.label :title, class: 'form-control-label' %>
+        <%= form.text_field :title, class: 'form-control' %>
+    </div>
+  <div class="form-group">
+      <%= form.label :description, class: 'form-control-label' %>
+        <%= form.text_field :description, class: 'form-control' %>
+    </div>
+  <div class="form-group">
+      <%= form.label :description_staff_only, class: 'form-control-label' %>
+        <%= form.text_field :description_staff_only, class: 'form-control' %>
+    </div>
+  <div class="form-group">
+      <%= form.label :creator_id, class: 'form-control-label' %>
+        <%= form.number_field :creator_id, class: 'form-control' %>
+    </div>
+  <div class="form-group">
+      <%= form.label :coordinator_id, class: 'form-control-label' %>
+        <%= form.number_field :coordinator_id, class: 'form-control' %>
+    </div>
+  <div class="form-group">
+      <%= form.label :subject_id, class: 'form-control-label' %>
+        <%= form.collection_select(:subject_id, Subject.all, :id, :to_s, {}, { class: 'form-control', data: { controller: 'select' } }) %>
+    </div>
+<div class="card-footer pl-0">
+  <%= form.submit class: 'btn btn-success' %>
+</div>
+<% end %>

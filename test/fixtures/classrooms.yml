@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  optional: false
+  color: MyString
+  form_tutor: one
+  allow_registration: false
+  registration_code: MyString
+
+two:
+  name: MyString
+  optional: false
+  color: MyString
+  form_tutor: two
+  allow_registration: false
+  registration_code: MyString

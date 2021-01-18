@@ -1,0 +1,141 @@
+<%= form_with(model: parent, multipart: true, data: { controller: 'validation' }) do |form| %>
+	<%= fields_for :user do |f| %>
+		<div class="row">
+			<!-- First name -->
+	    <div class="form-group col-md-6 mb-2">
+	      <div class="input-group input-group-merge input-group-alternative mb-3">
+	        <div class="input-group-prepend">
+	          <span class="input-group-text"><i class="far fa-user"></i></span>
+	        </div>
+	        <%= f.text_field :first_name, autofocus: true, class: 'form-control', placeholder: :first_name, required: true %>
+	      </div>
+	    </div>
+
+	    <!-- Last name -->
+	    <div class="form-group col-md-6 mb-2">
+	      <div class="input-group input-group-merge input-group-alternative mb-3">
+	        <div class="input-group-prepend">
+	          <span class="input-group-text"><i class="far fa-user"></i></span>
+	        </div>
+	        <%= f.text_field :last_name, class: 'form-control', placeholder: :last_name, required: true %>
+	      </div>
+	    </div>
+    </div>
+
+    <div class="row">
+	    <!-- Phone -->
+	    <div class="form-group col-md-6 mb-2">
+	      <div class="input-group input-group-merge input-group-alternative mb-3">
+	        <div class="input-group-prepend">
+	          <span class="input-group-text"><i class="far fa-phone"></i></span>
+	        </div>
+	        <%= f.telephone_field :phone, class: 'form-control', placeholder: :phone %>
+	      </div>
+	    </div>
+	    <!-- Email -->
+	    <div class="form-group col-md-6 mb-2">
+	      <div class="input-group input-group-merge input-group-alternative mb-3">
+	        <div class="input-group-prepend">
+	          <span class="input-group-text"><i class="far fa-envelope"></i></span>
+	        </div>
+	        <%= f.email_field :email, class: 'form-control', placeholder: :email, required: true %>
+	      </div>
+	    </div>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group col-12 px-0">
+      <div class="input-group input-group-merge input-group-alternative mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="far fa-house"></i></span>
+        </div>
+        <%= f.text_field :address, class: 'form-control', placeholder: :address %>
+      </div>
+    </div>
+
+    <div class="row">
+	    <!-- Gender -->
+	    <div class="form-group col-md-6 mb-2">
+	      <div class="input-group input-group-merge input-group-alternative mb-3">
+	        <div class="input-group-prepend">
+	          <span class="input-group-text input-group-select2"><i class="far fa-venus-mars"></i></span>
+	        </div>
+	        <%= f.select :gender, options_for_select({ t('general.gender.male').titleize => 0, t('general.gender.female').titleize => 1, t('general.gender.unspecified').titleize => 3 }, (@parent.user.gender if @parent.user)), {}, { 
+	        	class: 'form-control', required: true, data: {
+	        		toggle: 'select', 
+	        		placeholder: t('activerecord.attributes.user.gender'),
+	        		'minimum-results-for-search': "Infinity"
+	        	}
+	        } %>
+	      </div>
+	    </div>
+
+	    <!-- Date of birth -->
+	    <div class="form-group col-md-6 mb-2">
+	      <div class="input-group input-group-merge input-group-alternative mb-3">
+	        <div class="input-group-prepend">
+	          <span class="input-group-text"><i class="far fa-calendar"></i></span>
+	        </div>
+	        <%= f.date_field :birth_date, class: 'form-control', placeholder: :birth_date %>
+	      </div>
+	    </div>
+	  </div>
+	  <!-- Avatar -->
+	  <div class="form-group col-12 px-0">
+      <div class="input-group input-group-merge input-group-alternative mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="far fa-photo"></i></span>
+        </div>
+        <%= f.file_field :avatar, class: 'form-control' %>
+      </div>
+    </div>
+	<% end %>
+	<%= form.hidden_field :initial_password, value: parent.initial_password %>
+		<div class="row">
+  		<!-- Quality -->
+	    <div class="form-group col-md-6 mb-2">
+	      <div class="input-group input-group-merge input-group-alternative mb-3">
+	      	<div class="input-group-prepend">
+	          <span class="input-group-text input-group-select2 input-group-alternative"><i class="far fa-restroom"></i></span>
+	        </div>
+	        <%= form.select :quality, options_for_select({ 
+	        	t('general.parent_qualities.parent') => 'parent', 
+	        	t('general.parent_qualities.mother') => 'mother', 
+	        	t('general.parent_qualities.father') => 'father', 
+	        	t('general.parent_qualities.nanny') => 'nanny', 
+	        	t('general.parent_qualities.grandfather') => 'grandfather', 
+	        	t('general.parent_qualities.grandmother') => 'grandmother',
+	        	t('general.parent_qualities.guardian') => 'guardian',  
+	        	}, @parent.quality), {}, { 
+	        		class: 'form-control select-2-fa', 
+	        			required: true, 
+	        			data: { 
+	        				toggle: 'select', 
+	        				placeholder: t('activerecord.attributes.parent.quality'),
+	        				'minimum-results-for-search': "Infinity"
+	        			} 
+	        		} %>
+	      </div>
+	    </div>
+			<!-- Family -->
+	    <div class="form-group col-md-6 mb-2">
+	      <div class="input-group input-group-merge input-group-alternative mb-3">
+	      	<div class="input-group-prepend">
+	          <span class="input-group-text input-group-select2"><i class="far fa-user-friends"></i></span>
+	        </div>
+	        <%= form.collection_select(:family_id, Family.all, :id, :name, {
+	        	selected: params[:family_id]
+	        }, { 
+	        		class: 'form-control', 
+	        		data: { 
+	        			controller: 'select', 
+	        			toggle: 'select', 
+	        			placeholder: t('activerecord.attributes.parent.family')	        		} 
+	        	}) %>
+	      </div>
+	    </div>
+	  </div>
+<div class="card-footer pl-0">
+  <%= form.submit class: 'btn btn-success' %>
+</div>
+<% end %>

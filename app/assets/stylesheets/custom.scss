@@ -7,3 +7,36 @@
 table.dataTable tbody > tr.selected {
 	color: white;
 }
+
+.input-group-select2 {
+    z-index: 1000;
+    position: absolute;
+    top: 7px;
+    left: 1px;
+}
+
+.select2-selection__rendered {
+	padding-left: 30px !important;
+	color: #b5b5b5 !important;
+    font-size: 0.9em !important;
+    padding-top: 2px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: #b5b5b5 !important;
+}
+
+.select2-dropdown {
+    padding: 0.5rem 0;
+    background-color: #fff;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 0.4375rem !important;
+}
+
+.select2-selection.select2-selection--single {
+	border: none;
+}
+
+.select2-dropdown--below {
+	top: 8px;
+}

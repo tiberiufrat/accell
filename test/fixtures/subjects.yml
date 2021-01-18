@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  color: MyString
+  icon: MyString
+  staff_only: false
+  individual_activity: false
+  attendance: false
+  evaluation: 1
+
+two:
+  title: MyString
+  color: MyString
+  icon: MyString
+  staff_only: false
+  individual_activity: false
+  attendance: false
+  evaluation: 1

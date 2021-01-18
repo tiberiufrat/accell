@@ -20,7 +20,13 @@
     <%= render 'shared/logged_out_topnav' %>
     <div class="main-content">
       <%= render partial: 'shared/authentication_header', locals: { title: yield(:title), subtitle: yield(:subtitle) } %>
-      <%= yield %>
+      <div class="container mt--8 pb-5">
+	      <div class="row justify-content-center">
+	        <div class="col-lg-6 col-md-8">
+	          <%= yield %>
+	        </div>
+	      </div>
+	    </div>
     </div>
     <%= render 'shared/logged_out_footer' %>
   </body>

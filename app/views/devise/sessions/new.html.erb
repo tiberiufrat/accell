@@ -1,26 +1,64 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<div class="card bg-secondary border-0 mb-0">
+  <div class="card-body px-lg-5 py-lg-5">
+    <div class="text-center text-muted mb-4">
+      <small><%= t 'pages.login.sign_in_credentials' %></small>
     </div>
-  <% end %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <% flash.each do |name, msg| %>
+        <% if msg.is_a?(String) %>
+          <div class="alert text-white <%= name.to_s == 'notice' ? 'alert-success bg-gradient-success' : 'alert-danger bg-gradient-danger' %>">
+            <span class="alert-icon"><i class="far fa-exclamation-triangle"></i></span>
+            <span class="alert-text"><%= content_tag :div, msg, :id => "flash_#{name}" %></span>
+          </div>
+        <% end %>
+      <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+      <div class="form-group">
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-envelope"></i></span>
+          </div>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', placeholder: :email, required: true %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-key-skeleton"></i></span>
+          </div>
+          <%= f.password_field :password, autocomplete: "current-password", class: 'form-control', placeholder: :password, required: true %>
+        </div>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="row my-4">
+          <div class="col-12">
+            <div class="custom-control custom-control-alternative custom-checkbox">
+              <%= f.check_box :remember_me, class: 'custom-control-input', id: 'customCheckRegister' %>
+              <label class="custom-control-label" for="customCheckRegister">
+                <span class="text-muted"><%= t('pages.login.remember_me', link: '#').html_safe %></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="actions text-center">
+        <%= f.submit "Log in", class: 'btn btn-primary mt-4' %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
 
-<%= render "devise/shared/links" %>
+<div class="row mt-3">
+  <div class="col-6">
+    <%= link_to t('pages.login.forgot_password'), new_user_password_path, class: "text-light small" %>
+  </div>
+  <div class="col-6 text-right">
+    <%= link_to t('pages.login.sign_up'), new_user_registration_path, class: "text-light small" %>
+  </div>
+</div>
+
+<% content_for :title, t('pages.login.title') %>
+<% content_for :subtitle, t('pages.login.subtitle') %>

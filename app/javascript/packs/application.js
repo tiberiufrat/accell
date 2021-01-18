@@ -24,6 +24,11 @@ require('datatables.net-buttons')
 require('datatables.net-buttons/js/buttons.html5.js')
 require('datatables.net-buttons/js/buttons.print.js')
 require('datatables.net-bs4')
+
+require('select2')
+
+window.iziToast = require("izitoast")
+
 require("jquery.nicescroll")
 require("chart.js")
 require("Chart.extension.js")

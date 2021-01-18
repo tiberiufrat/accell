@@ -1,0 +1,71 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('activerecord.models.activity.other').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item">
+                <%= link_to t('activerecord.models.activity.other').titleize, activities_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t 'general.new' %> <%= t('activerecord.models.activity.one') %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0"><%= t 'general.show' %> Activity</h4>
+    </div>
+    <div class="card-body">
+      <dl class="row">
+	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.all_day' %>:</dt>
+	      	        <dd class="col-sm-9"><%= t(@activity.all_day) %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.start' %>:</dt>
+	      	        <dd class="col-sm-9"><%= l(@activity.start) %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.end' %>:</dt>
+	      	        <dd class="col-sm-9"><%= l(@activity.end) %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.days_of_week' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @activity.days_of_week %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.start_time' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @activity.start_time %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.end_time' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @activity.end_time %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.start_recur' %>:</dt>
+	      	        <dd class="col-sm-9"><%= l(@activity.start_recur) %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.end_recur' %>:</dt>
+	      	        <dd class="col-sm-9"><%= l(@activity.end_recur) %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.title' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @activity.title %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.description' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @activity.description %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.description_staff_only' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @activity.description_staff_only %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.creator_id' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @activity.creator_id %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.coordinator_id' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @activity.coordinator_id %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.activity.subject' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @activity.subject %></dd>
+	      	          </dl>
+    </div>
+  </div>
+  <%= link_to icon('far fa-arrow-left', t('general.back')), activities_path, class: 'btn btn-icon icon-left btn-secondary d-mobile-none' %>
+  <%= link_to icon('far fa-edit', t('general.edit')), edit_activity_path(@activity), class: 'btn btn btn-icon icon-left btn-warning' %>
+  <%= link_to icon('far fa-trash', t('general.delete')), @activity, class: "btn btn btn-icon icon-left btn-danger", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
+</div>
+
+<% content_for(:page_title, t('general.show') + " Activity") %>

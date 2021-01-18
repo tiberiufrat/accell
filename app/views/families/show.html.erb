@@ -1,0 +1,80 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('activerecord.models.family.other').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item">
+                <%= link_to t('activerecord.models.family.other').titleize, families_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t 'general.new' %> <%= t('activerecord.models.family.one') %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="card">
+    <div class="card-header border-0">
+      <div class="row">
+        <div class="col-6">
+          <h3 class="mb-0"><%= t '.family_name', name: @family.name %></h3>
+        </div>
+        <div class="col-6 text-right">
+          <%= link_to icon('far fa-user-plus', t('.add_parent')), new_parent_path(family_id: @family.id), class: 'btn btn-sm btn-primary btn-round btn-icon' %>
+          <%= link_to icon('far fa-child', t('.add_student')), new_student_path(family_id: @family.id), class: 'btn btn-sm btn-primary btn-round btn-icon' %>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <% @family.parents.each do |parent| %>
+          <div class="col">
+            <div class="card">
+              <div class="card-body pb-0">
+                <img src="<%= url_for(parent.user.avatar) %>" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px"/>
+                <div class="pt-4 text-center">
+                  <h5 class="h3 title">
+                    <span class="d-block mb-1"><%= parent.user.name %></span>
+                    <small class="h4 font-weight-light text-muted">
+                      <%= t("general.parent_qualities.#{ parent.quality }") %><%= ', ' + t('.years_old', age: ((Date.today - parent.user.birth_date)/365).to_i) if parent.user.birth_date %>
+                      <%= parent.user.sign_in_count > 0 ? "&nbsp;<i class=\"far fa-check-circle text-success\" data-toggle=\"tooltip\" data-original-title=\"#{ t('.account_activated') }\"></i>".html_safe : "&nbsp;<i class=\"far fa-times-circle text-danger\" data-toggle=\"tooltip\" data-original-title=\"#{ t('.account_not_activated') }\"></i>".html_safe %>
+                      <%= "&nbsp;<i class=\"far fa-star text-yellow\" data-toggle=\"tooltip\" data-original-title=\"#{ t('.main_parent') }\"></i>".html_safe if @family.main_parent == parent %>
+                    </small>
+                  </h5>
+                  <ul class="small list-group list-group-flush" style="margin: 0 -1.5rem;">
+                    <li class="list-group-item"><i class="far fa-envelope" style="position: absolute; left: 24px; top: 20px"></i>&nbsp;<%= parent.user.email %></li>
+                    <li class="list-group-item"><i class="far fa-phone" style="position: absolute; left: 24px; top: 20px"></i>&nbsp;<%= parent.user.phone %></li>
+                    <li class="list-group-item"><i class="far fa-house" style="position: absolute; left: 24px; top: 20px"></i>&nbsp;<%= parent.user.address %></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-footer">
+                <%= link_to icon('far fa-edit', t('general.edit')), edit_parent_path(parent, family: parent.family_id), class: 'btn btn-default btn-sm' %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+      </div>
+    </div>
+  </div>
+  <%= link_to icon('far fa-arrow-left', t('general.back')), families_path, class: 'btn btn-icon icon-left btn-secondary d-mobile-none' %>
+  <%= link_to icon('far fa-edit', t('general.edit')), edit_family_path(@family), class: 'btn btn btn-icon icon-left btn-warning' %>
+  <%= link_to icon('far fa-trash', t('general.delete')), @family, class: "btn btn btn-icon icon-left btn-danger", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
+</div>
+
+<% content_for(:page_title, t('general.show') + " Family") %>

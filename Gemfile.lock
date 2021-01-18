@@ -128,6 +128,7 @@ GEM
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    passgen (1.2.0)
     pg (1.2.3)
     platform_agent (1.0.1)
       activesupport (>= 5.2.0)
@@ -188,6 +189,7 @@ GEM
       builder (>= 3.0)
       dry-inflector (~> 0.1)
       rubyzip (>= 1.0)
+    rolify (5.3.0)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -261,6 +263,7 @@ DEPENDENCIES
   geared_pagination
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  passgen
   pg (~> 1.1)
   platform_agent
   puma (~> 5.0)
@@ -270,6 +273,7 @@ DEPENDENCIES
   rails (~> 6.1.1)
   ransack
   redis
+  rolify
   sass-rails (>= 6)
   selenium-webdriver
   sidekiq

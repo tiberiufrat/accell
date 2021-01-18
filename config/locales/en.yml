@@ -46,10 +46,107 @@ en:
     current: Current
     next: Next
     are_you_sure_delete: Are you sure you want to delete this item?
-    
+    dashboard: Dashboard
+    login: Login
+    register: Register
+    agree_privacy_policy: I agree with the <a href="%{link}">Privacy Policy</a>
+    error: Error
+    active: Active
+    inactive: Inactive
+    gender:
+      male: male
+      female: female
+      unspecified: unspecified
+    title:
+      male: Mr. 
+      female_married: Mrs. 
+      female_unmarried: Miss 
+      female_unknown: Ms. 
+      unspecified: Mx. 
+      doctor: Dr. 
+    parent_qualities:
+      parent: Parent
+      mother: Mother
+      father: Father
+      grandmother: Grandmother
+      grandfather: Grandfather
+      nanny: Nanny
+      guardian: Guardian
+
+  home:
+    index:
+      login: Login
+  families:
+    show:
+      family_name: "%{name} Family"
+      years_old: "%{age}y"
+      add_parent: Add parent
+      add_student: Add child
+      account_not_activated: The account has not been activated
+      account_activated: The account is active
+      main_parent: This is the main parent of the family
+
+  pages:
+    register:
+      title: Create an account
+      subtitle: Register now to gain access to out platform.
+      sign_in_credentials: Sign in with your credentials
+      already_have_an_account: Already have an account?
+    login:
+      title: Welcome back!
+      subtitle: Log in to gain access to out platform.
+      sign_in_credentials: Log in with your credentials
+      remember_me: Remember me
+      sign_up: Sign up
+      forgot_password: Forgot your password?
+
   activerecord:
     models:
+      activity:
+        one: Activity
+        other: Activities
+      classroom:
+        one: Classroom
+        other: Classrooms
+      family: 
+        one: Family
+        other: Families
+      parent:
+        one: Parent
+        other: Parents
+      school:
+        one: School
+        other: Schools
+      staff:
+        one: Staff member
+        other: Staff members
+      student:
+        one: Student
+        other: Students
+      subject:
+        one: Subject
+        other: Subjects
     attributes:
+      user:
+        name: Name
+        active: Active
+        email: Email
+        password: Password
+        first_name: First name
+        last_name: Surname
+        phone: Phone
+        title: Title
+        gender: Gender
+        address: Address
+        birth_date: Birth date
+        newsletter: Subscribe to our newsletter
+      parent:
+        quality: Quality
+        family: Family
+      family:
+        name: Name
+        parents: Parents
+        children: Children
   hello: "Hello world"
 
 # Custom formats

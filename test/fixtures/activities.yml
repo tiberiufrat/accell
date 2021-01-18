@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  all_day: false
+  start: 2021-01-15 16:47:52
+  end: 2021-01-15 16:47:52
+  days_of_week: MyString
+  start_time: MyString
+  end_time: MyString
+  start_recur: 2021-01-15
+  end_recur: 2021-01-15
+  title: MyString
+  description: MyString
+  description_staff_only: MyString
+  creator_id: 1
+  coordinator_id: 1
+  subject: one
+
+two:
+  all_day: false
+  start: 2021-01-15 16:47:52
+  end: 2021-01-15 16:47:52
+  days_of_week: MyString
+  start_time: MyString
+  end_time: MyString
+  start_recur: 2021-01-15
+  end_recur: 2021-01-15
+  title: MyString
+  description: MyString
+  description_staff_only: MyString
+  creator_id: 1
+  coordinator_id: 1
+  subject: two
