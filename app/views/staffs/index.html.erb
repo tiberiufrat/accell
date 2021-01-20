@@ -57,13 +57,31 @@
             <tbody>
               <% @staffs.each do |staff| %>
                 <tr>
-                  <td><%= staff.user.name %></td>
+                  <th scope="row">
+                    <%= link_to staff do %>
+                      <div class="media align-items-center">
+                        <img src="<%= url_for(staff.user.avatar) %>" class="avatar rounded-circle mr-3"/>
+                        <div class="media-body">
+                          <span class="name mb-0 text-sm"><%= staff.user.name %></span>
+                        </div>
+                      </div>
+                    <% end %>
+                  </th>
                   <td><%= staff.user.email %></td>
                   <td><%= staff.user.phone %></td>
                   <td><%= staff.user.active ? icon('far fa-check-circle text-success', ' ' + t('general.active')) : icon('far fa-times-circle text-danger', ' ' + t('general.inactive'))%></td>
                   <td class="table-actions">
-                    <%= link_to '<i class="far fa-eye"></i>'.html_safe, staff, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
+                    <!-- View -->
+                    <%# link_to '<i class="far fa-eye"></i>'.html_safe, staff, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
+                    <!-- Edit -->
                     <%= link_to '<i class="far fa-user-edit"></i>'.html_safe, edit_staff_path(staff), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
+                    <!-- Activate/deactivate -->
+                    <% if staff.user.active %>
+                      <%= link_to '<i class="far fa-user-lock"></i>'.html_safe, deactivate_staff_path(staff), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.deactivate'), confirm: t('general.are_you_sure_deactivate') } %>
+                    <% else %>
+                      <%= link_to '<i class="far fa-user-unlock"></i>'.html_safe, activate_staff_path(staff), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.activate') } %>
+                    <% end %>
+                    <!-- Delete -->
                     <%= link_to '<i class="far fa-trash"></i>'.html_safe, staff, class: "table-action table-action-delete", data: { toggle: 'tooltip', 'original-title': t('general.delete'), confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
                   </td>
                 </tr>

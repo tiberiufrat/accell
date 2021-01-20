@@ -29,7 +29,10 @@ class StaffsController < ApplicationController
     @staff.save!
 
     @user = User.new(user_params)
+    @user.avatar.attach(params[:user][:avatar])
     @user.save!
+
+    UserMailer.staff_welcome_email(@user).deliver
 
     respond_to do |format|
       format.html { redirect_to @staff, notice: 'Staff was successfully created.' }
@@ -39,6 +42,7 @@ class StaffsController < ApplicationController
 
   def update
     @staff.update!(staff_params)
+    @staff.user.avatar.attach(params[:user][:avatar])
     @staff.user.update!(user_params)
     respond_to do |format|
       format.html { redirect_to @staff, notice: 'Staff was successfully updated.' }
@@ -54,13 +58,31 @@ class StaffsController < ApplicationController
     end
   end
 
+  def deactivate
+    @staff = Staff.find(params[:id])
+    @staff.user.update(active: false)
+    respond_to do |format|
+      format.html { redirect_to staffs_url, notice: 'Staff was successfully deactivated.' }
+      format.json { head :no_content }
+    end
+  end
+
+  def activate
+    @staff = Staff.find(params[:id])
+    @staff.user.update(active: true)
+    respond_to do |format|
+      format.html { redirect_to staffs_url, notice: 'Staff was successfully reactivated.' }
+      format.json { head :no_content }
+    end
+  end
+
   private
     def set_staff
       @staff = Staff.find(params[:id])
     end
 
     def staff_params
-      params.require(:staff).permit(:initial_password, user: [ :first_name, :last_name, :gender, :phone, :email, :birth_date ])
+      params.require(:staff).permit(:initial_password, user: [ :first_name, :last_name, :gender, :phone, :email, :birth_date, :avatar ])
     end
 
     def user_params

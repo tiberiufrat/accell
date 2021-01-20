@@ -7,9 +7,9 @@ class Parent < ApplicationRecord
   def reassign_main_parent
 		if family.main_parent == self
       if family.parents.size > 1
-        family.update(main_parent: family.parents[1])
+        family.update! main_parent: family.parents[1]
       else
-        family.main_parent = nil
+        family.update! main_parent: nil
       end
     end
 	end	

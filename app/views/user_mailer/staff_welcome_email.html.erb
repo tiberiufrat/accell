@@ -1,0 +1,13 @@
+<h1 style="font-family: 'Comfortaa', cursive;">Welcome to Accell!</h1>
+<div class="contents" style="font-family: 'Inter', sans-serif;">
+	<p>
+	  You have been signed up by your school on the Accell platform. You will be able to manage your classes and students in the App. You can log in at link with the following credentials:
+	</p>
+	<dl>
+		<dt><strong>E-mail: </strong></dt><dd><%= @user.email %></dd>
+		<dt><strong>One-time password: </strong></dt><dd><samp style="font-family: 'Space Mono', monospace;"><%= @user.profile.initial_password %></samp></dd> 
+	</dl>
+	<p>You can use the password above only for your first login; you will have to change it afterwards to a custom one.</p>
+
+	<p>Thank you!<br>The Accell Team</p>
+</div>

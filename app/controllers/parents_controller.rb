@@ -36,6 +36,8 @@ class ParentsController < ApplicationController
     @user.avatar.attach(params[:user][:avatar])
     @user.save!
 
+    UserMailer.parent_welcome_email(@user).deliver
+
     respond_to do |format|
       format.html { redirect_to @parent.family, notice: 'Parent was successfully created.' }
       format.json { render :show, status: :created }
@@ -53,14 +55,6 @@ class ParentsController < ApplicationController
   end
 
   def destroy
-    byebug
-    if @parent.family.main_parent == @parent
-      if @parent.family.parents.size > 1
-        @parent.family.update(main_parent: @parent.family.parents[2])
-      else
-        @parent.family.update!(main_parent: nil)
-      end
-    end
     @parent.destroy
     respond_to do |format|
       format.html { redirect_to parents_url, notice: 'Parent was successfully destroyed.' }

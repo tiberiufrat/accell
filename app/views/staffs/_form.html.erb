@@ -1,4 +1,4 @@
-<%= form_with(model: staff, data: { controller: 'validation' }) do |form| %>
+<%= form_with(model: staff, multipart: true, data: { controller: 'validation' }) do |form| %>
 	<%= fields_for :user do |f| %>
 		<div class="row">
 			<!-- First name -->
@@ -50,15 +50,13 @@
 	        <div class="input-group-prepend">
 	          <span class="input-group-text input-group-select2"><i class="far fa-venus-mars"></i></span>
 	        </div>
-	        <%= f.select :gender, options_for_select({ t('general.gender.male').titleize => 0, t('general.gender.female').titleize => 1, t('general.gender.unspecified').titleize => 3 }), {}, { 
-	        	class: 'form-control', 
-        		required: true, 
-        		data: {
-        			toggle: 'select', 
-        			placeholder: t('activerecord.attributes.user.gender'),
-        			'minimum-results-for-search': "Infinity" 
-        		}
-        	} %>
+	        <%= f.select :gender, options_for_select({ t('general.gender.male').titleize => 0, t('general.gender.female').titleize => 1, t('general.gender.unspecified').titleize => 3 }, (@staff.user.gender if @staff.user)), {}, { 
+	        	class: 'form-control', required: true, data: {
+	        		toggle: 'select', 
+	        		placeholder: t('activerecord.attributes.user.gender'),
+	        		'minimum-results-for-search': "Infinity"
+	        	}
+	        } %>
 	      </div>
 	    </div>
 
@@ -72,6 +70,16 @@
 	      </div>
 	    </div>
 	  </div>
+	  
+	  <!-- Avatar -->
+	  <div class="form-group col-12 px-0">
+      <div class="input-group input-group-merge input-group-alternative mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="far fa-photo"></i></span>
+        </div>
+        <%= f.file_field :avatar, class: 'form-control' %>
+      </div>
+    </div>
 	<% end %>
 	<%= form.hidden_field :initial_password, value: staff.initial_password %>
 	<div class="card-footer pl-0">
