@@ -56,6 +56,8 @@ en:
     error: Error
     active: Active
     inactive: Inactive
+    'no': 'No'
+    'yes': 'Yes'
     gender:
       male: male
       female: female
@@ -75,6 +77,12 @@ en:
       grandfather: Grandfather
       nanny: Nanny
       guardian: Guardian
+    colors:
+      primary: Purple
+      info: Blue
+      warning: Yellow
+      danger: Red
+      success: Green
 
   home:
     index:
@@ -88,6 +96,17 @@ en:
       account_not_activated: The account has not been activated
       account_activated: The account is active
       main_parent: This is the main parent of the family
+
+  students:
+    show:
+      years_old: "%{age}y"
+      years_old_long: "%{age} years old"
+      account_not_activated: The account has not been activated
+      account_activated: The account is active
+      classrooms_tab: Classrooms
+      family_tab: Family
+      observations_tab: Observations
+      documents_tab: Documents
 
   pages:
     register:
@@ -150,6 +169,10 @@ en:
         name: Name
         parents: Parents
         children: Children
+      student:
+        form: Form
+      classroom:
+        color: Color
   hello: "Hello world"
 
 # Custom formats
@@ -158,7 +181,7 @@ en:
       precision: 2
   date:
     formats:
-      default: "%Y/%m/%d"
+      default: "%d/%m/%Y"
   time:
     formats:
       default: "%Y/%m/%d %H:%M"

@@ -60,7 +60,15 @@
                   <th scope="row">
                     <%= link_to staff do %>
                       <div class="media align-items-center">
-                        <img src="<%= url_for(staff.user.avatar) %>" class="avatar rounded-circle mr-3"/>
+                        <% if staff.user.avatar.attached? %>
+                          <img src="<%= url_for(staff.user.avatar) %>" class="avatar rounded-circle mr-3" />
+                        <% else %>
+                          <% if staff.user.female? # Female %>
+                            <img src="/images/female-blue.jpg" class="avatar rounded-circle mr-3" />
+                          <% else # Male or otherwise %>
+                            <img src="/images/male-blue.jpg" class="avatar rounded-circle mr-3" />
+                          <% end %>
+                        <% end %>
                         <div class="media-body">
                           <span class="name mb-0 text-sm"><%= staff.user.name %></span>
                         </div>

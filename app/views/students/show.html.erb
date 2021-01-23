@@ -26,20 +26,92 @@
 </div>
 
 <div class="container-fluid mt--6">
-  <div class="card">
-    <div class="card-header">
-      <h3 class="mb-0"><%= t 'general.show' %> Student</h4>
+  <div class="row">
+    <div class="col-lg-3 col-md-5 col-12">
+      <div class="card">
+        <div class="card-body pb-0">
+
+          <% if @student.user.avatar.attached? %>
+            <img src="<%= url_for(@student.user.avatar) %>" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px" />
+          <% else %>
+            <% if @student.user.female? # Female %>
+              <img src="/images/female-blue.jpg" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px" />
+            <% else # Male or otherwise %>
+              <img src="/images/male-blue.jpg" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px" />
+            <% end %>
+          <% end %>
+
+          <div class="pt-4 text-center">
+            <h5 class="h3 title">
+              <span class="d-block mb-1"><%= @student.user.name %></span>
+              <small class="h4 font-weight-light text-muted">
+                <%= t('.years_old_long', age: ((Date.today - @student.user.birth_date)/365).to_i) if @student.user.birth_date %>
+                <%= @student.user.sign_in_count > 0 ? "&nbsp;<i class=\"far fa-check-circle text-success\" data-toggle=\"tooltip\" data-original-title=\"#{ t('.account_activated') }\"></i>".html_safe : "&nbsp;<i class=\"far fa-times-circle text-danger\" data-toggle=\"tooltip\" data-original-title=\"#{ t('.account_not_activated') }\"></i>".html_safe %>
+              </small>
+            </h5>
+            <ul class="small list-group list-group-flush" style="margin: 0 -1.5rem;">
+              <li class="list-group-item"><i class="far fa-birthday-cake" style="position: absolute; left: 24px; top: 20px"></i>&nbsp;<%= l @student.user.birth_date %></li>
+              <li class="list-group-item"><i class="far fa-venus-mars" style="position: absolute; left: 24px; top: 20px"></i>&nbsp;<%= @student.user.gender_string.titleize %></li>
+              <li class="list-group-item"><i class="far fa-phone" style="position: absolute; left: 24px; top: 20px"></i>&nbsp;<%= @student.family.main_parent.user.formatted_phone %></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-footer">
+          <%= link_to icon('far fa-edit', t('general.edit')), edit_student_path(@student, family: @student.family_id), class: 'btn btn-default btn-sm' %>
+          <%= link_to icon('far fa-trash', t('general.delete')), @student, class: "btn btn-default btn-sm", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      <dl class="row">
-	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.student.classroom' %>:</dt>
-	      	        <dd class="col-sm-9"><%= @student.classroom %></dd>
-	      	          </dl>
+    <div class="col-lg-9 col-md-7 col-12">
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-pills" id="pills-tab" role="tablist">
+            <li class="nav-item mr-2 mr-md-0" role="presentation">
+              <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i class="far fa-users-class"></i> &nbsp;<%= t('.classrooms_tab') %></a>
+            </li>
+            <li class="nav-item mr-2 mr-md-0" role="presentation">
+              <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><i class="far fa-users"></i> &nbsp;<%= t('.family_tab') %></a>
+            </li>
+            <li class="nav-item mr-2 mr-md-0" role="presentation">
+              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="far fa-clipboard"></i> &nbsp;<%= t('.observations_tab') %></a>
+            </li>
+            <li class="nav-item mr-2 mr-md-0" role="presentation">
+              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="far fa-file-alt"></i> &nbsp;<%= t('.documents_tab') %></a>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="card-body">
+          <div class="tab-content" id="pills-tabContent">
+
+            <!-- Classrooms -->
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+              <div class="row">
+                <div class="col-lg-6">
+                  <h4 class="text-primary">Form</h4>
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                          <i class="ni ni-chart-pie-35"></i>
+                      </div>
+                      Clasa a cincea
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+              
+            </div>
+
+            <!-- Something else... -->
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">B</div>
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">C</div>
+          </div>
+        </div>
+        
+      </div>
     </div>
   </div>
-  <%= link_to icon('far fa-arrow-left', t('general.back')), students_path, class: 'btn btn-icon icon-left btn-secondary d-mobile-none' %>
-  <%= link_to icon('far fa-edit', t('general.edit')), edit_student_path(@student), class: 'btn btn btn-icon icon-left btn-warning' %>
-  <%= link_to icon('far fa-trash', t('general.delete')), @student, class: "btn btn btn-icon icon-left btn-danger", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
 </div>
 
 <% content_for(:page_title, t('general.show') + " Student") %>

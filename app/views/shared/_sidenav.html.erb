@@ -23,56 +23,34 @@
           <!-- Nav items -->
           <ul class="navbar-nav">
             <li class="<%= active_nav_item('home', 'index') %>">
-              <%= link_to root_path, class: "nav-link" do %>
-                <i class="far fa-columns text-primary"></i>
-                <span class="nav-link-text">Dashboard</span>
+              <%= link_to root_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-columns text-primary"></i>
+                <span class="ml-2 nav-link-text">Dashboard</span>
               <% end %>
             </li>
             <li class="<%= active_nav_item('staffs', 'index') %>">
-              <%= link_to staffs_path, class: "nav-link" do %>
-                <i class="far fa-user-tie text-warning"></i>
-                <span class="nav-link-text">Staff Members</span>
+              <%= link_to staffs_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-user-tie text-warning"></i>
+                <span class="ml-2 nav-link-text">Staff Members</span>
               <% end %>
             </li>
             <li class="<%= active_nav_item('families', 'index') %>">
-              <%= link_to families_path, class: "nav-link" do %>
-                <i class="far fa-users text-info"></i>
-                <span class="nav-link-text">Families</span>
+              <%= link_to families_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-users text-info"></i>
+                <span class="ml-2 nav-link-text">Families</span>
               <% end %>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#navbar-maps" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-maps">
-                <i class="ni ni-map-big text-primary"></i>
-                <span class="nav-link-text">Maps</span>
-              </a>
-              <div class="collapse" id="navbar-maps">
-                <ul class="nav nav-sm flex-column">
-                  <li class="nav-item">
-                    <a href="../../pages/maps/google.html" class="nav-link">Google</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../../pages/maps/vector.html" class="nav-link">Vector</a>
-                  </li>
-                </ul>
-              </div>
+            <li class="<%= active_nav_item('students', 'index') %>">
+              <%= link_to students_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-user-graduate text-success"></i>
+                <span class="ml-2 nav-link-text">Students</span>
+              <% end %>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../../pages/widgets.html">
-                <i class="ni ni-archive-2 text-green"></i>
-                <span class="nav-link-text">Widgets</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../../pages/charts.html">
-                <i class="ni ni-chart-pie-35 text-info"></i>
-                <span class="nav-link-text">Charts</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../../pages/calendar.html">
-                <i class="ni ni-calendar-grid-58 text-red"></i>
-                <span class="nav-link-text">Calendar</span>
-              </a>
+            <li class="<%= active_nav_item('classrooms', 'index') %>">
+              <%= link_to classrooms_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-users-class text-danger"></i>
+                <span class="ml-2 nav-link-text">Classrooms</span>
+              <% end %>
             </li>
           </ul>
           <!-- Divider -->

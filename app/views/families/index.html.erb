@@ -62,7 +62,15 @@
                     <div class="avatar-group">
                       <% family.parents.each do |parent| %>
                         <%= link_to family, class: 'avatar avatar-sm rounded-circle', data: { toggle: 'tooltip', 'original-title': parent.user.name } do %>
-                          <img alt="Image placeholder" src="<%= url_for(parent.user.avatar) %>">
+                          <% if parent.user.avatar.attached? %>
+                            <img src="<%= url_for(parent.user.avatar) %>" />
+                          <% else %>
+                            <% if parent.user.female? # Female %>
+                              <img src="/images/female-blue.jpg" />
+                            <% else # Male or otherwise %>
+                              <img src="/images/male-blue.jpg" />
+                            <% end %>
+                          <% end %>
                         <% end %>
                       <% end %>
                     </div>

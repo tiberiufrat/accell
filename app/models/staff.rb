@@ -3,4 +3,8 @@ class Staff < ApplicationRecord
 	has_one :form, class_name: :Classroom, as: :form_tutor
 	has_one :user, as: :profile
 	accepts_nested_attributes_for :user, update_only: true
+
+	def name
+		user.name
+	end
 end

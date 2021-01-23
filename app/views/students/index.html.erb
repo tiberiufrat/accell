@@ -47,15 +47,34 @@
           <table class="table align-items-center table-flush" id="datatable-basic">
             <thead class="thead-light">
               <tr>
-                                  <th><%= t ("activerecord.attributes.student.classroom") %></th>
-                                <th scope="col" class="no-sort"></th>
+                <th><%= t ("activerecord.attributes.user.name") %></th>
+                <th><%= t ("activerecord.attributes.student.form") %></th>
+                <th scope="col" class="no-sort"></th>
               </tr>
             </thead>
             <tbody>
               <% @students.each do |student| %>
                 <tr>
-                                                            <td><%= student.classroom %></td>
-                                                        <td class="table-actions">
+                  <th>
+                    <%= link_to student do %>
+                      <div class="media align-items-center">
+                        <% if student.user.avatar.attached? %>
+                          <img src="<%= url_for(student.user.avatar) %>" class="avatar rounded-circle mr-3" />
+                        <% else %>
+                          <% if student.user.female? # Female %>
+                            <img src="/images/female-blue.jpg" class="avatar rounded-circle mr-3" />
+                          <% else # Male or otherwise %>
+                            <img src="/images/male-blue.jpg" class="avatar rounded-circle mr-3" />
+                          <% end %>
+                        <% end %>
+                        <div class="media-body">
+                          <span class="name mb-0 text-sm"><%= student.user.name %></span>
+                        </div>
+                      </div>
+                    <% end %>
+                  </th>
+                  <td><h2><%= link_to student.form.name, student.form, class: 'badge badge-default' %></h2></td>
+                  <td class="table-actions">
                     <%= link_to '<i class="far fa-eye"></i>'.html_safe, student, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
                     <%= link_to '<i class="far fa-user-edit"></i>'.html_safe, edit_student_path(student), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
                     <%= link_to '<i class="far fa-trash"></i>'.html_safe, student, class: "table-action table-action-delete", data: { toggle: 'tooltip', 'original-title': t('general.delete'), confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>

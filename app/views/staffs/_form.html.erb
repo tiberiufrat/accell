@@ -50,7 +50,7 @@
 	        <div class="input-group-prepend">
 	          <span class="input-group-text input-group-select2"><i class="far fa-venus-mars"></i></span>
 	        </div>
-	        <%= f.select :gender, options_for_select({ t('general.gender.male').titleize => 0, t('general.gender.female').titleize => 1, t('general.gender.unspecified').titleize => 3 }, (@staff.user.gender if @staff.user)), {}, { 
+	        <%= f.select :gender, options_for_select({ t('general.gender.male').titleize => 0, t('general.gender.female').titleize => 1, t('general.gender.unspecified').titleize => 2 }, (@staff.user.gender if @staff.user)), {}, { 
 	        	class: 'form-control', required: true, data: {
 	        		toggle: 'select', 
 	        		placeholder: t('activerecord.attributes.user.gender'),

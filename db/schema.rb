@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_17_134340) do
+ActiveRecord::Schema.define(version: 2021_01_20_180647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,13 @@ ActiveRecord::Schema.define(version: 2021_01_17_134340) do
     t.index ["staff_id"], name: "index_classrooms_staffs_on_staff_id"
   end
 
+  create_table "classrooms_students", force: :cascade do |t|
+    t.bigint "classroom_id"
+    t.bigint "student_id"
+    t.index ["classroom_id"], name: "index_classrooms_students_on_classroom_id"
+    t.index ["student_id"], name: "index_classrooms_students_on_student_id"
+  end
+
   create_table "families", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -131,13 +138,14 @@ ActiveRecord::Schema.define(version: 2021_01_17_134340) do
   end
 
   create_table "students", force: :cascade do |t|
-    t.bigint "classroom_id", null: false
+    t.bigint "form_id", null: false
     t.bigint "family_id", null: false
     t.string "initial_password"
+    t.date "entrance_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["classroom_id"], name: "index_students_on_classroom_id"
     t.index ["family_id"], name: "index_students_on_family_id"
+    t.index ["form_id"], name: "index_students_on_form_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -196,6 +204,6 @@ ActiveRecord::Schema.define(version: 2021_01_17_134340) do
   add_foreign_key "classrooms", "staffs", column: "form_tutor_id"
   add_foreign_key "families", "parents", column: "main_parent_id"
   add_foreign_key "parents", "families"
-  add_foreign_key "students", "classrooms"
+  add_foreign_key "students", "classrooms", column: "form_id"
   add_foreign_key "students", "families"
 end
