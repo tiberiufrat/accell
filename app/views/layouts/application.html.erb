@@ -24,5 +24,37 @@
     </div>
     <%= render 'shared/toastr' %>
     <%= javascript_pack_tag 'argon', 'data-turbolinks-track': 'reload' %>
+
+
+    <script>
+      function copy_to_clipboard(elementId) {
+        navigator.permissions.query({name: "clipboard-write"}).then(result => {
+          if (result.state == "granted" || result.state == "prompt") {
+            let element = document.getElementById(elementId)
+            navigator.clipboard.writeText(element.innerText).then(() => {
+              /* clipboard successfully set */
+              iziToast.show({
+                title: '<%= t 'general.success' %>',
+                message: '<%= t 'general.copied_to_clipboard' %>',
+                icon: 'far fa-clipboard-check',
+                position: 'topRight',
+                color: 'green'
+              });
+            }, () => {
+              /* clipboard write failed */
+              iziToast.show({
+                title: '<%= t 'general.error' %>',
+                message: '<%= t 'general.failed_to_copy_to_clipboard' %>',
+                icon: 'far fa-times',
+                position: 'topRight',
+                color: 'red'
+              });
+            });            
+          }
+        });      
+      }
+    </script>
+
+
   </body>
 </html>

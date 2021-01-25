@@ -47,25 +47,40 @@
           <table class="table align-items-center table-flush" id="datatable-basic">
             <thead class="thead-light">
               <tr>
-                                  <th><%= t ("activerecord.attributes.classroom.name") %></th>
-                                  <th><%= t ("activerecord.attributes.classroom.optional") %></th>
-                                  <th><%= t ("activerecord.attributes.classroom.color") %></th>
-                                  <th><%= t ("activerecord.attributes.classroom.form_tutor") %></th>
-                                  <th><%= t ("activerecord.attributes.classroom.allow_registration") %></th>
-                                  <th><%= t ("activerecord.attributes.classroom.registration_code") %></th>
-                                <th scope="col" class="no-sort"></th>
+                <th><%= t ("activerecord.attributes.classroom.name") %></th>
+                <th><%= t ("activerecord.attributes.classroom.form_tutor") %></th>
+                <th><%= t ("activerecord.attributes.classroom.number_students") %></th>
+                <th><%= t ("activerecord.attributes.classroom.type") %></th>
+                <th><%= t ("activerecord.attributes.classroom.allow_registration") %></th>
+                <th><%= t ("activerecord.attributes.classroom.registration_code") %></th>
+                <th scope="col" class="no-sort"></th>
               </tr>
             </thead>
             <tbody>
               <% @classrooms.each do |classroom| %>
                 <tr>
-                                                            <td><%= classroom.name %></td>
-                                                                                <td><%= t(classroom.optional) %></td>
-                                                                                <td><%= classroom.color %></td>
-                                                                                <td><%= classroom.form_tutor %></td>
-                                                                                <td><%= t(classroom.allow_registration) %></td>
-                                                                                <td><%= classroom.registration_code %></td>
-                                                        <td class="table-actions">
+                  <%# Name %>
+                  <td><%= link_to classroom.name, classroom, class: "badge bagde-md badge-#{ classroom.color }" %></td>
+
+                  <%# Form tutor %>
+                  <td>
+                    <%= render classroom.form_tutor, avatar_size: 'xs' %>
+                  </td>
+
+                  <%# Number of students %>
+                  <td><%= link_to (classroom.form_students.size + classroom.students.size), classroom, class: 'badge badge-md badge-default' %></td>
+                  
+                  <%# Optional %>
+                  <td><%= classroom.optional ? icon('far fa-clipboard-list-check text-warning', ' ' + t('general.optional')) : icon('far fa-check-circle text-info', ' ' + t('general.compulsory'))%></td>
+
+                  <%# Allow registration %>
+                  <td><%= classroom.allow_registration ? icon('far fa-check-circle text-success', ' ' + t('general.yes')) : icon('far fa-exclamation-circle text-warning', ' ' + t('general.no'))%></td>
+
+                  <%# Registration code %>
+                  <td><samp class="cursor-pointer" data-toggle="tooltip" title="<%= t 'general.click_to_copy' %>" id="code_<%= classroom.id %>" onclick="copy_to_clipboard(this.id)"><%= classroom.registration_code %></samp></td>
+
+                  <%# Table actions %>
+                  <td class="table-actions">
                     <%= link_to '<i class="far fa-eye"></i>'.html_safe, classroom, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
                     <%= link_to '<i class="far fa-user-edit"></i>'.html_safe, edit_classroom_path(classroom), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
                     <%= link_to '<i class="far fa-trash"></i>'.html_safe, classroom, class: "table-action table-action-delete", data: { toggle: 'tooltip', 'original-title': t('general.delete'), confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>

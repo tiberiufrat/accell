@@ -91,9 +91,11 @@
 	        <span class="input-group-text input-group-select2"><i class="far fa-users-class"></i></span>
 	      </div>
 	      <%= form.collection_select(:form_id, Classroom.all, :id, :name, {
-	      	selected: params[:classroom_id] || student.form
+					selected: params[:classroom_id] || student.form,
+					include_blank: true
 	      }, { 
-	      		class: 'form-control', 
+						class: 'form-control',
+						required: true, 
 	      		data: { 
 	      			controller: 'select', 
 	      			toggle: 'select', 
@@ -109,9 +111,11 @@
 	        <span class="input-group-text input-group-select2"><i class="far fa-user-friends"></i></span>
 	      </div>
 	      <%= form.collection_select(:family_id, Family.all, :id, :name, {
-	      	selected: params[:family_id] || student.family
+	      	selected: params[:family_id] || student.family,
+					include_blank: true
 	      }, { 
-	      		class: 'form-control', 
+						class: 'form-control', 
+						prompt: t('activerecord.attributes.parent.family'),
 	      		data: { 
 	      			controller: 'select', 
 	      			toggle: 'select', 

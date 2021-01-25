@@ -61,7 +61,7 @@
                     <%= link_to staff do %>
                       <div class="media align-items-center">
                         <% if staff.user.avatar.attached? %>
-                          <img src="<%= url_for(staff.user.avatar) %>" class="avatar rounded-circle mr-3" />
+                          <div class="avatar rounded-circle mr-3 table-avatar" style="background-image: url('<%= url_for(staff.user.avatar) %>')" ></div>
                         <% else %>
                           <% if staff.user.female? # Female %>
                             <img src="/images/female-blue.jpg" class="avatar rounded-circle mr-3" />

@@ -52,6 +52,12 @@
                 <span class="ml-2 nav-link-text">Classrooms</span>
               <% end %>
             </li>
+            <li class="<%= active_nav_item('schools', 'index') %>">
+              <%= link_to schools_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-school text-warning"></i>
+                <span class="ml-2 nav-link-text">Schools</span>
+              <% end %>
+            </li>
           </ul>
           <!-- Divider -->
           <hr class="my-3">

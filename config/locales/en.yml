@@ -58,6 +58,12 @@ en:
     inactive: Inactive
     'no': 'No'
     'yes': 'Yes'
+    optional: Optional
+    compulsory: Main
+    success: Success
+    copied_to_clipboard: Copied to clipboard!
+    failed_to_copy_to_clipboard: Due to an unknown reason, the copying failed.
+    click_to_copy: Click to copy
     gender:
       male: male
       female: female
@@ -87,12 +93,16 @@ en:
   home:
     index:
       login: Login
+
   families:
     show:
       family_name: "%{name} Family"
       years_old: "%{age}y"
       add_parent: Add parent
       add_student: Add child
+
+  parents:
+    parent:
       account_not_activated: The account has not been activated
       account_activated: The account is active
       main_parent: This is the main parent of the family
@@ -107,6 +117,14 @@ en:
       family_tab: Family
       observations_tab: Observations
       documents_tab: Documents
+
+  schools:
+    form:
+      accepted_phone_format: Please input a ten-digit phone number, without spaces or dashes, that starts with '07' or '02'.
+
+  classrooms:
+    classroom:
+      enrolled_since: Enrolled since %{date}
 
   pages:
     register:
@@ -171,8 +189,20 @@ en:
         children: Children
       student:
         form: Form
+        teachers: Teachers
+        form_tutor: Form tutor
       classroom:
         color: Color
+        form_tutor: Form tutor
+        school: School
+        optional: Optional
+        type: Type
+        number_students: Number of students
+        allow_registration: Allow registration
+        registration_code: Class code
+      school:
+        country: Country
+        city: State
   hello: "Hello world"
 
 # Custom formats
@@ -186,3 +216,4 @@ en:
     formats:
       default: "%Y/%m/%d %H:%M"
       time: "%H:%M:%S"
+      date: "%d/%m/%Y"

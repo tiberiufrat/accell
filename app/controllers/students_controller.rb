@@ -26,6 +26,9 @@ class StudentsController < ApplicationController
 
   def create
     @student = Student.new(student_params)
+    if @student.family_id.nil?
+      @student.family = Family.create! name: user_params[:last_name]
+    end
     @student.save!
 
     @user = User.new(user_params)

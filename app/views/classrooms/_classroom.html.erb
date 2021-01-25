@@ -1,0 +1,13 @@
+<%= link_to classroom do %>
+	<div class="media align-items-center px-3 py-2 rounded border shadow-sm">
+		<div class="icon icon-sm icon-shape bg-gradient-<%= classroom.color %> text-white rounded-circle shadow">
+			<i class="far fa-users-class"></i>
+		</div>
+		<div class="media-body ml-3">
+			<span class="font-weight-bold text-dark"><%= classroom.name %></span><br/>
+			<% if @student.form == classroom %>
+				<span class="text-gray"><%= t('.enrolled_since', date: l(@student.entrance_date || @student.created_at, format: :date) ) %></span>
+			<% end %>
+		</div>
+	</div>
+<% end %>

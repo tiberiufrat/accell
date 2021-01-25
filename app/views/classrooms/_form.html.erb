@@ -1,4 +1,5 @@
 <%= form_with(model: classroom, data: { controller: 'validation' }) do |form| %>
+  <%# Name %>
   <div class="form-group mb-2">
     <div class="input-group input-group-merge input-group-alternative mb-3">
       <div class="input-group-prepend">
@@ -8,6 +9,7 @@
     </div>
   </div>
 
+  <%# Optional %>
   <div class="form-group">
     <%= form.label :optional, class: 'form-control-label d-block' %>
     <label class="custom-toggle">
@@ -16,10 +18,11 @@
     </label>
   </div>
 
+  <%# Color %>
   <div class="form-group mb-2">
     <div class="input-group input-group-merge input-group-alternative mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text input-group-select2"><i class="far fa-venus-mars"></i></span>
+        <span class="input-group-text input-group-select2"><i class="far fa-palette"></i></span>
       </div>
       <%= form.select :color, options_for_select(
         { 
@@ -38,25 +41,58 @@
     </div>
   </div>
 
-  <div class="form-group">
-      <%= form.label :form_tutor_id, class: 'form-control-label' %>
-        <%= form.collection_select(:form_tutor_id, Staff.all, :id, :name, {}, { class: 'form-control', data: { controller: 'select' } }) %>
+  <%# Form tutor %>
+  <div class="form-group mb-2">
+    <div class="input-group input-group-merge input-group-alternative mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text input-group-select2"><i class="far fa-user-tie"></i></span>
+      </div>
+      <%= form.collection_select(:form_tutor_id, Staff.all, :id, :name, {
+        selected: @classroom.form_tutor_id
+      }, { 
+          class: 'form-control', 
+          data: { 
+            controller: 'select', 
+            toggle: 'select', 
+            placeholder: t('activerecord.attributes.classroom.form_tutor')	        		
+          } 
+        }) %>
     </div>
-  <div class="form-group">
-    <%= form.label :school_id, class: 'form-control-label' %>
-      <%= form.collection_select(:school_id, School.all, :id, :name, {}, { class: 'form-control', data: { controller: 'select' } }) %>
   </div>
+
+  <%# School %>
+  <div class="form-group mb-2">
+    <div class="input-group input-group-merge input-group-alternative mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text input-group-select2"><i class="far fa-school"></i></span>
+      </div>
+      <%= form.collection_select(:school_id, School.all, :id, :name, {
+        selected: @classroom.school_id
+      }, { 
+          class: 'form-control', 
+          data: { 
+            controller: 'select', 
+            toggle: 'select', 
+            placeholder: t('activerecord.attributes.classroom.school')	        		
+          } 
+        }) %>
+    </div>
+  </div>
+
+  <%# Allow registration %>
   <div class="form-group">
-        <div class="custom-control custom-checkbox">
-      <%= form.check_box :allow_registration, class: 'custom-control-input' %>
-      <%= form.label :allow_registration, class: 'custom-control-label' %>
-    </div>
-    </div>
-  <div class="form-group">
-      <%= form.label :registration_code, class: 'form-control-label' %>
-        <%= form.text_field :registration_code, class: 'form-control' %>
-    </div>
-<div class="card-footer pl-0">
-  <%= form.submit class: 'btn btn-success' %>
-</div>
+    <%= form.label :allow_registration, class: 'form-control-label d-block' %>
+    <label class="custom-toggle">
+      <% if @classroom.allow_registration || @classroom.new_record? %>
+        <%= form.check_box :allow_registration, checked: true  %>
+      <% else %>
+        <%= form.check_box :allow_registration  %>
+      <% end %>
+      <span class="custom-toggle-slider rounded-circle" data-label-off="<%= t 'general.no' %>" data-label-on="<%= t 'general.yes' %>"></span>
+    </label>
+  </div>
+
+  <div class="card-footer pl-0">
+    <%= form.submit class: 'btn btn-success' %>
+  </div>
 <% end %>
