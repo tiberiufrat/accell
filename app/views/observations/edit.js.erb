@@ -1,0 +1,2 @@
+var observation = $('ul#observations-list > li#<%= j @observation.id %>')
+observation.children().first().replaceWith('<%= j render 'inline_form', observation: @observation %>')

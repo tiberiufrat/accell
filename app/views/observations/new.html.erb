@@ -1,0 +1,40 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('activerecord.models.observation.other').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item">
+                <%= link_to t('activerecord.models.observation.other').titleize, observations_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t 'general.new' %> <%= t('activerecord.models.observation.one') %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0"><%= t 'general.add_new' %> <%= t('activerecord.models.observation.one') %></h3>
+    </div>
+    <div class="card-body">
+      <%= render 'form', observation: @observation %>
+    </div>
+  </div>
+  <%= link_to icon('far fa-arrow-left', t('general.back')), observations_path, class: 'btn btn-light' %>
+</div>
+
+<% content_for(:page_title, "#{t('general.add')} #{t('activerecord.models.observation.one')}") %>

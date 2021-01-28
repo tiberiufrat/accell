@@ -1,0 +1,3 @@
+var observation = $('ul#observations-list > li#<%= j @observation.id %>')
+var form = $('form#<%= j @observation.id %>.inline-form')
+form.replaceWith('<span>„<%= j @observation.text %>”</span>')

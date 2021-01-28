@@ -1,0 +1,4 @@
+$('ul#observations-list').append('<%= j render @observation %>')
+var observation = $('ul#observations-list > li#<%= j @observation.id %>')
+observation.hide()
+observation.slideDown()

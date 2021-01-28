@@ -84,18 +84,17 @@
 	<%= form.hidden_field :initial_password, value: student.initial_password %>
 
 	<div class="row">
-		<!-- Form -->
+	  <!-- Form -->
 	  <div class="form-group col-md-6 mb-2">
 	    <div class="input-group input-group-merge input-group-alternative mb-3">
 	    	<div class="input-group-prepend">
 	        <span class="input-group-text input-group-select2"><i class="far fa-users-class"></i></span>
 	      </div>
 	      <%= form.collection_select(:form_id, Classroom.all, :id, :name, {
-					selected: params[:classroom_id] || student.form,
+					selected: params[:classroom_id] || student.form.id,
 					include_blank: true
 	      }, { 
 						class: 'form-control',
-						required: true, 
 	      		data: { 
 	      			controller: 'select', 
 	      			toggle: 'select', 
@@ -111,7 +110,7 @@
 	        <span class="input-group-text input-group-select2"><i class="far fa-user-friends"></i></span>
 	      </div>
 	      <%= form.collection_select(:family_id, Family.all, :id, :name, {
-	      	selected: params[:family_id] || student.family,
+	      	selected: params[:family_id] || student.family.id,
 					include_blank: true
 	      }, { 
 						class: 'form-control', 

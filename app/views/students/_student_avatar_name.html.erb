@@ -1,0 +1,17 @@
+<%= link_to student do %>
+    <div class="media align-items-center <%= 'mb-2' unless local_assigns[:no_margin_bottom] %> star-floating <%= "px-3 py-2 rounded border shadow-sm" if local_assigns[:boxed] %>">
+        <% if student.user.avatar.attached? %>
+            <div class="avatar avatar-<%= local_assigns[:avatar_size] || 'md' %> rounded-circle mr-3 table-avatar" style="background-image: url('<%= url_for(student.user.avatar) %>')" ></div>
+        <% else %>
+            <% if student.user.female? # Female %>
+                <img src="/images/female-blue.jpg" class="avatar avatar-<%= local_assigns[:avatar_size] || 'md' %> rounded-circle mr-3" />
+            <% else # Male or otherwise %>
+                <img src="/images/male-blue.jpg" class="avatar avatar-<%= local_assigns[:avatar_size] || 'md' %> rounded-circle mr-3" />
+            <% end %>
+        <% end %>
+        <%= '<span class="badge badge-md badge-circle badge-floating badge-warning border-white"><i class="far fa-star"></i></span>'.html_safe if local_assigns[:star] %>
+        <div class="media-body">
+            <span class="name mb-0 text-sm"><%= student.user.name %></span> &nbsp; <%= link_to(student.form.name, student.form, class: "badge badge-#{ student.form.color }") if local_assigns[:form] && student.form %>
+        </div>
+    </div>
+<% end %>

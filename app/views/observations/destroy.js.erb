@@ -1,0 +1,4 @@
+var observation = $('ul#observations-list > li#<%= j @observation.id %>')
+observation.slideUp(400, () => {
+    observation.remove()
+})

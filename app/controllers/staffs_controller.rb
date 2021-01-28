@@ -28,9 +28,18 @@ class StaffsController < ApplicationController
     @staff = Staff.new(staff_params)
     @staff.save!
 
-    @user = User.new(user_params)
-    @user.avatar.attach(params[:user][:avatar])
-    @user.save!
+    begin
+      @user = User.new(user_params)
+      @user.avatar.attach(params[:user][:avatar])
+      @user.save!
+    rescue
+      @staff.destroy
+
+      respond_to do |format|
+        format.html { redirect_to staffs_path, notice: 'Error. Staff could not be created.' }
+        format.json { render :index, status: :failed }
+      end
+    end
 
     UserMailer.staff_welcome_email(@user).deliver
 

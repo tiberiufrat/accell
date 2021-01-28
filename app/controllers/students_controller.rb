@@ -12,6 +12,7 @@ class StudentsController < ApplicationController
 
   def show
     fresh_when etag: @student
+    @observation = Observation.new
   end
 
   def new
@@ -43,8 +44,8 @@ class StudentsController < ApplicationController
 
   def update
     @student.update!(student_params)
-    @student.user.avatar.attach(params[:user][:avatar])
-    @student.user.update!(user_params)
+    @student.user.avatar.attach(params[:user][:avatar]) if params[:user]
+    @student.user.update!(user_params) if params[:user]
     respond_to do |format|
       format.html { redirect_to @student, notice: 'Student was successfully updated.' }
       format.json { render :show }
@@ -56,6 +57,21 @@ class StudentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to students_url, notice: 'Student was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def remove_student_from_classroom
+    @student = Student.find(params[:id])
+    @classroom = Classroom.find(params[:classroom_id])
+    if @student.form == @classroom
+      @student.update! form: nil
+    elsif @student.classrooms.include? @classroom
+      @student.update! classrooms: @student.classrooms - [ @classroom ]
+    end
+    respond_to do |format|
+      format.html { redirect_to students_url, notice: 'Student was successfully removed from the classroom.' }
+      format.json { head :no_content }
+      format.js
     end
   end
 

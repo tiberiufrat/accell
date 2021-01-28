@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_20_180647) do
+ActiveRecord::Schema.define(version: 2021_01_25_051926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,17 @@ ActiveRecord::Schema.define(version: 2021_01_20_180647) do
     t.index ["main_parent_id"], name: "index_families_on_main_parent_id"
   end
 
+  create_table "observations", force: :cascade do |t|
+    t.string "text"
+    t.bigint "creator_id"
+    t.string "observationable_type"
+    t.bigint "observationable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_observations_on_creator_id"
+    t.index ["observationable_type", "observationable_id"], name: "index_observations_on_observationable"
+  end
+
   create_table "parents", force: :cascade do |t|
     t.string "quality"
     t.bigint "family_id", null: false
@@ -138,10 +149,10 @@ ActiveRecord::Schema.define(version: 2021_01_20_180647) do
   end
 
   create_table "students", force: :cascade do |t|
-    t.bigint "form_id", null: false
+    t.bigint "form_id"
     t.bigint "family_id", null: false
     t.string "initial_password"
-    t.date "entrance_date"
+    t.date "enrollment_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["family_id"], name: "index_students_on_family_id"
@@ -203,6 +214,7 @@ ActiveRecord::Schema.define(version: 2021_01_20_180647) do
   add_foreign_key "classrooms", "schools"
   add_foreign_key "classrooms", "staffs", column: "form_tutor_id"
   add_foreign_key "families", "parents", column: "main_parent_id"
+  add_foreign_key "observations", "users", column: "creator_id"
   add_foreign_key "parents", "families"
   add_foreign_key "students", "classrooms", column: "form_id"
   add_foreign_key "students", "families"

@@ -73,7 +73,7 @@
                       </div>
                     <% end %>
                   </th>
-                  <td><h2><%= link_to student.form.name, student.form, class: 'badge badge-default' %></h2></td>
+                  <td><%= student.form ? link_to(student.form.name, student.form, class: 'badge badge-lg badge-default') : "<span class=\"text-gray font-italic\">#{t('general.no_form_for_student')}</span>".html_safe %></td>
                   <td class="table-actions">
                     <%= link_to '<i class="far fa-eye"></i>'.html_safe, student, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
                     <%= link_to '<i class="far fa-user-edit"></i>'.html_safe, edit_student_path(student), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>

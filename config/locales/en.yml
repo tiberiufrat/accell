@@ -64,6 +64,10 @@ en:
     copied_to_clipboard: Copied to clipboard!
     failed_to_copy_to_clipboard: Due to an unknown reason, the copying failed.
     click_to_copy: Click to copy
+    no_parents_for_student: There are no registered parents for this student.
+    no_form_for_student: The student doesn't have an assigned form.
+    please_assign_form: We would recommend that you assign a form to this student.
+    from_date_until_present: "%{date} → Present"
     gender:
       male: male
       female: female
@@ -106,8 +110,14 @@ en:
       account_not_activated: The account has not been activated
       account_activated: The account is active
       main_parent: This is the main parent of the family
+      years_old: "%{age}y"
 
   students:
+    student:
+      account_not_activated: The account has not been activated
+      account_activated: The account is active
+      years_months_old: "%{years}y %{months}m"
+
     show:
       years_old: "%{age}y"
       years_old_long: "%{age} years old"
@@ -117,6 +127,7 @@ en:
       family_tab: Family
       observations_tab: Observations
       documents_tab: Documents
+      see_family: View the family
 
   schools:
     form:
@@ -212,6 +223,7 @@ en:
   date:
     formats:
       default: "%d/%m/%Y"
+      date: "%d/%m/%Y"
   time:
     formats:
       default: "%Y/%m/%d %H:%M"

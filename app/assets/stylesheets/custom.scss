@@ -80,3 +80,20 @@ samp {
     width: 150px;
     height: 150px;
 }
+
+.list-item-right {
+    float: right;
+    margin-right: 10px;
+}
+
+// Make select2 work with input-group-append
+.input-group-has-append > .select2-container--default {
+    width: auto !important;
+    flex: 1 1 auto;
+}
+
+.input-group-has-append > .select2-container--default .select2-selection--single {
+    height: 100%;
+    line-height: inherit;
+    padding: 0.5rem 1rem;
+}

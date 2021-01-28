@@ -34,7 +34,7 @@
         <div class="card-body pb-0">
 
           <% if @student.user.avatar.attached? %>
-            <img src="<%= url_for(@student.user.avatar) %>" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px" />
+            <div class="rounded-circle img-center img-fluid shadow shadow-lg--hover table-avatar width-height-150" style="background-image: url('<%= url_for(@student.user.avatar) %>')" ></div>
           <% else %>
             <% if @student.user.female? # Female %>
               <img src="/images/female-blue.jpg" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px" />
@@ -90,52 +90,105 @@
 
             <!-- Classrooms -->
             <div class="tab-pane fade show active" id="pills-classroom" role="tabpanel" aria-labelledby="pills-classroom-tab">
-              <div class="row">
+              <% if @student.form.nil? %>
 
-                <%# Column %>
-                <div class="col-lg-6">
-                  <div class="">
-                    <h4 class="text-primary"><%= t 'activerecord.attributes.student.form' %></h4>
-                    <%= render @student.form, locals: { student: @student, classroom: @student.form } %>                  
+                <div class="card bg-gradient-warning">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <p class="font-weight-bold mb-3 text-white"><%= t('general.no_form_for_student') %><br><%= t('general.please_assign_form') %></p>
+                        <%= form_with(model: @student, data: { controller: 'validation' }) do |form| %>
+                          <div class="form-group mb-0">
+                            <div class="input-group input-group-has-append input-group-merge input-group-alternative">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text input-group-select2"><i class="far fa-users-class"></i></span>
+                              </div>
+                              <%= form.collection_select(:form_id, Classroom.all, :id, :name, {
+                                selected: params[:classroom_id],
+                                include_blank: true
+                              }, { 
+                                  class: 'form-control',
+                                  required: true, 
+                                  data: { 
+                                    controller: 'select', 
+                                    toggle: 'select', 
+                                    placeholder: t('activerecord.attributes.student.form')	        		
+                                  } 
+                                }) %>
+                              <div class="input-group-append">
+                                <%= form.button :submit, class: 'btn btn-default' do %>
+                                  <i class="far fa-user-plus"></i>
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
+                        <% end %>
+                      </div>
+                      <div class="col-auto">
+                        <div class="icon icon-shape bg-white text-warning rounded-circle shadow">
+                          <i class="far fa-exclamation-triangle mt--1"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              <% else %>
+                <div class="row">
+
+                  <%# Column %>
+                  <div class="col-lg-6">
+                    <div class="">
+                      <h4 class="text-primary"><%= t 'activerecord.attributes.student.form' %></h4>
+                      <%= render @student.form, locals: { student: @student, classroom: @student.form } %>
+                    </div>
+
+                    <% if @student.classrooms.any? %>
+                      <div class="mt-3">
+                        <h4 class="text-primary"><%= t 'activerecord.attributes.student.classrooms' %></h4>
+                        <% @student.classrooms.each do |classroom| %>
+                          <%= render classroom, locals: { student: @student, classroom: classroom } %>
+                        <% end %>
+                      </div>
+                    <% end %>
                   </div>
 
-                  <% unless @student.classrooms.empty? %>
-                    <div class="mt-3">
-                      <h4 class="text-primary"><%= t 'activerecord.attributes.student.classrooms' %></h4>
-                      <% @student.classrooms.each do |classroom| %>
-                        <%= render classroom, locals: { student: @student, classroom: classroom } %>
-                      <% end %>
-                    </div>
-                  <% end %>
-                </div>
-
-                <%# Column %>
-                <div class="col-lg-6">
-                  <h4 class="text-primary"><%= t 'activerecord.attributes.student.form_tutor' %></h4>
-                  <%= render @student.form_tutor, { boxed: true, star: true } %>
-                </div>
-
-              </div>
-
-              <hr>
-
-              <div class="row mt-3">
-                <div class="col-12">
-                  <h4 class="text-primary"><%= t 'activerecord.attributes.student.teachers' %></h4>
-                  <div class="row">
-                  <% @student.form.staffs.each do |staff| %>
-                    <div class="col-md-6">
-                      <%= render staff, boxed: true %>
-                    </div>
-                  <% end %>
+                  <%# Column %>
+                  <div class="col-lg-6">
+                    <h4 class="text-primary"><%= t 'activerecord.attributes.student.form_tutor' %></h4>
+                    <%= render @student.form_tutor, { boxed: true, star: true } %>
                   </div>
-                  <%# render @student.classrooms.each {|c| c.staffs} %>
+
                 </div>
-              </div>
+
+                <hr>
+
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <h4 class="text-primary"><%= t 'activerecord.attributes.student.teachers' %></h4>
+                    <div class="row">
+                    <% @student.form.staffs.each do |staff| %>
+                      <div class="col-md-6">
+                        <%= render staff, boxed: true %>
+                      </div>
+                    <% end %>
+                    </div>
+                    <%# render @student.classrooms.each {|c| c.staffs} %>
+                  </div>
+                </div>
+              <% end %>
             </div>
 
-            <!-- Something else... -->
+            <!-- Family -->
             <div class="tab-pane fade" id="pills-family" role="tabpanel" aria-labelledby="pills-family-tab">
+              <div class="row mb-2">
+                <div class="col-6">
+                  <h4 class="text-primary"><%= t '.family_tab' %></h4>
+                </div>
+                <div class="col-6 text-right">
+                  <%= link_to icon('far fa-users', t('.see_family')), @student.family, class: 'btn btn-primary btn-icon btn-rounded btn-sm' %>
+                </div>
+              </div>
               <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
                 <% @student.family.parents.each do |parent| %>
                   <div class="col">
@@ -146,7 +199,33 @@
             </div>
 
             <!-- Observations -->
-            <div class="tab-pane fade" id="pills-observations" role="tabpanel" aria-labelledby="pills-observations-tab">Observations</div>
+            <div class="tab-pane fade" id="pills-observations" role="tabpanel" aria-labelledby="pills-observations-tab">
+              <h4 class="text-primary"><%= t '.observations_tab' %></h4>
+
+              <%= form_with(model: @observation, data: { controller: 'validation' }, local: false) do |form| %>
+                <div class="input-group input-group-merge input-group-alternative mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-comment-alt-lines"></i></span>
+                  </div>
+                  <%= form.text_field :text, class: 'form-control', placeholder: :text, required: true %>
+                  <div class="input-group-append">
+                    <%= form.button :submit, class: 'btn btn-default' do %>
+                      <i class="far fa-comment-alt-plus"></i>
+                    <% end %>
+                  </div>
+                </div>
+                <%= form.hidden_field :creator_id, value: current_user.id %>
+                <%= form.hidden_field :observationable_id, value: @student.id %>
+                <%= form.hidden_field :observationable_type, value: 'Student' %>
+              <% end %>
+
+              <ul class="list-group" id="observations-list">
+                <% @student.observations.each do |observation| %>
+                  <%= render observation %>
+                <% end %>
+              </ul>
+
+            </div>
 
             <!-- Documents -->
             <div class="tab-pane fade" id="pills-documents" role="tabpanel" aria-labelledby="pills-documents-tab">Documents</div>

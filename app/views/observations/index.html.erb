@@ -3,13 +3,13 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-white d-inline-block mb-0"><%= t('activerecord.models.family.other').titleize %></h6>
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('activerecord.models.observation.other').titleize %></h6>
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item">
                 <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
               </li>
-              <li class="breadcrumb-item active" aria-current="page"><%= t('activerecord.models.family.other').titleize %></li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t('activerecord.models.observation.other').titleize %></li>
             </ol>
           </nav>
         </div>
@@ -30,10 +30,10 @@
         <div class="card-header border-0">
           <div class="row">
             <div class="col-6">
-              <h3 class="mb-0"><%= t 'general.list_of' %> <%= t 'activerecord.models.family.other' %></h3>
+              <h3 class="mb-0"><%= t 'general.list_of' %> <%= t 'activerecord.models.observation.other' %></h3>
             </div>
             <div class="col-6 text-right">
-              <%= link_to new_family_path, class: "btn btn-sm btn-primary btn-round btn-icon", data: { toggle: :tooltip, 'original-title': "#{ t 'general.add'} #{ t 'activerecord.models.family.one' }" } do %>
+              <%= link_to new_observation_path, class: "btn btn-sm btn-primary btn-round btn-icon", data: { toggle: :tooltip, 'original-title': "#{ t 'general.add'} #{ t 'activerecord.models.observation.one' }" } do %>
                 <span class="btn-inner--icon">
                   <i class="fas fa-plus"></i>
                 </span>
@@ -47,41 +47,20 @@
           <table class="table align-items-center table-flush" id="datatable-basic">
             <thead class="thead-light">
               <tr>
-                <th><%= t ("activerecord.attributes.family.name") %></th>
-                <th><%= t ("activerecord.attributes.family.children") %></th>
-                <th><%= t ("activerecord.attributes.family.parents") %></th>
-                <th scope="col" class="no-sort"></th>
+                                  <th><%= t ("activerecord.attributes.observation.text") %></th>
+                                  <th><%= t ("activerecord.attributes.observation.creator") %></th>
+                                <th scope="col" class="no-sort"></th>
               </tr>
             </thead>
             <tbody>
-              <% @families.each do |family| %>
+              <% @observations.each do |observation| %>
                 <tr>
-                  <%# Name %>
-                  <td><%= link_to family.name, family, class: 'badge badge-lg badge-primary' %></td>
-                  
-                  <%# Students %>
-                  <td>
-                    <div>
-                      <% family.students.each do |student| %>
-                        <%= render 'students/student_avatar_name', student: student, avatar_size: 'xs', form: true %>
-                      <% end %>
-                    </div>
-                  </td>
-
-                  <%# Parents %>
-                  <td>
-                    <div>
-                      <% family.parents.each do |parent| %>
-                        <%= parent.user.sign_in_count > 0 ? "<i class=\"far fa-check-circle text-success\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.account_activated') }\"></i>".html_safe : "&nbsp;<i class=\"far fa-times-circle text-danger\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.account_not_activated') }\"></i>&nbsp;".html_safe %>
-                        <%= link_to parent.user.name, family %>
-                        <%= "&nbsp;<i class=\"far fa-star text-yellow\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.main_parent') }\"></i>".html_safe if parent.family.main_parent == parent %><br>
-                      <% end %>
-                    </div>
-                  </td>
-
-                  <%# Actions %>
-                  <td class="table-actions">
-                    <%= link_to '<i class="far fa-trash"></i>'.html_safe, family, class: "table-action table-action-delete", data: { toggle: 'tooltip', 'original-title': t('general.delete'), confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
+                                                            <td><%= observation.text %></td>
+                                                                                <td><%= observation.creator %></td>
+                                                        <td class="table-actions">
+                    <%= link_to '<i class="far fa-eye"></i>'.html_safe, observation, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
+                    <%= link_to '<i class="far fa-user-edit"></i>'.html_safe, edit_observation_path(observation), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
+                    <%= link_to '<i class="far fa-trash"></i>'.html_safe, observation, class: "table-action table-action-delete", data: { toggle: 'tooltip', 'original-title': t('general.delete'), confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
                   </td>
                 </tr>
               <% end %>
@@ -124,4 +103,4 @@
   <%= render 'shared/footer' %>
 </div>
 
-<% content_for(:page_title, "#{ t 'general.list_of' } #{t('activerecord.models.family.other').titleize}") %>
+<% content_for(:page_title, "#{ t 'general.list_of' } #{t('activerecord.models.observation.other').titleize}") %>

@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-body pb-0">
+
+    <% if student.user.avatar.attached? %>
+        <div class="rounded-circle img-center img-fluid shadow shadow-lg--hover table-avatar width-height-150" style="background-image: url('<%= url_for(student.user.avatar) %>')" ></div>
+    <% else %>
+        <% if student.user.female? # Female %>
+            <img src="/images/female-blue.jpg" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px" />
+        <% else # Male or otherwise %>
+            <img src="/images/male-blue.jpg" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px" />
+        <% end %>
+    <% end %>
+
+    <div class="pt-4 text-center">
+        <h5 class="h3 title">
+        <span class="d-block mb-1"><%= link_to student.user.name, student %></span>
+        <small class="h4 font-weight-light text-muted">
+            <%= link_to student.form.name, student.form, class: "badge badge-md badge-#{ student.form.color } mb-1" %><br>
+            <%= t( '.years_months_old', years: ((Date.today - student.user.birth_date)/365).to_i, months: ((Date.today - student.user.birth_date) % 365 / 30).to_i ) if student.user.birth_date %>
+            <%= student.user.sign_in_count > 0 ? "&nbsp;<i class=\"far fa-check-circle text-success\" data-toggle=\"tooltip\" data-original-title=\"#{ t('.account_activated') }\"></i>".html_safe : "&nbsp;<i class=\"far fa-times-circle text-danger\" data-toggle=\"tooltip\" data-original-title=\"#{ t('.account_not_activated') }\"></i>".html_safe %>
+        </small>
+        </h5>
+        <ul class="small list-group list-group-flush" style="margin: 0 -1.5rem;">
+            <li class="list-group-item"><i class="far fa-envelope" style="position: absolute; left: 24px; top: 20px"></i>&nbsp;<%= student.user.email %></li>
+            <li class="list-group-item"><i class="far fa-phone" style="position: absolute; left: 24px; top: 20px"></i>&nbsp;<%= student.user.phone %></li>
+        </ul>
+    </div>
+    </div>
+    <div class="card-footer">
+        <%= link_to icon('far fa-edit', t('general.edit')), edit_student_path(student, family: student.family_id), class: 'btn btn-default btn-sm' %>
+        <%= link_to icon('far fa-trash', t('general.delete')), student, class: "btn btn-default btn-sm", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
+    </div>
+</div>

@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :trackable
   belongs_to :profile, polymorphic: true
+  has_many :created_observations, class_name: :Observation, foreign_key: :creator_id
   has_one_attached :avatar
 
   after_create :set_title_by_gender

@@ -31,25 +31,64 @@
       <h3 class="mb-0"><%= t 'general.show' %> Classroom</h4>
     </div>
     <div class="card-body">
-      <dl class="row">
-	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.classroom.name' %>:</dt>
-	      	        <dd class="col-sm-9"><%= @classroom.name %></dd>
-	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.classroom.optional' %>:</dt>
-	      	        <dd class="col-sm-9"><%= t(@classroom.optional) %></dd>
-	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.classroom.color' %>:</dt>
-	      	        <dd class="col-sm-9"><%= @classroom.color %></dd>
-	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.classroom.form_tutor' %>:</dt>
-	      	        <dd class="col-sm-9"><%= @classroom.form_tutor %></dd>
-	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.classroom.allow_registration' %>:</dt>
-	      	        <dd class="col-sm-9"><%= t(@classroom.allow_registration) %></dd>
-	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.classroom.registration_code' %>:</dt>
-	      	        <dd class="col-sm-9"><%= @classroom.registration_code %></dd>
-	      	          </dl>
+      <div class="row">
+        <div class="col-lg-8 col-md-12">
+          <h4 class="text-primary"><%= t ("activerecord.attributes.classroom.form_students") %></h4>
+          
+          <%# Students' table %>
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush" id="datatable-basic">
+              <thead class="thead-light">
+                <tr>
+                  <th><%= t ("activerecord.attributes.user.name") %></th>
+                  <th><%= t ("activerecord.attributes.student.parents") %></th>
+                  <th><%= t ("activerecord.attributes.student.enrollment_date") %></th>
+                  <th scope="col" class="no-sort"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @classroom.form_students.each do |student| %>
+                  <tr>
+                    <td>
+                      <%= render 'students/student_avatar_name', student: student, avatar_size: 'sm', no_margin_bottom: true %>
+                    </td>
+                    <td>
+                      <% student.family.parents.each do |parent| %>
+                        <%= parent.user.sign_in_count > 0 ? "<i class=\"far fa-check-circle text-success\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.account_activated') }\"></i>".html_safe : "&nbsp;<i class=\"far fa-times-circle text-danger\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.account_not_activated') }\"></i>&nbsp;".html_safe %>
+                        <%= link_to parent.user.name, student.family %>
+                        <%= "&nbsp;<i class=\"far fa-star text-yellow\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.main_parent') }\"></i>".html_safe if parent.family.main_parent == parent %><br>
+                      <% end %>
+                      <% if student.family.parents.empty? %>
+                        <span class="font-italic text-gray"><%= t('general.no_parents_for_student') %><span>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= t('general.from_date_until_present', date: l(student.enrollment_date) ) %>
+                    </td>
+                    <td class="table-actions">
+                      <%= link_to icon('far fa-user-edit'), edit_student_path(student), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
+                      <%= link_to icon('far fa-user-slash'), remove_student_from_classroom_path(student, @classroom), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            <table>
+          </div>
+
+        </div>
+        <div class="col-lg-4 col-md-12">
+        
+        </div>
+
+      </div>
+
+    </div>
+    <div class="card-footer">
+      <%= link_to icon('far fa-arrow-left', t('general.back')), classrooms_path, class: 'btn btn-icon icon-left btn-secondary d-mobile-none' %>
+      <%= link_to icon('far fa-edit', t('general.edit')), edit_classroom_path(@classroom), class: 'btn btn btn-icon icon-left btn-warning' %>
+      <%= link_to icon('far fa-trash', t('general.delete')), @classroom, class: "btn btn btn-icon icon-left btn-danger", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
     </div>
   </div>
-  <%= link_to icon('far fa-arrow-left', t('general.back')), classrooms_path, class: 'btn btn-icon icon-left btn-secondary d-mobile-none' %>
-  <%= link_to icon('far fa-edit', t('general.edit')), edit_classroom_path(@classroom), class: 'btn btn btn-icon icon-left btn-warning' %>
-  <%= link_to icon('far fa-trash', t('general.delete')), @classroom, class: "btn btn btn-icon icon-left btn-danger", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
 </div>
 
 <% content_for(:page_title, t('general.show') + " Classroom") %>
