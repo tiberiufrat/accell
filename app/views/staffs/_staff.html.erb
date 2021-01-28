@@ -1,5 +1,5 @@
 <%= link_to staff do %>
-    <div class="media align-items-center mb-2 star-floating <%= "px-3 py-2 rounded border shadow-sm" if local_assigns[:boxed] %>">
+    <div class="media align-items-center <%= 'mb-2' unless local_assigns[:no_margin_bottom] %> star-floating <%= 'px-3 py-2 rounded border shadow-sm' if local_assigns[:boxed] %>">
         <% if staff.user.avatar.attached? %>
             <div class="avatar avatar-<%= local_assigns[:avatar_size] || 'md' %> rounded-circle mr-3 table-avatar" style="background-image: url('<%= url_for(staff.user.avatar) %>')" ></div>
         <% else %>

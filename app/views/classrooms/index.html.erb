@@ -60,15 +60,19 @@
               <% @classrooms.each do |classroom| %>
                 <tr>
                   <%# Name %>
-                  <td><%= link_to classroom.name, classroom, class: "badge bagde-md badge-#{ classroom.color }" %></td>
+                  <td><%= link_to classroom.name, classroom, class: "badge badge-pill badge-sm font-100 badge-#{ classroom.color }" %></td>
 
                   <%# Form tutor %>
                   <td>
-                    <%= render classroom.form_tutor, avatar_size: 'xs' %>
+                    <% if classroom.form_tutor %>
+                      <%= render classroom.form_tutor, avatar_size: 'xs', no_margin_bottom: true %>
+                    <% else %>
+                      <%= render classroom.staffs.first, avatar_size: 'xs', no_margin_bottom: true %>
+                    <% end %>
                   </td>
 
                   <%# Number of students %>
-                  <td><%= link_to (classroom.form_students.size + classroom.students.size), classroom, class: 'badge badge-md badge-default' %></td>
+                  <td><%= link_to (classroom.form_students.size + classroom.students.size), classroom, class: 'badge badge-pill badge-sm font-100 badge-default' %></td>
                   
                   <%# Optional %>
                   <td><%= classroom.optional ? icon('far fa-clipboard-list-check text-warning', ' ' + t('general.optional')) : icon('far fa-check-circle text-info', ' ' + t('general.compulsory'))%></td>
