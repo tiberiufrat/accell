@@ -124,7 +124,7 @@
 	          <span class="input-group-text input-group-select2"><i class="far fa-user-friends"></i></span>
 	        </div>
 	        <%= form.collection_select(:family_id, Family.all, :id, :name, {
-	        	selected: params[:family_id]
+	        	selected: (parent.family.id if parent.family) || params[:family_id]
 	        }, { 
 	        		class: 'form-control', 
 	        		data: { 

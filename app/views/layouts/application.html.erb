@@ -55,6 +55,36 @@
       }
     </script>
 
+    <script>
+      // Display flashes
+      $(document).ready(function () {
+        <% flash.each do |type, msg| %>
+          <% if msg.present? && msg.is_a?(String) %>
+            iziToast.show({
+              title: '<%= t('iziToast.types.' + type) %>',
+              message: '<%= t msg %>',
+              icon: <% case type
+                       when 'notice' %>
+                      'far fa-info-circle'
+                    <% when 'error' %>
+                      'far fa-times-circle'
+                    <% else %>
+                      'far fa-exclamation-circle'
+                    <% end %>,
+              position: 'topRight',
+              color:  <% case type
+                         when 'notice' %>
+                        'blue'
+                      <% when 'error' %>
+                        'red'
+                      <% else %>
+                        'yellow'
+                      <% end %>
+            });
+          <% end %>
+        <% end %>
+      });
 
+    </script>
   </body>
 </html>

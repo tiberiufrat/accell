@@ -60,7 +60,7 @@
               <% @classrooms.each do |classroom| %>
                 <tr>
                   <%# Name %>
-                  <td><%= link_to classroom.name, classroom, class: "badge badge-pill badge-sm font-100 badge-#{ classroom.color }" %></td>
+                  <td><%= link_to classroom.name, classroom, class: "badge badge-#{ classroom.color }" %></td>
 
                   <%# Form tutor %>
                   <td>
@@ -78,7 +78,7 @@
                   <td><%= classroom.optional ? icon('far fa-clipboard-list-check text-warning', ' ' + t('general.optional')) : icon('far fa-check-circle text-info', ' ' + t('general.compulsory'))%></td>
 
                   <%# Allow registration %>
-                  <td><%= classroom.allow_registration ? icon('far fa-check-circle text-success', ' ' + t('general.yes')) : icon('far fa-exclamation-circle text-warning', ' ' + t('general.no'))%></td>
+                  <td><%= classroom.allow_registration ? icon('far fa-lock-open-alt text-success', ' ' + t('general.yes')) : icon('far fa-lock-alt text-warning', ' ' + t('general.no'))%></td>
 
                   <%# Registration code %>
                   <td><samp class="cursor-pointer" data-toggle="tooltip" title="<%= t 'general.click_to_copy' %>" id="code_<%= classroom.id %>" onclick="copy_to_clipboard(this.id)"><%= classroom.registration_code %></samp></td>

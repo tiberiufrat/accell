@@ -3,7 +3,9 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-white d-inline-block mb-0"><%= t('activerecord.models.classroom.other').titleize %></h6>
+
+          <h1 class="d-inline-block mb-0"><span class="badge badge-lg badge-white text-<%= @classroom.color %>"><%= @classroom.name %></span></h1>
+
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item">
@@ -12,12 +14,12 @@
               <li class="breadcrumb-item">
                 <%= link_to t('activerecord.models.classroom.other').titleize, classrooms_path %>
               </li>
-              <li class="breadcrumb-item active" aria-current="page"><%= t 'general.new' %> <%= t('activerecord.models.classroom.one') %></li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t 'general.show' %> <%= t('activerecord.models.classroom.one') %></li>
             </ol>
           </nav>
         </div>
         <div class="col-lg-6 col-5 text-right">
-          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
+          <%= link_to t('general.edit'), edit_classroom_path(@classroom), class: 'btn btn-sm btn-neutral' %>
           <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
         </div>
       </div>
@@ -26,69 +28,406 @@
 </div>
 
 <div class="container-fluid mt--6">
-  <div class="card">
-    <div class="card-header">
-      <h3 class="mb-0"><%= t 'general.show' %> Classroom</h4>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-lg-8 col-md-12">
-          <h4 class="text-primary"><%= t ("activerecord.attributes.classroom.form_students") %></h4>
-          
-          <%# Students' table %>
-          <div class="table-responsive">
-            <table class="table align-items-center table-flush" id="datatable-basic">
-              <thead class="thead-light">
-                <tr>
-                  <th><%= t ("activerecord.attributes.user.name") %></th>
-                  <th><%= t ("activerecord.attributes.student.parents") %></th>
-                  <th><%= t ("activerecord.attributes.student.enrollment_date") %></th>
-                  <th scope="col" class="no-sort"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @classroom.form_students.each do |student| %>
-                  <tr>
-                    <td>
-                      <%= render 'students/student_avatar_name', student: student, avatar_size: 'sm', no_margin_bottom: true %>
-                    </td>
-                    <td>
-                      <% student.family.parents.each do |parent| %>
-                        <%= parent.user.sign_in_count > 0 ? "<i class=\"far fa-check-circle text-success\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.account_activated') }\"></i>".html_safe : "&nbsp;<i class=\"far fa-times-circle text-danger\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.account_not_activated') }\"></i>&nbsp;".html_safe %>
-                        <%= link_to parent.user.name, student.family %>
-                        <%= "&nbsp;<i class=\"far fa-star text-yellow\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.main_parent') }\"></i>".html_safe if parent.family.main_parent == parent %><br>
-                      <% end %>
-                      <% if student.family.parents.empty? %>
-                        <span class="font-italic text-gray"><%= t('general.no_parents_for_student') %><span>
-                      <% end %>
-                    </td>
-                    <td>
-                      <%= t('general.from_date_until_present', date: l(student.enrollment_date) ) %>
-                    </td>
-                    <td class="table-actions">
-                      <%= link_to icon('far fa-user-edit'), edit_student_path(student), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
-                      <%= link_to icon('far fa-user-slash'), remove_student_from_classroom_path(student, @classroom), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            <table>
-          </div>
+  <div class="row">
 
+    <%# Left main card %>
+    <div class="col-lg-8 col-12">
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-pills" id="pills-tab" role="tablist">
+            <li class="nav-item mr-2 mr-md-0" role="presentation">
+              <a class="nav-link active" id="pills-students-tab" data-toggle="pill" href="#pills-students" role="tab" aria-controls="pills-students" aria-selected="true"><i class="far fa-user-graduate"></i> &nbsp;<%= t('.students_tab') %></a>
+            </li>
+            <li class="nav-item mr-2 mr-md-0" role="presentation">
+              <a class="nav-link" id="pills-teachers-tab" data-toggle="pill" href="#pills-teachers" role="tab" aria-controls="pills-teachers" aria-selected="true"><i class="far fa-chalkboard-teacher"></i> &nbsp;<%= t('.teachers_tab') %></a>
+            </li>
+            <li class="nav-item mr-2 mr-md-0" role="presentation">
+              <a class="nav-link" id="pills-classroom-tab" data-toggle="pill" href="#pills-classroom" role="tab" aria-controls="pills-classroom" aria-selected="false"><i class="far fa-users-class"></i> &nbsp;<%= t('.classroom_tab') %></a>
+            </li>
+            <li class="nav-item mr-2 mr-md-0" role="presentation">
+              <a class="nav-link" id="pills-observations-tab" data-toggle="pill" href="#pills-observations" role="tab" aria-controls="pills-observations" aria-selected="false"><i class="far fa-clipboard"></i> &nbsp;<%= t('.observations_tab') %></a>
+            </li>
+            <li class="nav-item mr-2 mr-md-0" role="presentation">
+              <a class="nav-link" id="pills-documents-tab" data-toggle="pill" href="#pills-documents" role="tab" aria-controls="pills-documents" aria-selected="false"><i class="far fa-file-alt"></i> &nbsp;<%= t('.documents_tab') %></a>
+            </li>
+          </ul>
         </div>
-        <div class="col-lg-4 col-md-12">
         
+        <div class="card-body">
+          <div class="tab-content" id="pills-tabContent">
+
+            <!-- Classrooms -->
+            <div class="tab-pane fade show active" id="pills-students" role="tabpanel" aria-labelledby="pills-students-tab">
+              <div class="table-responsive">
+                <table class="table align-items-center">
+                  <thead class="thead-light">
+                    <tr>
+                      <th><%= t ("activerecord.attributes.classroom.student") %></th>
+                      <th><%= t ("activerecord.attributes.student.parents") %></th>
+                      <% if @classroom.optional %>
+                        <th><%= t ("activerecord.attributes.student.form") %></th>
+                      <% end %>
+                      <th><%= t ("activerecord.attributes.student.enrollment_date") %></th>
+                      <th scope="col" class="no-sort"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% (@classroom.form_students + @classroom.students).each do |student| %>
+                      <tr>
+                        <td>
+                          <%= render 'students/student_avatar_name', student: student, avatar_size: 'sm', no_margin_bottom: true %>
+                        </td>
+                        <td>
+                          <% student.family.parents.each do |parent| %>
+                            <%= parent.user.sign_in_count > 0 ? "<i class=\"far fa-check-circle text-success\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.account_activated') }\"></i>".html_safe : "&nbsp;<i class=\"far fa-times-circle text-danger\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.account_not_activated') }\"></i>&nbsp;".html_safe %>
+                            <%= link_to parent.user.name, student.family %>
+                            <%= "&nbsp;<i class=\"far fa-star text-yellow\" data-toggle=\"tooltip\" data-original-title=\"#{ t('parents.parent.main_parent') }\"></i>".html_safe if parent.family.main_parent == parent %><br>
+                          <% end %>
+                          <% if student.family.parents.empty? %>
+                            <span class="font-italic text-gray"><%= t('general.no_parents_for_student') %><span>
+                          <% end %>
+                        </td>
+                        <% if @classroom.optional %>
+                          <td><%= student.form ? link_to(student.form.name, student.form, class: 'badge badge-lg badge-default') : "<span class=\"text-gray font-italic\">#{t('general.no_form_for_student')}</span>".html_safe %></td>
+                        <% end %>
+                        <td>
+                          <%= t('general.from_date_until_present', date: l(student.enrollment_date) ) %>
+                        </td>
+                        <td class="table-actions">
+                          <%= link_to icon('far fa-user-edit'), edit_student_path(student), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
+                          <%= link_to icon('far fa-user-slash'), remove_student_from_classroom_path(student, @classroom), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('.remove_from_classroom') } %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <%# Teachers %>
+            <div class="tab-pane fade" id="pills-teachers">
+              <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
+                <div class="col">
+                  <%= render @classroom.form_tutor, boxed: true, star: true %>
+                </div>
+                <% @classroom.staffs.each do |staff| %>
+                  <div class="col">
+                    <%= render staff, boxed: true %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <%# Classroom info %>
+            <div class="tab-pane fade" id="pills-classroom">
+              <div class="table-responsive">
+                <table class="table align-items-center">
+                  <tr>
+                    <th><%= t ("activerecord.attributes.classroom.name") %></th>
+                    <td><%= @classroom.name %></td>
+                  </tr>
+                  <tr>
+                    <th><%= t ("activerecord.attributes.classroom.form_tutor") %></th>
+                    <td><%= render @classroom.form_tutor, no_margin_bottom: true, avatar_size: 'sm' %></td>
+                  </tr>
+                  <tr>
+                    <th><%= t ("activerecord.attributes.classroom.color") %></th>
+                    <td><span class="badge badge-<%= @classroom.color %>"><%= @classroom.human_color %></span></td>
+                  </tr>
+                  <tr>
+                    <th><%= t ("activerecord.attributes.classroom.allow_registration") %></th>
+                    <td><%= @classroom.allow_registration ? icon('far fa-lock-open-alt text-success', ' ' + t('general.yes')) : icon('far fa-lock-alt text-warning', ' ' + t('general.no'))%></td>
+                  </tr>
+                  <tr>
+                    <th><%= t ("activerecord.attributes.classroom.type") %></th>
+                    <td><%= @classroom.optional ? icon('far fa-clipboard-list-check text-warning', ' ' + t('general.optional')) : icon('far fa-check-circle text-info', ' ' + t('general.compulsory'))%></td>
+                  </tr>
+                  <tr>
+                    <th><%= t ("activerecord.attributes.classroom.status") %></th>
+                    <td><%= @classroom.archived ? icon('far fa-archive text-warning', ' ' + t('general.archived')) : icon('far fa-check-circle text-success', ' ' + t('general.active')) %></td>
+                  </tr>
+                  <tr>
+                    <th><%= t ("activerecord.attributes.classroom.form_students") %></th>
+                    <td><%= @classroom.form_students.size %></td>
+                  </tr>
+                  <tr>
+                    <th><%= t ("activerecord.attributes.classroom.students") %></th>
+                    <td><%= @classroom.students.size %></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
-
+        
       </div>
-
     </div>
-    <div class="card-footer">
-      <%= link_to icon('far fa-arrow-left', t('general.back')), classrooms_path, class: 'btn btn-icon icon-left btn-secondary d-mobile-none' %>
-      <%= link_to icon('far fa-edit', t('general.edit')), edit_classroom_path(@classroom), class: 'btn btn btn-icon icon-left btn-warning' %>
-      <%= link_to icon('far fa-trash', t('general.delete')), @classroom, class: "btn btn btn-icon icon-left btn-danger", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
+
+    <%# Right cards %>
+    <div class="col-lg-4 col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="mb-0"><%= t '.quick_actions' %></h3>
+        </div>
+        <ul class="list-group list-group-flush">
+
+          <%# Add by code %>
+          <li class="list-group-item bg-gradient-secondary">
+            <p><%= t '.add_by_code' %>:&nbsp; <samp class="dark cursor-pointer" data-toggle="tooltip" title="<%= t 'general.click_to_copy' %>" id="code_<%= @classroom.id %>" onclick="copy_to_clipboard(this.id)"><%= @classroom.registration_code %></samp></p>
+            <small><%= t '.add_by_code_description' %></small>
+          </li>
+
+          <% unless @classroom.optional %>
+            <%# Classroom NOT optional %>
+
+            <%# Transfer student %>
+            <li class="list-group-item">
+              <p><%= t '.transfer_preexistent_student' %></p>
+              <small><%= t '.transfer_preexistent_student_description' %></small>
+              <a class="cursor-pointer btn btn-sm btn-primary btn-round btn-icon text-white btn-block mt-2" onclick="toggleTransferForm()">
+                <i class="far fa-people-arrows"></i> &nbsp;<%= t('.transfer_student') %>
+              </a>
+              <%= form_with url: transfer_student_to_form_url, method: :get, class: 'mt-2', id: 'transfer-form', html: { style: 'display: none' } do |form| %>
+                <div class="form-group mb-0">
+                  <div class="input-group input-group-has-append input-group-merge input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text input-group-select2"><i class="far fa-user-graduate"></i></span>
+                    </div>
+                    <%= form.collection_select(:student_id, Student.where.not(form: @classroom).or(Student.where(form: nil)), :id, :name_and_form, {
+                      include_blank: true
+                    }, { 
+                        class: 'form-control',
+                        required: true, 
+                        data: { 
+                          controller: 'select', 
+                          toggle: 'select', 
+                          placeholder: t('activerecord.models.student.one')	        		
+                        } 
+                      }) %>
+                    <%= form.hidden_field :classroom_id, value: @classroom.id %>
+                    <div class="input-group-append">
+                      <%= form.button :submit, class: 'btn btn-default', title: t('.transfer_student') do %>
+                        <i class="far fa-people-arrows"></i>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </li>
+
+            <%# Add new student %>
+            <li class="list-group-item">
+              <p><%= t '.add_student_title' %></p>
+              <small><%= t '.add_student_description' %></small>
+              <a class="cursor-pointer btn btn-sm btn-primary btn-round btn-icon text-white btn-block mt-2" onclick="toggleQuickAddForm()">
+                <i class="far fa-user-plus"></i> &nbsp;<%= t('.add_student_button') %>
+              </a>
+                          
+              <%= form_with(model: @student, class: 'mt-2', id: 'quick-add-form', html: { style: 'display: none' }, data: { controller: 'validation' }) do |form| %>
+
+                <%= fields_for :user do |f| %>
+                  <!-- First name -->
+                  <div class="form-group">
+                    <div class="input-group input-group-merge input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="far fa-user"></i></span>
+                      </div>
+                      <%= f.text_field :first_name, autofocus: true, class: 'form-control', placeholder: :first_name, required: true %>
+                    </div>
+                  </div>
+
+                  <!-- Last name -->
+                  <div class="form-group mt--2">
+                    <div class="input-group input-group-merge input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="far fa-user"></i></span>
+                      </div>
+                      <%= f.text_field :last_name, class: 'form-control', placeholder: :last_name, required: true %>
+                    </div>
+                  </div>
+
+                  <!-- Email -->
+                  <div class="form-group mt--2">
+                    <div class="input-group input-group-merge input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="far fa-envelope"></i></span>
+                      </div>
+                      <%= f.email_field :email, class: 'form-control', placeholder: :email, required: true %>
+                    </div>
+                  </div>
+
+                  <%= f.hidden_field :gender, value: 3 %>
+                <% end %>
+
+                <%= form.hidden_field :initial_password, value: @student.initial_password %>
+
+                <!-- Family -->
+                <div class="form-group mt--2">
+                  <div class="input-group input-group-merge input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text input-group-select2"><i class="far fa-user-friends"></i></span>
+                    </div>
+                    <%= form.collection_select(:family_id, Family.all, :id, :name, {
+                      include_blank: true
+                    }, { 
+                        class: 'form-control', 
+                        prompt: t('activerecord.attributes.parent.family'),
+                        data: { 
+                          controller: 'select', 
+                          toggle: 'select', 
+                          placeholder: t('activerecord.attributes.parent.family')	        		} 
+                      }) %>
+                  </div>
+                </div>
+
+                <%= form.hidden_field :form_id, value: @classroom.id %>
+
+                <%= form.button :submit, class: 'btn btn-default btn-block btn-sm mt--2', title: t('.add') do %>
+                  <i class="far fa-user-plus"></i> <%= t('.add_student_button') %>
+                <% end %>
+              <% end %>
+            </li>
+
+          <% else %>
+          <%# Classroom is optional %>
+
+            <%# Add student %>
+            <li class="list-group-item">
+              <p><%= t '.add_preexistent_student_optional' %></p>
+              <small><%= t '.add_preexistent_student_description_optional' %></small>
+              <a class="cursor-pointer btn btn-sm btn-warning btn-round btn-icon text-white btn-block mt-2" onclick="toggleAddOptionalForm()">
+                <i class="far fa-people-arrows"></i> &nbsp;<%= t('.add_preexistent_student_optional') %>
+              </a>
+              <%= form_with url: add_student_to_optional_classroom_url, method: :get, class: 'mt-2', id: 'add-optional-form', html: { style: 'display: none' } do |form| %>
+                <div class="form-group mb-0">
+                  <div class="input-group input-group-has-append input-group-merge input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text input-group-select2"><i class="far fa-user-graduate"></i></span>
+                    </div>
+                    <%= form.collection_select(:student_id, Student.all - @classroom.students, :id, :name_and_form, {
+                      include_blank: true
+                    }, { 
+                        class: 'form-control',
+                        required: true, 
+                        data: { 
+                          controller: 'select', 
+                          toggle: 'select', 
+                          placeholder: t('activerecord.models.student.one')	        		
+                        } 
+                      }) %>
+                    <%= form.hidden_field :classroom_id, value: @classroom.id %>
+                    <div class="input-group-append">
+                      <%= form.button :submit, class: 'btn btn-warning', title: t('.add_preexisting_student_button') do %>
+                        <i class="far fa-people-arrows"></i>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </li>
+
+          <% end %>
+
+          <%# Change form tutor %>
+          <li class="list-group-item">
+            <p><%= t '.change_form_tutor' %></p>
+            <small><%= t('.change_form_tutor_description', current: @classroom.form_tutor.name) %></small>
+            <a class="cursor-pointer btn btn-sm btn-primary btn-round btn-icon text-white btn-block mt-2" onclick="toggleChangeFormTutorForm()">
+              <i class="far fa-user-tie"></i> &nbsp;<%= t('.change_form_tutor') %>
+            </a>
+            <%= form_with(model: @classroom, class: 'mt-2', id: 'change-form-tutor-form', html: { style: 'display: none' }, data: { controller: 'validation' }) do |form| %>
+              <div class="form-group mb-0">
+                <div class="input-group input-group-has-append input-group-merge input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text input-group-select2"><i class="far fa-user-tie"></i></span>
+                  </div>
+                  <%= form.collection_select(:form_tutor_id, Staff.all - [@classroom.form_tutor], :id, :name, {
+                    include_blank: true
+                  }, {
+                      class: 'form-control',
+                      required: true, 
+                      data: { 
+                        controller: 'select', 
+                        toggle: 'select', 
+                        placeholder: t('activerecord.attributes.classroom.form_tutor')	        		
+                      } 
+                    }) %>
+                  <div class="input-group-append">
+                    <%= form.button :submit, class: 'btn btn-default', title: t('.change_form_tutor') do %>
+                      <i class="far fa-people-arrows"></i>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </li>
+
+          <%# Add regular teachers to classroom %>
+          <li class="list-group-item">
+            <p><%= t '.add_teachers_title' %></p>
+            <small><%= t('.add_teachers_description') %></small>
+            <a class="cursor-pointer btn btn-sm btn-primary btn-round btn-icon text-white btn-block mt-2" onclick="toggleAddTeachersForm()">
+              <i class="far fa-chalkboard-teacher"></i> &nbsp;<%= t('.add_teachers') %>
+            </a>
+            <%= form_with(model: @classroom, class: 'mt-2', id: 'add-teachers-form', html: { style: 'display: none' }, data: { controller: 'validation' }) do |form| %>
+              <div class="form-group mb-0">
+                <div class="input-group input-group-has-append input-group-merge input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text input-group-select2"><i class="far fa-chalkboard-teacher"></i></span>
+                  </div>
+                  <%= form.collection_select(:staff_ids, Staff.all - [@classroom.form_tutor], :id, :name, {
+                    include_blank: true
+                  }, {
+                      class: 'form-control',
+                      multiple: true,
+                      required: true, 
+                      data: { 
+                        controller: 'select', 
+                        toggle: 'select', 
+                        placeholder: t('activerecord.attributes.classroom.staffs')	        		
+                      } 
+                    }) %>
+                  <div class="input-group-append">
+                    <%= form.button :submit, class: 'btn btn-default', title: t('.change_form_tutor') do %>
+                      <i class="far fa-user-plus"></i>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </li>
+
+        </ul>
+        <div class="card-body">
+        </div>
+        <div class="card-footer">
+          
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  function toggleTransferForm() {
+    $('#transfer-form').slideToggle()
+  }
+
+  function toggleQuickAddForm() {
+    $('#quick-add-form').slideToggle()
+  }
+
+  function toggleAddOptionalForm() {
+    $('#add-optional-form').slideToggle()
+  }
+
+  function toggleChangeFormTutorForm() {
+    $('#change-form-tutor-form').slideToggle()
+  }
+
+  function toggleAddTeachersForm() {
+    $('#add-teachers-form').slideToggle()
+  }
+</script>
 
 <% content_for(:page_title, t('general.show') + " Classroom") %>

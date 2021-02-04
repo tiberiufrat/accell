@@ -27,7 +27,8 @@ class StaffsController < ApplicationController
   def create
     @staff = Staff.new(staff_params)
     @staff.save!
-
+    
+    # Try to create user for staff
     begin
       @user = User.new(user_params)
       @user.avatar.attach(params[:user][:avatar])
@@ -36,9 +37,10 @@ class StaffsController < ApplicationController
       @staff.destroy
 
       respond_to do |format|
-        format.html { redirect_to staffs_path, notice: 'Error. Staff could not be created.' }
+        format.html { redirect_to staffs_path, flash: { error: 'Error. Staff could not be created.' } }
         format.json { render :index, status: :failed }
       end
+      return
     end
 
     UserMailer.staff_welcome_email(@user).deliver
@@ -51,7 +53,7 @@ class StaffsController < ApplicationController
 
   def update
     @staff.update!(staff_params)
-    @staff.user.avatar.attach(params[:user][:avatar])
+    @staff.user.avatar.attach(params[:user][:avatar]) if params[:user] && params[:user][:avatar]
     @staff.user.update!(user_params)
     respond_to do |format|
       format.html { redirect_to @staff, notice: 'Staff was successfully updated.' }
@@ -82,6 +84,21 @@ class StaffsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to staffs_url, notice: 'Staff was successfully reactivated.' }
       format.json { head :no_content }
+    end
+  end
+
+  def remove_staff_from_classroom
+    @staff = Staff.find(params[:id])
+    @classroom = Classroom.find(params[:classroom_id])
+    if @classroom.form_tutor == @staff
+      return
+    elsif @classroom.staffs.include? @staff
+      @staff.update! classrooms: @staff.classrooms - [ @classroom ]
+    end
+    respond_to do |format|
+      format.html { redirect_to @classroom, notice: 'Staff was successfully removed from the classroom.' }
+      format.json { head :no_content }
+      format.js
     end
   end
 

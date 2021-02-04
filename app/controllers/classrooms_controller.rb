@@ -11,6 +11,8 @@ class ClassroomsController < ApplicationController
   end
 
   def show
+    @student = Student.new
+    @student.initial_password = Passgen::generate(lowercase: :only, uppercase: false)
     fresh_when etag: @classroom
   end
 
@@ -53,6 +55,6 @@ class ClassroomsController < ApplicationController
     end
 
     def classroom_params
-      params.require(:classroom).permit(:name, :optional, :color, :form_tutor_id, :allow_registration, :registration_code, :school_id)
+      params.require(:classroom).permit(:name, :optional, :color, :form_tutor_id, :allow_registration, :registration_code, :school_id, staff_ids: [])
     end
 end

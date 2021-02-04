@@ -91,7 +91,7 @@
 	        <span class="input-group-text input-group-select2"><i class="far fa-users-class"></i></span>
 	      </div>
 	      <%= form.collection_select(:form_id, Classroom.all, :id, :name, {
-					selected: params[:classroom_id] || student.form.id,
+					selected: params[:classroom_id] || (student.form.id if student.form),
 					include_blank: true
 	      }, { 
 						class: 'form-control',
@@ -110,7 +110,7 @@
 	        <span class="input-group-text input-group-select2"><i class="far fa-user-friends"></i></span>
 	      </div>
 	      <%= form.collection_select(:family_id, Family.all, :id, :name, {
-	      	selected: params[:family_id] || student.family.id,
+	      	selected: params[:family_id] || (student.family.id if student.family),
 					include_blank: true
 	      }, { 
 						class: 'form-control', 

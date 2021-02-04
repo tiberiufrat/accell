@@ -28,13 +28,25 @@ class ParentsController < ApplicationController
     @parent = Parent.new(parent_params)
     @parent.save!
 
+    # Become main parent of family if there isn't a main parent
     if @parent.family.main_parent.nil?
       @parent.family.update!(main_parent: @parent)
     end
+    
+    # Try to create user for parent
+    begin
+      @user = User.new(user_params)
+      @user.avatar.attach(params[:user][:avatar])
+      @user.save!
+    rescue
+      @parent.destroy
 
-    @user = User.new(user_params)
-    @user.avatar.attach(params[:user][:avatar])
-    @user.save!
+      respond_to do |format|
+        format.html { redirect_to families_path, flash: { error: 'Error. Parent could not be created.' } }
+        format.json { render :index, status: :failed }
+      end
+      return
+    end
 
     UserMailer.parent_welcome_email(@user).deliver
 
@@ -46,7 +58,7 @@ class ParentsController < ApplicationController
 
   def update
     @parent.update!(parent_params)
-    @parent.user.avatar.attach(params[:user][:avatar])
+    @parent.user.avatar.attach(params[:user][:avatar]) if params[:user] && params[:user][:avatar]
     @parent.user.update!(user_params)
     respond_to do |format|
       format.html { redirect_to @parent.family, notice: 'Parent was successfully updated.' }
@@ -55,9 +67,10 @@ class ParentsController < ApplicationController
   end
 
   def destroy
+    @family = @parent.family
     @parent.destroy
     respond_to do |format|
-      format.html { redirect_to parents_url, notice: 'Parent was successfully destroyed.' }
+      format.html { redirect_to @family, notice: 'Parent was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

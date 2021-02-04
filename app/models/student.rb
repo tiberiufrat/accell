@@ -11,4 +11,12 @@ class Student < ApplicationRecord
   def set_enrollment_date
     self.update! enrollment_date: self.created_at if self.enrollment_date.nil?
   end
+
+  def name 
+    self.user.name
+  end
+
+  def name_and_form
+    self.form ? self.name + ', ' + self.form.name : self.name + ', N/A'
+  end
 end

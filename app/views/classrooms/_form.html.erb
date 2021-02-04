@@ -10,36 +10,49 @@
   </div>
 
   <%# Optional %>
-  <div class="form-group">
+  <div class="form-group mb-2">
     <%= form.label :optional, class: 'form-control-label d-block' %>
-    <label class="custom-toggle">
+    <label class="custom-toggle custom-toggle-large">
       <%= form.check_box :optional %>
-      <span class="custom-toggle-slider rounded-circle" data-label-off="<%= t 'general.no' %>" data-label-on="<%= t 'general.yes' %>"></span>
+      <span class="custom-toggle-slider rounded-circle" data-label-off="<%= t 'general.compulsory' %>" data-label-on="<%= t 'general.optional' %>"></span>
     </label>
   </div>
 
   <%# Color %>
   <div class="form-group mb-2">
-    <div class="input-group input-group-merge input-group-alternative mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text input-group-select2"><i class="far fa-palette"></i></span>
-      </div>
-      <%= form.select :color, options_for_select(
-        { 
-          t('general.colors.primary').titleize => 'primary', 
-          t('general.colors.info').titleize => 'info',
-          t('general.colors.danger').titleize => 'danger',
-          t('general.colors.success').titleize => 'success',
-          t('general.colors.warning').titleize => 'warning',
-        }, (@classroom.color)), {}, { 
-        class: 'form-control', required: true, data: {
-          toggle: 'select', 
-          placeholder: t('activerecord.attributes.classroom.color'),
-          'minimum-results-for-search': "Infinity"
-        }
-      } %>
-    </div>
+    <%= form.label :color, class: 'form-control-label d-block' %>
+
+    <%= form.radio_button :color, 'danger', class: 'btn-check' %>
+    <%= form.label :color_danger, t('general.colors.danger').titleize, class: 'btn btn-sm btn-outline-danger', 'data-color': 'danger' %>
+
+    <%= form.radio_button :color, 'warning', class: 'btn-check' %>
+    <%= form.label :color_warning, t('general.colors.warning').titleize, class: 'btn btn-sm btn-outline-warning', 'data-color': 'warning' %>
+
+    <%= form.radio_button :color, 'yellow', class: 'btn-check' %>
+    <%= form.label :color_yellow, t('general.colors.yellow').titleize, class: 'btn btn-sm btn-outline-yellow', 'data-color': 'yellow' %>
+
+    <%= form.radio_button :color, 'success', class: 'btn-check' %>
+    <%= form.label :color_success, t('general.colors.success').titleize, class: 'btn btn-sm btn-outline-success', 'data-color': 'success' %>
+
+    <%= form.radio_button :color, 'cyan', class: 'btn-check' %>
+    <%= form.label :color_cyan, t('general.colors.cyan').titleize, class: 'btn btn-sm btn-outline-cyan', 'data-color': 'cyan' %>
+
+    <%= form.radio_button :color, 'info', class: 'btn-check' %>
+    <%= form.label :color_info, t('general.colors.info').titleize, class: 'btn btn-sm btn-outline-info', 'data-color': 'info' %>
+
+    <%= form.radio_button :color, 'primary', class: 'btn-check' %>
+    <%= form.label :color_primary, t('general.colors.primary').titleize, class: 'btn btn-sm btn-outline-primary', 'data-color': 'primary' %>
+
+    <%= form.radio_button :color, 'indigo', class: 'btn-check' %>
+    <%= form.label :color_indigo, t('general.colors.indigo').titleize, class: 'btn btn-sm btn-outline-indigo', 'data-color': 'indigo' %>
+
+    <%= form.radio_button :color, 'purple', class: 'btn-check' %>
+    <%= form.label :color_purple, t('general.colors.purple').titleize, class: 'btn btn-sm btn-outline-purple', 'data-color': 'purple' %>
+
+    <%= form.radio_button :color, 'pink', class: 'btn-check' %>
+    <%= form.label :color_pink, t('general.colors.pink').titleize, class: 'btn btn-sm btn-outline-pink', 'data-color': 'pink' %>
   </div>
+
 
   <%# Form tutor %>
   <div class="form-group mb-2">
@@ -48,13 +61,35 @@
         <span class="input-group-text input-group-select2"><i class="far fa-user-tie"></i></span>
       </div>
       <%= form.collection_select(:form_tutor_id, Staff.all, :id, :name, {
-        selected: @classroom.form_tutor_id
+        selected: @classroom.form_tutor_id,
+        include_blank: true,
       }, { 
           class: 'form-control', 
           data: { 
             controller: 'select', 
             toggle: 'select', 
             placeholder: t('activerecord.attributes.classroom.form_tutor')	        		
+          } 
+        }) %>
+    </div>
+  </div>
+
+  <%# Teachers %>
+  <div class="form-group mb-2">
+    <div class="input-group input-group-merge input-group-alternative mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text input-group-select2"><i class="far fa-chalkboard-teacher"></i></span>
+      </div>
+      <%= form.collection_select(:staff_ids, Staff.all - [@classroom.form_tutor, *@classroom.staffs], :id, :name, {
+        include_blank: true
+      }, {
+          class: 'form-control',
+          multiple: true,
+          required: true, 
+          data: { 
+            controller: 'select', 
+            toggle: 'select', 
+            placeholder: t('activerecord.attributes.classroom.staff'),
           } 
         }) %>
     </div>
@@ -67,7 +102,8 @@
         <span class="input-group-text input-group-select2"><i class="far fa-school"></i></span>
       </div>
       <%= form.collection_select(:school_id, School.all, :id, :name, {
-        selected: @classroom.school_id
+        selected: @classroom.school_id,
+        include_blank: true
       }, { 
           class: 'form-control', 
           data: { 
@@ -80,7 +116,7 @@
   </div>
 
   <%# Allow registration %>
-  <div class="form-group">
+  <div class="form-group mb-2">
     <%= form.label :allow_registration, class: 'form-control-label d-block' %>
     <label class="custom-toggle">
       <% if @classroom.allow_registration || @classroom.new_record? %>
@@ -96,3 +132,21 @@
     <%= form.submit class: 'btn btn-success' %>
   </div>
 <% end %>
+
+<script>  
+  $(document).ready(function () {
+    var label = $('input.btn-check[checked="checked"]').next()
+    var color = label.data('color')
+    label.removeClass().addClass('btn btn-sm btn-' + color)
+  });
+
+  $('label.btn').click(function (e) { 
+    $('label.btn').each(function (e) {
+      var color = $(this).data('color')
+      $(this).removeClass()
+      $(this).addClass('btn btn-sm btn-outline-' + color)
+    })
+    var color = $(this).data('color')
+    $(this).removeClass().addClass('btn btn-sm btn-' + color)
+  });
+</script>

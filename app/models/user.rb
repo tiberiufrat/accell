@@ -10,6 +10,11 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   after_create :set_title_by_gender
+  after_destroy :delete_family_if_empty
+
+  def delete_family_if_empty
+    profile.family.destroy if profile.family.members.empty?
+  end
 
   def set_title_by_gender
   	title ||= 	case gender

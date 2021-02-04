@@ -56,6 +56,7 @@ en:
     error: Error
     active: Active
     inactive: Inactive
+    archived: Archived
     'no': 'No'
     'yes': 'Yes'
     optional: Optional
@@ -65,8 +66,6 @@ en:
     failed_to_copy_to_clipboard: Due to an unknown reason, the copying failed.
     click_to_copy: Click to copy
     no_parents_for_student: There are no registered parents for this student.
-    no_form_for_student: The student doesn't have an assigned form.
-    please_assign_form: We would recommend that you assign a form to this student.
     from_date_until_present: "%{date} → Present"
     gender:
       male: male
@@ -88,9 +87,14 @@ en:
       nanny: Nanny
       guardian: Guardian
     colors:
-      primary: Purple
-      info: Blue
-      warning: Yellow
+      indigo: Indigo
+      purple: Purple
+      pink: Pink
+      yellow: Yellow
+      cyan: Teal
+      primary: Violet
+      info: Cyan
+      warning: Orange
       danger: Red
       success: Green
 
@@ -112,6 +116,10 @@ en:
       main_parent: This is the main parent of the family
       years_old: "%{age}y"
 
+  staffs:
+    staff:
+      remove_from_classroom: Remove from the classroom
+
   students:
     student:
       account_not_activated: The account has not been activated
@@ -128,6 +136,8 @@ en:
       observations_tab: Observations
       documents_tab: Documents
       see_family: View the family
+      no_form_for_student: The student doesn't have an assigned form.
+      please_assign_form: We would recommend that you assign a form to this student.
 
   schools:
     form:
@@ -136,6 +146,37 @@ en:
   classrooms:
     classroom:
       enrolled_since: Enrolled since %{date}
+    show:
+      quick_actions: Quick actions
+      remove_from_classroom: Remove from the classroom
+      add_student: Add a new student
+      add_by_code: Add by registration code
+      add_by_code_description: Send the code to the parents and they will be able to create a new account for their student in this classroom, or to join it if they already have an account. Click on the box above to copy the code.
+      transfer_student: Transfer student
+      transfer_preexistent_student: Transfer a pre-existing student
+      transfer_preexistent_student_description: Transfer a student that has a different (or no) form assigned to this classroom. The student will be removed from their previous form.
+      add_student_title: Add a new student
+      add_student_description: Create a student and add them directly to this classroom. You will be able to add and change student details later on.
+      add_student_button: Add new student
+      add: Add
+      add_preexistent_student_optional: Add a pre-existing student
+      add_preexistent_student_description_optional: Add an already existing student to this optional classroom. The student's form and details will remain unchanged.
+      add_preexisting_student_button: Add student
+      change_form_tutor: Change the form tutor
+      change_form_tutor_description: Change the classroom's form tutor to a different one. The current form tutor is %{current}.
+      add_teachers_title: Add teachers to this classroom
+      add_teachers_description: Add one or more teachers to this classroom. Only teachers that teach this classroom will be allowed to interact with it.
+      add_teachers: Add teachers
+      students_tab: Students
+      classroom_tab: Classroom info
+      observations_tab: Observations
+      documents_tab: Documents
+      teachers_tab: Teachers
+
+  iziToast: 
+    types:
+      notice: Notice
+      error: Error
 
   pages:
     register:
@@ -202,6 +243,9 @@ en:
         form: Form
         teachers: Teachers
         form_tutor: Form tutor
+        parents: Parents
+        parent: Parent
+        enrollment_date: Enrolled
       classroom:
         color: Color
         form_tutor: Form tutor
@@ -211,6 +255,10 @@ en:
         number_students: Number of students
         allow_registration: Allow registration
         registration_code: Class code
+        student: Student
+        status: Status
+        staff: Teacher
+        staffs: Teachers
       school:
         country: Country
         city: State

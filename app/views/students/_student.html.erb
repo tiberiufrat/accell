@@ -15,7 +15,7 @@
         <h5 class="h3 title">
         <span class="d-block mb-1"><%= link_to student.user.name, student %></span>
         <small class="h4 font-weight-light text-muted">
-            <%= link_to student.form.name, student.form, class: "badge badge-md badge-#{ student.form.color } mb-1" %><br>
+            <%= link_to(student.form.name, student.form, class: "badge badge-md badge-#{ student.form.color } mb-1") if student.form %><br>
             <%= t( '.years_months_old', years: ((Date.today - student.user.birth_date)/365).to_i, months: ((Date.today - student.user.birth_date) % 365 / 30).to_i ) if student.user.birth_date %>
             <%= student.user.sign_in_count > 0 ? "&nbsp;<i class=\"far fa-check-circle text-success\" data-toggle=\"tooltip\" data-original-title=\"#{ t('.account_activated') }\"></i>".html_safe : "&nbsp;<i class=\"far fa-times-circle text-danger\" data-toggle=\"tooltip\" data-original-title=\"#{ t('.account_not_activated') }\"></i>".html_safe %>
         </small>
