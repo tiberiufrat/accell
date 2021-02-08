@@ -858,10 +858,10 @@
     ical.js "^1.4.0"
     tslib "^2.0.3"
 
-"@fullcalendar/core@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-5.5.0.tgz#08373ce9b68a88ea3d48caf7a682a8261d90a3c7"
-  integrity sha512-NHyrH6AP1zRRCWsK0NuY/bZFQes1UaGB2pukMv86A0Yq1BI7Y7m9u/yH7D0/ZCaNkCLVxrSlIwAOtMQxPPITdg==
+"@fullcalendar/core@^5.5.1":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-5.5.1.tgz#310adf23d5323b435a00f7df6f68eaf2f6087f39"
+  integrity sha512-6OAtYhgWekZExakbB3NUiIPZHsebBQQfwdWpccYYEKb5DZi3mf4gUb8CCrvfBp6YXx0hhYNlglPLcfJgxpy5Bg==
   dependencies:
     "@fullcalendar/common" "~5.5.0"
     preact "^10.0.5"
@@ -883,6 +883,15 @@
     "@fullcalendar/common" "~5.5.0"
     tslib "^2.0.3"
 
+"@fullcalendar/icalendar@^5.5.1":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/icalendar/-/icalendar-5.5.1.tgz#267f428f50276261431371a5cc389fdd42d77536"
+  integrity sha512-/zf39yH1LlK9Cg2n/NUi5/cmYiJZWToOzIodwCJTR1+5vvlfDsAJrY3YwmAQkn1CV5d0mV6D9sSKyEx4PTXWNw==
+  dependencies:
+    "@fullcalendar/common" "~5.5.0"
+    ical.js "^1.4.0"
+    tslib "^2.0.3"
+
 "@fullcalendar/interaction@^5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-5.5.0.tgz#8fe3f2b89c55fad5835a9c74f7a95a7d97419afe"
@@ -895,6 +904,14 @@
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/list/-/list-5.5.0.tgz#8bc1523ad08e439cde366697acebe8bc4cf2fe5f"
   integrity sha512-hC+EKrXtnj71rq4gq8vIhb12dlOxu07BuOTzU1kxgB3BdhuO1RiAPm1TCKdYpQjtUTCRT23Ocvs+m/Ei/xh90Q==
+  dependencies:
+    "@fullcalendar/common" "~5.5.0"
+    tslib "^2.0.3"
+
+"@fullcalendar/moment@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/moment/-/moment-5.5.0.tgz#687009d08e5d18ce8d6ee91aad2d806fddf8c70e"
+  integrity sha512-/Gko/SKOyJo9PuPgr7QwXrcpKsFP0A9qHvjIXhI2pGRmaf7SVo2+0g17M8eBmKeBn5iGRaZXJ8ps60pYe3kl/g==
   dependencies:
     "@fullcalendar/common" "~5.5.0"
     tslib "^2.0.3"
@@ -951,7 +968,24 @@
     "@fullcalendar/timeline" "~5.5.0"
     tslib "^2.0.3"
 
-"@fullcalendar/scrollgrid@^5.5.0", "@fullcalendar/scrollgrid@~5.5.0":
+"@fullcalendar/rrule@^5.5.1":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/rrule/-/rrule-5.5.1.tgz#e2edca157cc5b8b4c0347c7d1a586aed0b80c7ed"
+  integrity sha512-B33Uc8bMTwf99TaU4qQP+SGOeCX3qlCdLYjm28Wd4o8GCbaTSQuTWDVzPrpriTh3UPA+U86EBdGxN5CXWeX4zw==
+  dependencies:
+    "@fullcalendar/common" "~5.5.0"
+    tslib "^2.0.3"
+
+"@fullcalendar/scrollgrid@^5.5.1":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/scrollgrid/-/scrollgrid-5.5.1.tgz#cec60ef142ead88f288efdbce6546bdaf9377275"
+  integrity sha512-oPmsIlyanVGSIoWoGcOYLvFZi/GVTTN4SOqS9PpiOXZPP+4UDP8PXTe4avA+doKC/DgHVpb7lBcpTFGSyRAISw==
+  dependencies:
+    "@fullcalendar/common" "~5.5.0"
+    "@fullcalendar/premium-common" "~5.5.0"
+    tslib "^2.0.3"
+
+"@fullcalendar/scrollgrid@~5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/scrollgrid/-/scrollgrid-5.5.0.tgz#dad249b6a826f06434342678d9458348b68f23fc"
   integrity sha512-xwWggE+rd1LkbdNeMNC/mevm5wRS3exBjggndCLuae6XzmGgzdx2HDJrtTbJAmJ2XSEbo3ugP4VGNv2XoAMPPQ==
@@ -960,7 +994,16 @@
     "@fullcalendar/premium-common" "~5.5.0"
     tslib "^2.0.3"
 
-"@fullcalendar/timegrid@^5.5.0", "@fullcalendar/timegrid@~5.5.0":
+"@fullcalendar/timegrid@^5.5.1":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-5.5.1.tgz#b73eb9e454808313e7146dc5df6105e9b3aa80cb"
+  integrity sha512-bo9DbPcx9PMXtAFP8tsFaQ1FGxUM/FoaQKah/eFVT8ueI5WQqSfWupM5yyGbHOmKgD65l8WhPcuamm6v01Pasw==
+  dependencies:
+    "@fullcalendar/common" "~5.5.0"
+    "@fullcalendar/daygrid" "~5.5.0"
+    tslib "^2.0.3"
+
+"@fullcalendar/timegrid@~5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-5.5.0.tgz#081dd3fc636e9291ab62b35786e2f0be7cc80a20"
   integrity sha512-Y4k3/ux031pL7WQWJnvJbGcOua+zg1BGn08xeycgBICNqVMIhKm++uCnLzCvHGDV4Gp7oRjNAw/nJw4M1kMoXg==

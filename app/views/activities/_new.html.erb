@@ -1,0 +1,222 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel">Adaugă o activitate</h4>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	  <span aria-hidden="true" style="color: var(--dark)"><i class="far fa-times"></i></span>
+	</button>
+</div>
+
+<%= form_with(model: @activity, id: 'edit_activity_form', data: { controller: 'validation' }, remote: true) do |form| %>
+	<div class="modal-body pt-0">
+	  <%# Title %>
+    <div class="form-group mb-2">
+      <div class="input-group input-group-merge input-group-alternative mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="far fa-fw fa-pen"></i></span>
+        </div>
+        <%= form.text_field :title, autofocus: true, class: 'form-control', placeholder: :title, required: true %>
+      </div>
+    </div>
+
+    <%# Description %>
+    <!-- <div class="form-group mb-2">
+      <div class="input-group input-group-merge input-group-alternative mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="far fa-fw fa-pen"></i></span>
+        </div>
+        <%= form.text_area :description, class: 'form-control', placeholder: :description %>
+      </div>
+    </div> -->
+
+    <hr>
+
+    <%# Recurring? %>
+    <div class="form-group mb-1 d-flex">
+      <%= form.label :recurring, class: 'form-control-label d-block mr-2 mb-0' %>
+      <label class="custom-toggle">
+        <%= form.check_box :recurring, id: 'recurring_check' %>
+        <span class="custom-toggle-slider rounded-circle" data-label-off="<%= t 'general.no' %>" data-label-on="<%= t 'general.yes' %>"></span>
+      </label>
+    </div>
+    <small class="font-italic d-block mb-4">Make the subject visible only to teachers and staff members.</small>
+
+    <div id="normal_fields" class="row">
+      <%# Start date %>
+      <div class="form-group mb-2 col-md-6">
+        <%= form.label :start, class: 'form-control-label' %>
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-fw fa-calendar-alt"></i></span>
+          </div>
+          <%= form.datetime_local_field :start, id: 'start_date_field', class: 'form-control', placeholder: :start, data: { controller: 'datetime' } %>
+        </div>
+      </div>
+
+      <%# End date %>
+      <div class="form-group mb-2 col-md-6">
+        <%= form.label :end, class: 'form-control-label' %>
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-fw fa-calendar-alt"></i></span>
+          </div>
+          <%= form.datetime_local_field :end, id: 'end_date_field', class: 'form-control', placeholder: :end, data: { controller: 'datetime' } %>
+        </div>
+      </div>
+    </div>
+
+    <div id="recurring_fields" class="row">
+      <%# Start recurring %>
+      <div class="form-group mb-2 col-md-6">
+        <%= form.label :start_recur, class: 'form-control-label' %>
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-fw fa-calendar-alt"></i></span>
+          </div>
+          <%= form.date_field :start_recur, id: 'start_recur_field', class: 'form-control', placeholder: :start_recur, data: { controller: 'datetime' } %>
+        </div>
+      </div>
+
+      <%# End recurring %>
+      <div class="form-group mb-2 col-md-6">
+        <%= form.label :end_recur, class: 'form-control-label' %>
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-fw fa-calendar-alt"></i></span>
+          </div>
+          <%= form.date_field :end_recur, id: 'end_recur_field', class: 'form-control', placeholder: :end_recur, data: { controller: 'datetime' } %>
+        </div>
+      </div>
+
+      <%# Start time %>
+      <div class="form-group mb-2 col-md-6">
+        <%= form.label :start_time, class: 'form-control-label' %>
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-fw fa-clock"></i></span>
+          </div>
+          <%= form.time_field :start_time, id: 'start_time_field', class: 'form-control', placeholder: :start_recur, data: { controller: 'datetime' } %>
+        </div>
+      </div>
+
+      <%# End time %>
+      <div class="form-group mb-2 col-md-6">
+        <%= form.label :end_time, class: 'form-control-label' %>
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-fw fa-clock"></i></span>
+          </div>
+          <%= form.time_field :end_time, id: 'end_time_field', class: 'form-control', placeholder: :end_recur, data: { controller: 'datetime' } %>
+        </div>
+      </div>
+
+      <%# All day %>
+      <div class="form-group mb-2 col-12">
+        <%= form.label :days_of_week, class: 'form-control-label d-block' %>
+        
+        <% days = {1 => 'Mon', 2 => 'Tue', 3 => 'Wen', 4 => 'Thu', 5 => 'Fri'} %>
+
+        <% days.each do |index, day| %>
+          <%= form.check_box :days_of_week, { multiple: true, class: 'btn-check-day' }, index, false %>
+          <%= form.label "days_of_week_#{ index }", day, class: 'btn btn-sm label-for-day btn-outline-default' %>
+        <% end %>
+      </div>
+    </div>
+
+    <hr class="mb-4 mt-3">
+
+    <div class="row">
+      <%# Subject %>
+      <div class="form-group mb-2 col-md-6">
+        <%= form.label :subject, class: 'form-control-label' %>
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text input-group-select2"><i class="far fa-chalkboard"></i></span>
+          </div>
+          <%= form.collection_select(:subject_id, Subject.all, :id, :title, {
+            include_blank: true
+          }, { 
+              class: 'form-control', 
+              data: { 
+                controller: 'select', 
+                toggle: 'select', 
+                placeholder: t('activerecord.models.subject.one')	        		
+              } 
+            }) %>
+        </div>
+      </div>
+
+      <%# Coordinator %>
+      <div class="form-group mb-2 col-md-6">
+        <%= form.label :coordinator, class: 'form-control-label' %>
+        <div class="input-group input-group-merge input-group-alternative mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text input-group-select2"><i class="far fa-user-tie"></i></span>
+          </div>
+          <%= form.collection_select(:coordinator_id, Staff.all, :id, :name, {
+            include_blank: true
+          }, { 
+              class: 'form-control', 
+              data: { 
+                controller: 'select', 
+                toggle: 'select', 
+                placeholder: t('activerecord.models.subject.one')	        		
+              } 
+            }) %>
+        </div>
+      </div>
+    </div>
+
+    <%= form.button :submit, class: 'btn btn-default', title: t('.create') do %>
+      <i class="far fa-calendar-plus"></i> &nbsp;Create
+    <% end %>
+
+  </div>
+<% end %>
+
+<script>
+  // If Recurring, initially hide the recurring fields
+  if ($('#recurring_check').not(':checked')) {
+    $('#recurring_fields').hide()
+  } else {
+    $('#normal_fields').hide()
+  }
+
+  // Hide end date if all day
+  $('#recurring_check').change(() => {
+    if ( $('#recurring_check').is(':checked') ) {
+      $('#recurring_fields').show('500')
+      $('#normal_fields').hide('500')
+
+      $('#start_time_field').val( $('#start_date_field').val().split('T')[1] )
+      $('#end_time_field').val( $('#end_date_field').val().split('T')[1] )
+
+      $('#start_recur_field').val( $('#start_date_field').val().split('T')[0] )
+
+      $('#start_date_field').val('')
+      $('#end_date_field').val('')
+    } else {
+      $('#recurring_fields').hide('500')
+      $('#normal_fields').show('500')
+
+      $('#start_time_field').val('')
+      $('#end_time_field').val('')
+
+      $('#start_recur_field').val('')
+      $('#end_recur_field').val('')
+    }
+  })
+
+
+  // Days of week select
+  /* $(document).ready(function () {
+    var daysLabels = $('input.btn-check-day[checked="checked"]').next()
+    daysLabels.removeClass().addClass('btn label-for-day btn-sm btn-default text-lg')
+  }); */ // TO FIX
+
+  $('label.label-for-day').click(function (e) {
+    if ($(this).hasClass('btn-default')) {
+      $(this).removeClass('btn-default').addClass('btn-outline-default')
+    } else {
+      $(this).removeClass('btn-outline-default').addClass('btn-default')
+    }
+  });
+</script>

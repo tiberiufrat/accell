@@ -75,7 +75,7 @@
                   <td><%= link_to (classroom.form_students.size + classroom.students.size), classroom, class: 'badge badge-pill badge-sm font-100 badge-default' %></td>
                   
                   <%# Optional %>
-                  <td><%= classroom.optional ? icon('far fa-clipboard-list-check text-warning', ' ' + t('general.optional')) : icon('far fa-check-circle text-info', ' ' + t('general.compulsory'))%></td>
+                  <td><%= classroom.optional ? icon('far fa-clipboard-list-check text-yellow', ' ' + t('general.optional')) : icon('far fa-check-circle text-info', ' ' + t('general.compulsory'))%></td>
 
                   <%# Allow registration %>
                   <td><%= classroom.allow_registration ? icon('far fa-lock-open-alt text-success', ' ' + t('general.yes')) : icon('far fa-lock-alt text-warning', ' ' + t('general.no'))%></td>
@@ -85,8 +85,8 @@
 
                   <%# Table actions %>
                   <td class="table-actions">
-                    <%= link_to '<i class="far fa-eye"></i>'.html_safe, classroom, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
-                    <%= link_to '<i class="far fa-user-edit"></i>'.html_safe, edit_classroom_path(classroom), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
+                    <%# link_to '<i class="far fa-eye"></i>'.html_safe, classroom, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
+                    <%= link_to '<i class="far fa-edit"></i>'.html_safe, edit_classroom_path(classroom), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
                     <%= link_to '<i class="far fa-trash"></i>'.html_safe, classroom, class: "table-action table-action-delete", data: { toggle: 'tooltip', 'original-title': t('general.delete'), confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
                   </td>
                 </tr>

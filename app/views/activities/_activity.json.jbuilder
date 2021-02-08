@@ -1,2 +1,26 @@
-json.extract! activity, :id, :all_day, :start, :end, :days_of_week, :start_time, :end_time, :start_recur, :end_recur, :title, :description, :description_staff_only, :creator_id, :coordinator_id, :subject_id, :created_at, :updated_at
-json.url activity_url(activity, format: :json)
+json.extract! activity, :id, :title, :description, :description_staff_only, :creator_id, :coordinator_id, :subject_id, :created_at, :updated_at
+
+json.start activity.start if activity.start
+json.end activity.end if activity.end
+json.allDay activity.all_day
+
+if activity.subject
+  json.backgroundColor activity.subject.html_color
+  json.borderColor activity.subject.html_color
+  json.textColor 'var(--dark)' if activity.subject.color == 'yellow'
+end
+
+if activity.start_recur
+  json.daysOfWeek activity.days_of_week
+  json.startTime activity.start_time
+  json.endTime activity.end_time
+  json.startRecur activity.start_recur
+  json.endRecur activity.end_recur
+  json.groupId activity.title
+end
+
+json.url activity_url(activity, format: :html)
+
+json.update_url activity_url(activity, method: :patch)
+
+json.edit_url edit_activity_path(activity)

@@ -53,6 +53,12 @@ class ActivitiesController < ApplicationController
     end
 
     def activity_params
-      params.require(:activity).permit(:all_day, :start, :end, :days_of_week, :start_time, :end_time, :start_recur, :end_recur, :title, :description, :description_staff_only, :creator_id, :coordinator_id, :subject_id)
+      params.require(:activity).permit(:all_day, :start, :end, :start_time, :end_time, :start_recur, :end_recur, :title, :description, :description_staff_only, :creator_id, :coordinator_id, :subject_id, days_of_week: [])
+    end
+
+    def ajax_params
+      {
+        all_day: params[:activity][:all_day]
+      }
     end
 end

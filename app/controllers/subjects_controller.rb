@@ -26,7 +26,7 @@ class SubjectsController < ApplicationController
     @subject.save!
 
     respond_to do |format|
-      format.html { redirect_to @subject, notice: 'Subject was successfully created.' }
+      format.html { redirect_to subjects_path, notice: 'Subject was successfully created.' }
       format.json { render :show, status: :created }
     end
   end
@@ -34,7 +34,7 @@ class SubjectsController < ApplicationController
   def update
     @subject.update!(subject_params)
     respond_to do |format|
-      format.html { redirect_to @subject, notice: 'Subject was successfully updated.' }
+      format.html { redirect_to subjects_path, notice: 'Subject was successfully updated.' }
       format.json { render :show }
     end
   end

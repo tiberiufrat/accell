@@ -12,7 +12,7 @@
         <%= "<span class=\"badge badge-md badge-circle badge-floating badge-warning border-white\" data-toggle=\"tooltip\" title=\"#{ t('activerecord.attributes.classroom.form_tutor') }\"><i class=\"far fa-star\"></i></span>".html_safe if local_assigns[:star] %>
         <div class="media-body">
             <span class="name mb-0 text-sm"><%= staff.user.name %></span>
-            <%= link_to(icon('far fa-user-slash'), remove_staff_from_classroom_path(staff, @classroom), class: "table-action float-right", data: { toggle: 'tooltip', 'original-title': t('.remove_from_classroom') }) unless local_assigns[:star] %>
+            <%= link_to(icon('far fa-user-slash'), remove_staff_from_classroom_path(staff, @classroom), class: "table-action float-right", data: { toggle: 'tooltip', 'original-title': t('.remove_from_classroom') }) if local_assigns[:removeable] %>
         </div>
     </div>
 <% end %>

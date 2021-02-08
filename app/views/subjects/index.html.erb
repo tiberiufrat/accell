@@ -47,29 +47,40 @@
           <table class="table align-items-center table-flush" id="datatable-basic">
             <thead class="thead-light">
               <tr>
-                                  <th><%= t ("activerecord.attributes.subject.title") %></th>
-                                  <th><%= t ("activerecord.attributes.subject.color") %></th>
-                                  <th><%= t ("activerecord.attributes.subject.icon") %></th>
-                                  <th><%= t ("activerecord.attributes.subject.staff_only") %></th>
-                                  <th><%= t ("activerecord.attributes.subject.individual_activity") %></th>
-                                  <th><%= t ("activerecord.attributes.subject.attendance") %></th>
-                                  <th><%= t ("activerecord.attributes.subject.evaluation") %></th>
-                                <th scope="col" class="no-sort"></th>
+                <th><%= t ("activerecord.attributes.subject.title") %></th>
+                <th><%= t ("activerecord.attributes.subject.subject_type") %></th>
+                <th><%= t ("activerecord.attributes.subject.attendance") %></th>
+                <th><%= t ("activerecord.attributes.subject.evaluation") %></th>
+                <th scope="col" class="no-sort"></th>
               </tr>
             </thead>
             <tbody>
               <% @subjects.each do |subject| %>
                 <tr>
-                                                            <td><%= subject.title %></td>
-                                                                                <td><%= subject.color %></td>
-                                                                                <td><%= subject.icon %></td>
-                                                                                <td><%= t(subject.staff_only) %></td>
-                                                                                <td><%= t(subject.individual_activity) %></td>
-                                                                                <td><%= t(subject.attendance) %></td>
-                                                                                <td><%= subject.evaluation %></td>
-                                                        <td class="table-actions">
-                    <%= link_to '<i class="far fa-eye"></i>'.html_safe, subject, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
-                    <%= link_to '<i class="far fa-user-edit"></i>'.html_safe, edit_subject_path(subject), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
+                  <%# Title %>
+                  <td><%= link_to "<i class=\"#{ subject.fa_icon }\"></i> &nbsp;#{ subject.title }".html_safe, edit_subject_path(subject), class: "badge badge-lg badge-#{ subject.color }" %> &nbsp;<%= "<i class=\"far fa-lock-alt text-default\" data-toggle=\"tooltip\" title=\"#{ t 'activerecord.attributes.subject.staff_only' }\"></i>".html_safe if subject.staff_only %></td>
+
+                  <%# Individual activity %>
+                  <td><%= subject.individual_activity ? icon('far fa-fw fa-user text-yellow', ' ' + t('subjects.activity_types.individual')) : icon('far fa-fw fa-users-class text-info', ' ' + t('subjects.activity_types.classroom')) %></td>
+
+                  <%# Individual activity %>
+                  <td><%= subject.attendance ? icon('far fa-fw fa-clipboard-list-check text-success', ' ' + t('subjects.attendance.take')) : icon('far fa-fw fa-times-circle text-danger', ' ' + t('subjects.attendance.do_not_take')) %></td>
+
+                  <td>
+                    <% case subject.evaluation when 0 %>
+                      <i class="far fa-fw fa-ban"> <%= t 'subjects.evaluations.none' %>
+                    <% when 1 %>
+                      <i class="far fa-fw fa-sort-numeric-up-alt"> <%= t 'subjects.evaluations.grades_romanian' %>
+                    <% when 2 %>
+                      <i class="far fa-fw fa-font"> <%= t 'subjects.evaluations.letters' %>
+                    <% when 3 %>
+                      <i class="far fa-fw fa-thumbs-up"> <%= t 'subjects.evaluations.qualificatives_romanian' %>
+                    <% when 4 %>
+                      <i class="far fa-fw fa-percentage"> <%= t 'subjects.evaluations.percentages' %>
+                    <% end %>
+                  </td>
+                  <td class="table-actions">
+                    <%= link_to '<i class="far fa-edit"></i>'.html_safe, edit_subject_path(subject), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
                     <%= link_to '<i class="far fa-trash"></i>'.html_safe, subject, class: "table-action table-action-delete", data: { toggle: 'tooltip', 'original-title': t('general.delete'), confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
                   </td>
                 </tr>

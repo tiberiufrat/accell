@@ -7,6 +7,7 @@ class Student < ApplicationRecord
   has_many :observations, as: :observationable
   accepts_nested_attributes_for :user, update_only: true
   after_create :set_enrollment_date
+  before_destroy :delete_family_if_empty
 
   def set_enrollment_date
     self.update! enrollment_date: self.created_at if self.enrollment_date.nil?
@@ -18,5 +19,11 @@ class Student < ApplicationRecord
 
   def name_and_form
     self.form ? self.name + ', ' + self.form.name : self.name + ', N/A'
+  end
+
+  def delete_family_if_empty
+    if family.students.size == 1 && family.parents.size == 0
+      family.destroy
+    end
   end
 end

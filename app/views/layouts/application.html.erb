@@ -22,9 +22,22 @@
       <%= render partial: 'shared/topnav', locals: { bg_color_class: yield(:topnav_bg) } %>
       <%= content_for?(:content) ? yield(:content) : yield %>
     </div>
-    <%= render 'shared/toastr' %>
-    <%= javascript_pack_tag 'argon', 'data-turbolinks-track': 'reload' %>
 
+    <%= render 'shared/toastr' %>
+
+    <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-secondary modal-lg" role="document">
+        <div class="modal-content"></div>
+      </div>
+    </div>
+
+    <div id="small-modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-secondary" role="document">
+        <div class="modal-content"></div>
+      </div>
+    </div>
+
+    <%= javascript_pack_tag 'argon', 'data-turbolinks-track': 'reload' %>
 
     <script>
       function copy_to_clipboard(elementId) {

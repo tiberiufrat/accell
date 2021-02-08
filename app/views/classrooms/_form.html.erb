@@ -80,12 +80,11 @@
       <div class="input-group-prepend">
         <span class="input-group-text input-group-select2"><i class="far fa-chalkboard-teacher"></i></span>
       </div>
-      <%= form.collection_select(:staff_ids, Staff.all - [@classroom.form_tutor, *@classroom.staffs], :id, :name, {
+      <%= form.collection_select(:staff_ids, Staff.all - [@classroom.form_tutor], :id, :name, {
         include_blank: true
       }, {
           class: 'form-control',
           multiple: true,
-          required: true, 
           data: { 
             controller: 'select', 
             toggle: 'select', 

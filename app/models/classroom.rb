@@ -5,6 +5,7 @@ class Classroom < ApplicationRecord
   has_and_belongs_to_many :staffs
   has_and_belongs_to_many :students
   after_create :generate_registration_code
+  has_many :observations, as: :observationable
 
   def generate_registration_code
     self.update! registration_code: Passgen.generate

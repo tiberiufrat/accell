@@ -18,6 +18,7 @@
         font-weight: $table-head-font-weight;
         color: $table-head-color;
         text-transform: uppercase;
+        text-align: left;
     }
 
 
@@ -34,11 +35,11 @@
     }
 }
 
-.fc-unthemed {
-    td.fc-today {
+.fc-unthemed, .fc-theme-standard {
+    td.fc-day-today {
         background-color: transparent;
 
-        span {
+        span, .fc-daygrid-day-number {
             color: $orange;
         }
     }
@@ -50,7 +51,7 @@
     border-radius: $border-radius-sm;
     border: 0;
 
-    .fc-title {
+    .fc-title, .fc-event-title {
         padding: .4rem .5rem;
         display: block;
         color: $white;
@@ -58,12 +59,39 @@
         font-weight: $font-weight-bold;
     }
 
-    .fc-time {
+    .fc-time, .fc-event-time {
         float: left;
         background: rgba($black,0.2);
         padding: 2px 6px;
-        margin: 0 0 0 -1px;
+        margin: 0;
+        color: $white;
+        border-radius: $border-radius-sm 0 0 0;
     }
+
+    .fc-daygrid-event-dot {
+        display: none;
+    }
+}
+
+.fc-timegrid {
+    .fc-time, .fc-event-time {
+        margin: -1px 0 0 0;
+        border-radius: $border-radius-sm $border-radius-sm 0 0;
+    }
+}
+
+.fc-daygrid {
+    .fc-time, .fc-event-time {
+        margin: 0;
+        border-radius: $border-radius-sm 0 0 $border-radius-sm;
+        height: 28px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.fc-scrollgrid .fc-scrollgrid-liquid {
+    border: none;
 }
 
 .fc-view {
@@ -115,8 +143,8 @@
 
 .calendar {
     z-index: 0;
-    td, th {
-        border-color: lighten($table-border-color,2%);
+    table, td, th {
+        border-color: lighten($table-border-color,2%) !important;
     }
 
     .fc-toolbar {
@@ -131,7 +159,7 @@
         }
     }
 
-    .fc-day-number {
+    .fc-day-number, .fc-daygrid-day-number {
         padding: .5rem 1rem;
         width: 100%;
         box-sizing: border-box;
@@ -144,8 +172,8 @@
     .fc-day-header {
         text-align: left;
     }
-    .fc-day-grid-event {
-        margin: 1px 9px;
+    .fc-day-grid-event, .fc-daygrid-event {
+        margin: 1px 9px !important;
     }
 }
 
@@ -224,7 +252,7 @@
     z-index: 0;
 
     td, th {
-        border-color: transparent;
+        border-color: transparent !important;
         text-align: center;
     }
 

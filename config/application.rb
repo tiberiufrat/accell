@@ -11,7 +11,7 @@ module Accell
     config.app                            = config_for(:config)
     config.i18n.available_locales         = %i[ro en]
     config.i18n.default_locale            = :en
-    config.time_zone                      = 'UTC'
+    config.time_zone                      = 'Bucharest'
     config.generators.scaffold_stylesheet = false
 
     config.assets.paths << Rails.root.join("app", "assets", "fonts")

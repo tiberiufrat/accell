@@ -4,7 +4,7 @@
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
 
-          <h1 class="d-inline-block mb-0"><span class="badge badge-lg badge-white text-<%= @classroom.color %>"><%= @classroom.name %></span></h1>
+          <h1 class="d-inline-block mb-0"><span class="badge badge-lg badge-white text-<%= @classroom.color %>"><%= @classroom.name %> &nbsp;<%= ('<i class="far fa-clipboard-list-check" data-toggle="tooltip" title="' + t('general.optional') + '"></i>').html_safe if @classroom.optional %></span></h1>
 
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
@@ -112,7 +112,7 @@
                 </div>
                 <% @classroom.staffs.each do |staff| %>
                   <div class="col">
-                    <%= render staff, boxed: true %>
+                    <%= render staff, boxed: true, removeable: true %>
                   </div>
                 <% end %>
               </div>
@@ -146,17 +146,55 @@
                     <th><%= t ("activerecord.attributes.classroom.status") %></th>
                     <td><%= @classroom.archived ? icon('far fa-archive text-warning', ' ' + t('general.archived')) : icon('far fa-check-circle text-success', ' ' + t('general.active')) %></td>
                   </tr>
-                  <tr>
-                    <th><%= t ("activerecord.attributes.classroom.form_students") %></th>
-                    <td><%= @classroom.form_students.size %></td>
-                  </tr>
-                  <tr>
-                    <th><%= t ("activerecord.attributes.classroom.students") %></th>
-                    <td><%= @classroom.students.size %></td>
-                  </tr>
+                  <% unless @classroom.optional %>
+                    <tr>
+                      <th><%= t ("activerecord.attributes.classroom.form_students") %></th>
+                      <td><span class="badge badge-default"><%= @classroom.form_students.size %></span></td>
+                    </tr>
+                  <% end %>
+                  <% if @classroom.optional || @classroom.students.any? %>
+                    <tr>
+                      <th><%= t ("activerecord.attributes.classroom.students") %></th>
+                      <td><span class="badge badge-yellow"><%= @classroom.students.size %></span></td>
+                    </tr>
+                  <% end %>
                 </table>
               </div>
             </div>
+
+            <%# Observations %>
+            <div class="tab-pane fade" id="pills-observations">
+              <h4 class="text-primary"><%= t '.observations_tab' %></h4>
+
+              <%= form_with(model: @observation, data: { controller: 'validation' }, local: false) do |form| %>
+                <div class="input-group input-group-merge input-group-alternative mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-comment-alt-lines"></i></span>
+                  </div>
+                  <%= form.text_field :text, class: 'form-control', placeholder: :text, required: true %>
+                  <div class="input-group-append">
+                    <%= form.button :submit, class: 'btn btn-default' do %>
+                      <i class="far fa-comment-alt-plus"></i>
+                    <% end %>
+                  </div>
+                </div>
+                <%= form.hidden_field :creator_id, value: current_user.id %>
+                <%= form.hidden_field :observationable_id, value: @classroom.id %>
+                <%= form.hidden_field :observationable_type, value: 'Classroom' %>
+              <% end %>
+
+              <ul class="list-group" id="observations-list">
+                <% @classroom.observations.each do |observation| %>
+                  <%= render observation %>
+                <% end %>
+              </ul>
+            </div>
+
+            <%# Documents %>
+            <div class="tab-pane fade" id="pills-documents">
+              Documents
+            </div>
+
           </div>
         </div>
         
@@ -184,7 +222,7 @@
             <li class="list-group-item">
               <p><%= t '.transfer_preexistent_student' %></p>
               <small><%= t '.transfer_preexistent_student_description' %></small>
-              <a class="cursor-pointer btn btn-sm btn-primary btn-round btn-icon text-white btn-block mt-2" onclick="toggleTransferForm()">
+              <a class="cursor-pointer btn btn-sm btn-primary text-white btn-round btn-icon btn-block mt-2" onclick="toggleTransferForm()">
                 <i class="far fa-people-arrows"></i> &nbsp;<%= t('.transfer_student') %>
               </a>
               <%= form_with url: transfer_student_to_form_url, method: :get, class: 'mt-2', id: 'transfer-form', html: { style: 'display: none' } do |form| %>
@@ -295,7 +333,7 @@
             <li class="list-group-item">
               <p><%= t '.add_preexistent_student_optional' %></p>
               <small><%= t '.add_preexistent_student_description_optional' %></small>
-              <a class="cursor-pointer btn btn-sm btn-warning btn-round btn-icon text-white btn-block mt-2" onclick="toggleAddOptionalForm()">
+              <a class="cursor-pointer btn btn-sm btn-yellow btn-round btn-icon btn-block mt-2" onclick="toggleAddOptionalForm()">
                 <i class="far fa-people-arrows"></i> &nbsp;<%= t('.add_preexistent_student_optional') %>
               </a>
               <%= form_with url: add_student_to_optional_classroom_url, method: :get, class: 'mt-2', id: 'add-optional-form', html: { style: 'display: none' } do |form| %>
@@ -317,7 +355,7 @@
                       }) %>
                     <%= form.hidden_field :classroom_id, value: @classroom.id %>
                     <div class="input-group-append">
-                      <%= form.button :submit, class: 'btn btn-warning', title: t('.add_preexisting_student_button') do %>
+                      <%= form.button :submit, class: 'btn btn-default', title: t('.add_preexisting_student_button') do %>
                         <i class="far fa-people-arrows"></i>
                       <% end %>
                     </div>

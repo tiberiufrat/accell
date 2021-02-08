@@ -13,8 +13,8 @@ class CreateActivities < ActiveRecord::Migration[6.1]
       t.string :description
       t.string :description_staff_only
       t.integer :creator_id
-      t.integer :coordinator_id
-      t.references :subject, null: false, foreign_key: {to_table: :subjects}
+      t.references :coordinator, foreign_key: {to_table: :staffs}
+      t.references :subject, foreign_key: {to_table: :subjects}
 
       t.timestamps
     end

@@ -13,6 +13,7 @@ class ClassroomsController < ApplicationController
   def show
     @student = Student.new
     @student.initial_password = Passgen::generate(lowercase: :only, uppercase: false)
+    @observation = Observation.new
     fresh_when etag: @classroom
   end
 

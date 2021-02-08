@@ -200,11 +200,27 @@ end
           <li class="nav-item dropdown">
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
-                <span class="avatar avatar-sm rounded-circle">
-                  <%= image_tag "theme/team-4.jpg", class: "navbar-brand-img", alt: "..." %>
-                </span>
+                <% if current_user.avatar.attached? %>
+                  <div class="avatar avatar-sm rounded-circle mr-2" style="background-image: url('<%= url_for(current_user.avatar) %>')" ></div>
+                <% else %>
+                  <% if current_user.female? # Female %>
+                    <img src="/images/female-blue.jpg" class="avatar avatar-sm rounded-circle mr-2" />
+                  <% else # Male or otherwise %>
+                    <img src="/images/male-blue.jpg" class="avatar avatar-sm rounded-circle mr-2" />
+                  <% end %>
+                <% end %>
+                <% case current_user.profile_type when 'Staff' %>
+                  <span class="badge badge-md badge-circle badge-floating badge-indigo shadow-lg topnav-profile-badge"><i class="far fa-user-tie"></i></span>
+                <% when 'Student' %>
+                  <span class="badge badge-md badge-circle badge-floating badge-yellow shadow-lg topnav-profile-badge"><i class="far fa-user-graduate"></i></span>
+                <% when 'Parent' %>
+                  <span class="badge badge-md badge-circle badge-floating badge-success shadow-lg topnav-profile-badge"><i class="far fa-user-friends"></i></span>
+                <% else %>
+                  <span class="badge badge-md badge-circle badge-floating badge-info shadow-lg topnav-profile-badge"><i class="far fa-user"></i></span>
+                <% end %>
+
                 <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold"><%= current_user.email %></span>
+                  <span class="mb-0 text-sm  font-weight-bold"><%= current_user.name %></span>
                 </div>
               </div>
             </a>

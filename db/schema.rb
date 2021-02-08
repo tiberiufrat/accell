@@ -56,10 +56,11 @@ ActiveRecord::Schema.define(version: 2021_01_25_051926) do
     t.string "description"
     t.string "description_staff_only"
     t.integer "creator_id"
-    t.integer "coordinator_id"
-    t.bigint "subject_id", null: false
+    t.bigint "coordinator_id"
+    t.bigint "subject_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["coordinator_id"], name: "index_activities_on_coordinator_id"
     t.index ["subject_id"], name: "index_activities_on_subject_id"
   end
 
@@ -210,6 +211,7 @@ ActiveRecord::Schema.define(version: 2021_01_25_051926) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "activities", "staffs", column: "coordinator_id"
   add_foreign_key "activities", "subjects"
   add_foreign_key "classrooms", "schools"
   add_foreign_key "classrooms", "staffs", column: "form_tutor_id"

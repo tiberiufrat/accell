@@ -65,7 +65,7 @@ en:
     copied_to_clipboard: Copied to clipboard!
     failed_to_copy_to_clipboard: Due to an unknown reason, the copying failed.
     click_to_copy: Click to copy
-    no_parents_for_student: There are no registered parents for this student.
+    no_parents_for_student: No parents registered.
     from_date_until_present: "%{date} → Present"
     gender:
       male: male
@@ -97,6 +97,8 @@ en:
       warning: Orange
       danger: Red
       success: Green
+    contextmenu:
+      copy: Copy
 
   home:
     index:
@@ -172,6 +174,24 @@ en:
       observations_tab: Observations
       documents_tab: Documents
       teachers_tab: Teachers
+  
+  observations:
+    observation:
+      date_author: 'On %{date} by %{creator}'
+
+  subjects:
+    evaluations:
+      none: No evaluation
+      grades_romanian: Romanian grades (1 → 10)
+      letters: Letters (F → A)
+      qualificatives_romanian: Romanian qualificatives (I, S, B, FB)
+      percentages: Percentages (0% → 100%)
+    activity_types:
+      individual: Individual
+      classroom: Classroom
+    attendance:
+      take: Take attendance
+      do_not_take: Disabled
 
   iziToast: 
     types:
@@ -262,6 +282,10 @@ en:
       school:
         country: Country
         city: State
+      subject:
+        evaluation: Evaluation method
+        staff_only: Staff only
+        subject_type: Subject type
   hello: "Hello world"
 
 # Custom formats

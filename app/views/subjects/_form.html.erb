@@ -1,39 +1,338 @@
 <%= form_with(model: subject, data: { controller: 'validation' }) do |form| %>
-  <div class="form-group">
-      <%= form.label :title, class: 'form-control-label' %>
-        <%= form.text_field :title, class: 'form-control' %>
+  <%# Title %>
+  <div class="form-group mb-2">
+    <div class="input-group input-group-merge input-group-alternative mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="far fa-fw fa-chalkboard"></i></span>
+      </div>
+      <%= form.text_field :title, autofocus: true, class: 'form-control', placeholder: :name, required: true %>
     </div>
-  <div class="form-group">
-      <%= form.label :color, class: 'form-control-label' %>
-        <%= form.text_field :color, class: 'form-control' %>
+  </div>
+
+  <%# Color %>
+  <div class="form-group mb-2">
+    <%= form.label :color, class: 'form-control-label d-block' %>
+
+    <%= form.radio_button :color, 'danger', class: 'btn-check-color' %>
+    <%= form.label :color_danger, t('general.colors.danger').titleize, class: 'btn label-for-color btn-sm btn-outline-danger', 'data-color': 'danger' %>
+
+    <%= form.radio_button :color, 'warning', class: 'btn-check-color' %>
+    <%= form.label :color_warning, t('general.colors.warning').titleize, class: 'btn label-for-color btn-sm btn-outline-warning', 'data-color': 'warning' %>
+
+    <%= form.radio_button :color, 'yellow', class: 'btn-check-color' %>
+    <%= form.label :color_yellow, t('general.colors.yellow').titleize, class: 'btn label-for-color btn-sm btn-outline-yellow', 'data-color': 'yellow' %>
+
+    <%= form.radio_button :color, 'success', class: 'btn-check-color' %>
+    <%= form.label :color_success, t('general.colors.success').titleize, class: 'btn label-for-color btn-sm btn-outline-success', 'data-color': 'success' %>
+
+    <%= form.radio_button :color, 'cyan', class: 'btn-check-color' %>
+    <%= form.label :color_cyan, t('general.colors.cyan').titleize, class: 'btn label-for-color btn-sm btn-outline-cyan', 'data-color': 'cyan' %>
+
+    <%= form.radio_button :color, 'info', class: 'btn-check-color' %>
+    <%= form.label :color_info, t('general.colors.info').titleize, class: 'btn label-for-color btn-sm btn-outline-info', 'data-color': 'info' %>
+
+    <%= form.radio_button :color, 'primary', class: 'btn-check-color' %>
+    <%= form.label :color_primary, t('general.colors.primary').titleize, class: 'btn label-for-color btn-sm btn-outline-primary', 'data-color': 'primary' %>
+
+    <%= form.radio_button :color, 'indigo', class: 'btn-check-color' %>
+    <%= form.label :color_indigo, t('general.colors.indigo').titleize, class: 'btn label-for-color btn-sm btn-outline-indigo', 'data-color': 'indigo' %>
+
+    <%= form.radio_button :color, 'purple', class: 'btn-check-color' %>
+    <%= form.label :color_purple, t('general.colors.purple').titleize, class: 'btn label-for-color btn-sm btn-outline-purple', 'data-color': 'purple' %>
+
+    <%= form.radio_button :color, 'pink', class: 'btn-check-color' %>
+    <%= form.label :color_pink, t('general.colors.pink').titleize, class: 'btn label-for-color btn-sm btn-outline-pink', 'data-color': 'pink' %>
+  </div>
+
+  <%# Icon %>
+  <div class="form-group mb-2">
+    <%= form.label :icon, class: 'form-control-label d-block' %>
+
+    <%= form.radio_button :icon, 'school', class: 'btn-check-icon' %>
+    <%= form.label :icon_school, '<i class="far fa-fw fa-school"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'school' %>
+
+    <%= form.radio_button :icon, 'bell_school', class: 'btn-check-icon' %>
+    <%= form.label :icon_bell_school, '<i class="far fa-fw fa-bell-school"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'bell_school' %>
+
+    <%= form.radio_button :icon, 'users_class', class: 'btn-check-icon' %>
+    <%= form.label :icon_users_class, '<i class="far fa-fw fa-users-class"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'users-class' %>
+
+    <%= form.radio_button :icon, 'chalkboard', class: 'btn-check-icon' %>
+    <%= form.label :icon_chalkboard, '<i class="far fa-fw fa-chalkboard"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'chalkboard' %>
+
+    <%= form.radio_button :icon, 'webcam', class: 'btn-check-icon' %>
+    <%= form.label :icon_webcam, '<i class="far fa-fw fa-webcam"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'webcam' %>
+
+    <%= form.radio_button :icon, 'camera_home', class: 'btn-check-icon' %>
+    <%= form.label :icon_camera_home, '<i class="far fa-fw fa-camera-home"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'camera-home' %>
+
+    <%= form.radio_button :icon, 'archive', class: 'btn-check-icon' %>
+    <%= form.label :icon_archive, '<i class="far fa-fw fa-archive"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'archive' %>
+
+    <%= form.radio_button :icon, 'folder', class: 'btn-check-icon' %>
+    <%= form.label :icon_folder, '<i class="far fa-fw fa-folder"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'folder' %>
+
+    <%= form.radio_button :icon, 'backpack', class: 'btn-check-icon' %>
+    <%= form.label :icon_backpack, '<i class="far fa-fw fa-backpack"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'backpack' %>
+
+    <%= form.radio_button :icon, 'pen', class: 'btn-check-icon' %>
+    <%= form.label :icon_pen, '<i class="far fa-fw fa-pen"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'pen' %>
+
+    <%= form.radio_button :icon, 'pencil_ruler', class: 'btn-check-icon' %>
+    <%= form.label :icon_pencil_ruler, '<i class="far fa-fw fa-pencil-ruler"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'pencil-ruler' %>
+
+    <%= form.radio_button :icon, 'pencil_alt', class: 'btn-check-icon' %>
+    <%= form.label :icon_pencil_alt, '<i class="far fa-fw fa-pencil-alt"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'pencil-alt' %>
+
+    <%= form.radio_button :icon, 'pen_nib', class: 'btn-check-icon' %>
+    <%= form.label :icon_pen_nib, '<i class="far fa-fw fa-pen-nib"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'pen-nib' %>
+
+    <%= form.radio_button :icon, 'pen_fancy', class: 'btn-check-icon' %>
+    <%= form.label :icon_pen_fancy, '<i class="far fa-fw fa-pen-fancy"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'pen-fancy' %>
+
+    <%= form.radio_button :icon, 'function', class: 'btn-check-icon' %>
+    <%= form.label :icon_function, '<i class="far fa-fw fa-function"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'function' %>
+
+    <%= form.radio_button :icon, 'calculator', class: 'btn-check-icon' %>
+    <%= form.label :icon_calculator, '<i class="far fa-fw fa-calculator"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'calculator' %>
+
+    <%= form.radio_button :icon, 'pi', class: 'btn-check-icon' %>
+    <%= form.label :icon_pi, '<i class="far fa-fw fa-pi"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'pi' %>
+
+    <%= form.radio_button :icon, 'brain', class: 'btn-check-icon' %>
+    <%= form.label :icon_brain, '<i class="far fa-fw fa-brain"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'brain' %>
+
+    <%= form.radio_button :icon, 'laptop', class: 'btn-check-icon' %>
+    <%= form.label :icon_laptop, '<i class="far fa-fw fa-laptop"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'laptop' %>
+
+    <%= form.radio_button :icon, 'desktop', class: 'btn-check-icon' %>
+    <%= form.label :icon_desktop, '<i class="far fa-fw fa-desktop"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'desktop' %>
+
+    <%= form.radio_button :icon, 'laptop_code', class: 'btn-check-icon' %>
+    <%= form.label :icon_laptop_code, '<i class="far fa-fw fa-laptop-code"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'laptop-code' %>
+
+    <%= form.radio_button :icon, 'bible', class: 'btn-check-icon' %>
+    <%= form.label :icon_bible, '<i class="far fa-fw fa-bible"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'bible' %>
+
+    <%= form.radio_button :icon, 'atom', class: 'btn-check-icon' %>
+    <%= form.label :icon_atom, '<i class="far fa-fw fa-atom"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'atom' %>
+
+    <%= form.radio_button :icon, 'atom_alt', class: 'btn-check-icon' %>
+    <%= form.label :icon_atom_alt, '<i class="far fa-fw fa-atom-alt"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'atom-alt' %>
+
+    <%= form.radio_button :icon, 'telescope', class: 'btn-check-icon' %>
+    <%= form.label :icon_telescope, '<i class="far fa-fw fa-telescope"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'telescope' %>
+
+    <%= form.radio_button :icon, 'planet_ringed', class: 'btn-check-icon' %>
+    <%= form.label :icon_planet_ringed, '<i class="far fa-fw fa-planet-ringed"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'planet-ringed' %>
+
+    <%= form.radio_button :icon, 'flask', class: 'btn-check-icon' %>
+    <%= form.label :icon_flask, '<i class="far fa-fw fa-flask"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'flask' %>
+
+    <%= form.radio_button :icon, 'flask_potion', class: 'btn-check-icon' %>
+    <%= form.label :icon_flask_potion, '<i class="far fa-fw fa-flask-potion"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'flask-potion' %>
+
+    <%= form.radio_button :icon, 'vial', class: 'btn-check-icon' %>
+    <%= form.label :icon_vial, '<i class="far fa-fw fa-vial"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'vial' %>
+
+    <%= form.radio_button :icon, 'vials', class: 'btn-check-icon' %>
+    <%= form.label :icon_vials, '<i class="far fa-fw fa-vials"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'vials' %>
+
+    <%= form.radio_button :icon, 'eyedropper', class: 'btn-check-icon' %>
+    <%= form.label :icon_eyedropper, '<i class="far fa-fw fa-eyedropper"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'eyedropper' %>    
+
+    <%= form.radio_button :icon, 'trophy', class: 'btn-check-icon' %>
+    <%= form.label :icon_trophy, '<i class="far fa-fw fa-trophy"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'trophy' %>
+
+    <%= form.radio_button :icon, 'volleyball_ball', class: 'btn-check-icon' %>
+    <%= form.label :icon_volleyball_ball, '<i class="far fa-fw fa-volleyball-ball"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'volleyball-ball' %>
+
+    <%= form.radio_button :icon, 'tennis_ball', class: 'btn-check-icon' %>
+    <%= form.label :icon_tennis_ball, '<i class="far fa-fw fa-tennis-ball"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'tennis-ball' %>
+
+    <%= form.radio_button :icon, 'futbol', class: 'btn-check-icon' %>
+    <%= form.label :icon_futbol, '<i class="far fa-fw fa-futbol"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'football' %>
+
+    <%= form.radio_button :icon, 'bullseye_arrow', class: 'btn-check-icon' %>
+    <%= form.label :icon_bullseye_arrow, '<i class="far fa-fw fa-bullseye-arrow"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'bullseye-arrow' %>
+
+    <%= form.radio_button :icon, 'balance_scale', class: 'btn-check-icon' %>
+    <%= form.label :icon_balance_scale, '<i class="far fa-fw fa-balance-scale"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'balance-scale' %>
+
+    <%= form.radio_button :icon, 'piggy_bank', class: 'btn-check-icon' %>
+    <%= form.label :icon_piggy_bank, '<i class="far fa-fw fa-piggy-bank"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'piggy-bank' %>
+
+    <%= form.radio_button :icon, 'projector', class: 'btn-check-icon' %>
+    <%= form.label :icon_projector, '<i class="far fa-fw fa-projector"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'projector' %>
+
+    <%= form.radio_button :icon, 'film', class: 'btn-check-icon' %>
+    <%= form.label :icon_film, '<i class="far fa-fw fa-film"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'film' %>
+
+    <%= form.radio_button :icon, 'camcorder', class: 'btn-check-icon' %>
+    <%= form.label :icon_camcorder, '<i class="far fa-fw fa-camcorder"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'camcorder' %>
+
+    <%= form.radio_button :icon, 'dna', class: 'btn-check-icon' %>
+    <%= form.label :icon_dna, '<i class="far fa-fw fa-dna"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'dna' %>
+
+    <%= form.radio_button :icon, 'leaf', class: 'btn-check-icon' %>
+    <%= form.label :icon_leaf, '<i class="far fa-fw fa-leaf"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'leaf' %>
+
+    <%= form.radio_button :icon, 'tree', class: 'btn-check-icon' %>
+    <%= form.label :icon_tree, '<i class="far fa-fw fa-tree"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'tree' %>
+
+    <%= form.radio_button :icon, 'tree_alt', class: 'btn-check-icon' %>
+    <%= form.label :icon_tree_alt, '<i class="far fa-fw fa-tree-alt"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'tree-alt' %>
+
+    <%= form.radio_button :icon, 'elephant', class: 'btn-check-icon' %>
+    <%= form.label :icon_elephant, '<i class="far fa-fw fa-elephant"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'elephant' %>
+
+    <%= form.radio_button :icon, 'frog', class: 'btn-check-icon' %>
+    <%= form.label :icon_frog, '<i class="far fa-fw fa-frog"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'frog' %>
+
+    <%= form.radio_button :icon, 'crow', class: 'btn-check-icon' %>
+    <%= form.label :icon_crow, '<i class="far fa-fw fa-crow"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'crow' %>
+
+    <%= form.radio_button :icon, 'cat', class: 'btn-check-icon' %>
+    <%= form.label :icon_cat, '<i class="far fa-fw fa-cat"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'cat' %>
+
+    <%= form.radio_button :icon, 'globe', class: 'btn-check-icon' %>
+    <%= form.label :icon_globe, '<i class="far fa-fw fa-globe"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'globe' %>
+
+    <%= form.radio_button :icon, 'globe_europe', class: 'btn-check-icon' %>
+    <%= form.label :icon_globe_europe, '<i class="far fa-fw fa-globe-europe"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'globe-europe' %>
+
+    <%= form.radio_button :icon, 'globe_stand', class: 'btn-check-icon' %>
+    <%= form.label :icon_globe_stand, '<i class="far fa-fw fa-globe-stand"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'globe-stand' %>
+
+    <%= form.radio_button :icon, 'book', class: 'btn-check-icon' %>
+    <%= form.label :icon_book, '<i class="far fa-fw fa-book"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'book' %>
+
+    <%= form.radio_button :icon, 'books', class: 'btn-check-icon' %>
+    <%= form.label :icon_books, '<i class="far fa-fw fa-books"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'books' %>
+
+    <%= form.radio_button :icon, 'book_reader', class: 'btn-check-icon' %>
+    <%= form.label :icon_book_reader, '<i class="far fa-fw fa-book-reader"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'book-reader' %>
+
+    <%= form.radio_button :icon, 'language', class: 'btn-check-icon' %>
+    <%= form.label :icon_language, '<i class="far fa-fw fa-language"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'language' %>
+
+    <%= form.radio_button :icon, 'atlas', class: 'btn-check-icon' %>
+    <%= form.label :icon_atlas, '<i class="far fa-fw fa-atlas"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'atlas' %>
+
+    <%= form.radio_button :icon, 'chess', class: 'btn-check-icon' %>
+    <%= form.label :icon_chess, '<i class="far fa-fw fa-chess"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'chess' %>
+
+    <%= form.radio_button :icon, 'piano', class: 'btn-check-icon' %>
+    <%= form.label :icon_piano, '<i class="far fa-fw fa-piano"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'piano' %>
+
+    <%= form.radio_button :icon, 'piano_keyboard', class: 'btn-check-icon' %>
+    <%= form.label :icon_piano_keyboard, '<i class="far fa-fw fa-piano-keyboard"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'piano-keyboard' %>
+
+    <%= form.radio_button :icon, 'violin', class: 'btn-check-icon' %>
+    <%= form.label :icon_violin, '<i class="far fa-fw fa-violin"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'violin' %>
+
+    <%= form.radio_button :icon, 'guitar', class: 'btn-check-icon' %>
+    <%= form.label :icon_guitar, '<i class="far fa-fw fa-guitar"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'guitar' %>
+
+    <%= form.radio_button :icon, 'guitars', class: 'btn-check-icon' %>
+    <%= form.label :icon_guitars, '<i class="far fa-fw fa-guitars"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'guitars' %>
+
+    <%= form.radio_button :icon, 'trumpet', class: 'btn-check-icon' %>
+    <%= form.label :icon_trumpet, '<i class="far fa-fw fa-trumpet"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'trumpet' %>
+
+    <%= form.radio_button :icon, 'paint_brush_alt', class: 'btn-check-icon' %>
+    <%= form.label :icon_paint_brush_alt, '<i class="far fa-fw fa-paint-brush-alt"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'paint_brush_alt' %>
+
+    <%= form.radio_button :icon, 'palette', class: 'btn-check-icon' %>
+    <%= form.label :icon_palette, '<i class="far fa-fw fa-palette"></i>'.html_safe, class: 'btn label-for-icon btn-sm text-lg btn-outline-default', title: 'palette' %>
+  </div>
+  
+  <%# Staff only %>
+  <div class="form-group mb-1 d-flex">
+    <%= form.label :staff_only, class: 'form-control-label d-block mr-2 mb-0' %>
+    <label class="custom-toggle">
+      <%= form.check_box :staff_only  %>
+      <span class="custom-toggle-slider rounded-circle" data-label-off="<%= t 'general.no' %>" data-label-on="<%= t 'general.yes' %>"></span>
+    </label>
+  </div>
+  <small class="font-italic d-block mb-4">Make the subject visible only to teachers and staff members.</small>
+
+  <%# Individual activity %>
+  <div class="form-group mb-1 d-flex">
+    <%= form.label :individual_activity, class: 'form-control-label d-block mr-2 mb-0' %>
+    <label class="custom-toggle">
+      <%= form.check_box :individual_activity  %>
+      <span class="custom-toggle-slider rounded-circle" data-label-off="<%= t 'general.no' %>" data-label-on="<%= t 'general.yes' %>"></span>
+    </label>
+  </div>
+  <small class="font-italic d-block mb-4">Assign the activity individually for each student.</small>
+
+  <%# Attendance %>
+  <div class="form-group mb-1 d-flex">
+    <%= form.label :attendance, class: 'form-control-label d-block mr-2 mb-0' %>
+    <label class="custom-toggle">
+      <%= form.check_box :attendance  %>
+      <span class="custom-toggle-slider rounded-circle" data-label-off="<%= t 'general.no' %>" data-label-on="<%= t 'general.yes' %>"></span>
+    </label>
+  </div>
+  <small class="font-italic d-block mb-4">Take attendance for this subject.</small>
+
+  <%# Evaluation %>
+  <div class="form-group mb-2">
+    <div class="input-group input-group-merge input-group-alternative mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text input-group-select2"><i class="far fa-spell-check"></i></span>
+      </div>
+      <%= form.select :evaluation, options_for_select({ 
+        t('subjects.evaluations.none') => 0, 
+        t('subjects.evaluations.grades_romanian') => 1, 
+        t('subjects.evaluations.letters') => 2, 
+        t('subjects.evaluations.qualificatives_romanian') => 3,
+        t('subjects.evaluations.percentages') => 4 
+      }, (@subject.evaluation)), {}, { 
+        class: 'form-control', required: true, data: {
+          toggle: 'select', 
+          placeholder: t('activerecord.attributes.subject.evaluation'),
+          'minimum-results-for-search': "Infinity"
+        }
+      } %>
     </div>
-  <div class="form-group">
-      <%= form.label :icon, class: 'form-control-label' %>
-        <%= form.text_field :icon, class: 'form-control' %>
-    </div>
-  <div class="form-group">
-        <div class="custom-control custom-checkbox">
-      <%= form.check_box :staff_only, class: 'custom-control-input' %>
-      <%= form.label :staff_only, class: 'custom-control-label' %>
-    </div>
-    </div>
-  <div class="form-group">
-        <div class="custom-control custom-checkbox">
-      <%= form.check_box :individual_activity, class: 'custom-control-input' %>
-      <%= form.label :individual_activity, class: 'custom-control-label' %>
-    </div>
-    </div>
-  <div class="form-group">
-        <div class="custom-control custom-checkbox">
-      <%= form.check_box :attendance, class: 'custom-control-input' %>
-      <%= form.label :attendance, class: 'custom-control-label' %>
-    </div>
-    </div>
-  <div class="form-group">
-      <%= form.label :evaluation, class: 'form-control-label' %>
-        <%= form.number_field :evaluation, class: 'form-control' %>
-    </div>
+  </div>
+
 <div class="card-footer pl-0">
   <%= form.submit class: 'btn btn-success' %>
 </div>
 <% end %>
+
+<script>  
+  // Color labels
+  $(document).ready(function () {
+    var colorLabel = $('input.btn-check-color[checked="checked"]').next()
+    var color = colorLabel.data('color')
+    colorLabel.removeClass().addClass('btn label-for-color btn-sm btn-' + color)
+  });
+
+  $('label.label-for-color').click(function (e) { 
+    $('label.label-for-color').each(function (e) {
+      var color = $(this).data('color')
+      $(this).removeClass()
+      $(this).addClass('btn label-for-color btn-sm btn-outline-' + color)
+    })
+    var color = $(this).data('color')
+    $(this).removeClass().addClass('btn label-for-color btn-sm btn-' + color)
+  });
+
+  // Icon labels
+  $(document).ready(function () {
+    var iconLabel = $('input.btn-check-icon[checked="checked"]').next()
+    iconLabel.removeClass().addClass('btn label-for-icon btn-sm btn-default text-lg')
+  });
+
+  $('label.label-for-icon').click(function (e) { 
+    $('label.label-for-icon').each(function (e) {
+      $(this).removeClass()
+      $(this).addClass('btn label-for-icon btn-sm btn-outline-default text-lg')
+    })
+    $(this).removeClass().addClass('btn label-for-icon btn-sm btn-default text-lg')
+  });
+</script>

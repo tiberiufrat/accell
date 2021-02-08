@@ -14,8 +14,16 @@
           </nav>
         </div>
         <div class="col-lg-6 col-5 text-right">
-          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
-          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
+          <a href="javascript:;" class="fullcalendar-btn-prev btn btn-sm btn-neutral" onclick="calendar.prev()">
+            <i class="fas fa-angle-left"></i>
+          </a>
+          <a href="javascript:;" class="fullcalendar-btn-next btn btn-sm btn-neutral" onclick="calendar.next()">
+            <i class="fas fa-angle-right"></i>
+          </a>
+
+          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('dayGridMonth');">Month</a>
+          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridWeek');">Week</a>
+          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridDay');">Day</a>
         </div>
       </div>
     </div>
@@ -25,12 +33,12 @@
 <div class="container-fluid mt--6">
   <div class="row">
     <div class="col">
-      <div class="card pb-3">
+      <div class="card">
         <!-- Card header -->
         <div class="card-header border-0">
           <div class="row">
             <div class="col-6">
-              <h3 class="mb-0"><%= t 'general.list_of' %> <%= t 'activerecord.models.activity.other' %></h3>
+              <h3 class="mb-0" id="fc-card-title"></h3>
             </div>
             <div class="col-6 text-right">
               <%= link_to new_activity_path, class: "btn btn-sm btn-primary btn-round btn-icon", data: { toggle: :tooltip, 'original-title': "#{ t 'general.add'} #{ t 'activerecord.models.activity.one' }" } do %>
@@ -42,46 +50,49 @@
             </div>
           </div>
         </div>
+        <div class="card-body p-0">
+          <div id="calendar" class="calendar"></div>
+        </div>
         <!-- Light table -->
-        <div class="table-responsive">
+        <!-- <div class="table-responsive">
           <table class="table align-items-center table-flush" id="datatable-basic">
             <thead class="thead-light">
               <tr>
-                                  <th><%= t ("activerecord.attributes.activity.all_day") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.start") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.end") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.days_of_week") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.start_time") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.end_time") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.start_recur") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.end_recur") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.title") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.description") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.description_staff_only") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.creator_id") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.coordinator_id") %></th>
-                                  <th><%= t ("activerecord.attributes.activity.subject") %></th>
-                                <th scope="col" class="no-sort"></th>
+                <th><%= t ("activerecord.attributes.activity.all_day") %></th>
+                <th><%= t ("activerecord.attributes.activity.start") %></th>
+                <th><%= t ("activerecord.attributes.activity.end") %></th>
+                <th><%= t ("activerecord.attributes.activity.days_of_week") %></th>
+                <th><%= t ("activerecord.attributes.activity.start_time") %></th>
+                <th><%= t ("activerecord.attributes.activity.end_time") %></th>
+                <th><%= t ("activerecord.attributes.activity.start_recur") %></th>
+                <th><%= t ("activerecord.attributes.activity.end_recur") %></th>
+                <th><%= t ("activerecord.attributes.activity.title") %></th>
+                <th><%= t ("activerecord.attributes.activity.description") %></th>
+                <th><%= t ("activerecord.attributes.activity.description_staff_only") %></th>
+                <th><%= t ("activerecord.attributes.activity.creator_id") %></th>
+                <th><%= t ("activerecord.attributes.activity.coordinator_id") %></th>
+                <th><%= t ("activerecord.attributes.activity.subject") %></th>
+              <th scope="col" class="no-sort"></th>
               </tr>
             </thead>
             <tbody>
               <% @activities.each do |activity| %>
                 <tr>
-                                                            <td><%= t(activity.all_day) %></td>
-                                                                                <td><%= l(activity.start) %></td>
-                                                                                <td><%= l(activity.end) %></td>
-                                                                                <td><%= activity.days_of_week %></td>
-                                                                                <td><%= activity.start_time %></td>
-                                                                                <td><%= activity.end_time %></td>
-                                                                                <td><%= l(activity.start_recur) %></td>
-                                                                                <td><%= l(activity.end_recur) %></td>
-                                                                                <td><%= activity.title %></td>
-                                                                                <td><%= activity.description %></td>
-                                                                                <td><%= activity.description_staff_only %></td>
-                                                                                <td><%= activity.creator_id %></td>
-                                                                                <td><%= activity.coordinator_id %></td>
-                                                                                <td><%= activity.subject %></td>
-                                                        <td class="table-actions">
+                  <td><%= t(activity.all_day) %></td>
+                  <td><%= l(activity.start) %></td>
+                  <td><%= l(activity.end) %></td>
+                  <td><%= activity.days_of_week %></td>
+                  <td><%= activity.start_time %></td>
+                  <td><%= activity.end_time %></td>
+                  <td><%= l(activity.start_recur) %></td>
+                  <td><%= l(activity.end_recur) %></td>
+                  <td><%= activity.title %></td>
+                  <td><%= activity.description %></td>
+                  <td><%= activity.description_staff_only %></td>
+                  <td><%= activity.creator_id %></td>
+                  <td><%= activity.coordinator_id %></td>
+                  <td><%= activity.subject %></td>
+                  <td class="table-actions">
                     <%= link_to '<i class="far fa-eye"></i>'.html_safe, activity, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
                     <%= link_to '<i class="far fa-user-edit"></i>'.html_safe, edit_activity_path(activity), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
                     <%= link_to '<i class="far fa-trash"></i>'.html_safe, activity, class: "table-action table-action-delete", data: { toggle: 'tooltip', 'original-title': t('general.delete'), confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
@@ -90,7 +101,7 @@
               <% end %>
             </tbody>
           </table>
-        </div>
+        </div> -->
         <!-- Card footer -->
         <!-- <div class="card-footer py-4">
           <nav aria-label="...">

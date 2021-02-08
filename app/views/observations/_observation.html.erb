@@ -1,6 +1,6 @@
 <li class="list-group-item" id="<%= observation.id %>">
     <span>„<%= observation.text %>”</span><br>
-    <span class="text-gray">Pe <%= l observation.created_at, format: :date %> de <%= observation.creator.name %></span>
+    <span class="text-gray"><%= t('.date_author', date: l(observation.created_at, format: :date), creator: link_to(observation.creator.name, observation.creator.profile)).html_safe %></span>
     <%= link_to icon('far fa-trash text-danger'), observation, method: :delete, remote: true, class: 'list-item-right delete-observation', title: t('general.delete') %>
     <%= link_to(icon('far fa-comment-alt-edit text-gray'), edit_observation_path(observation), remote: true, class: 'list-item-right edit-observation', title: t('general.edit')) if observation.creator == current_user  %>
 </li>

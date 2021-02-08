@@ -58,6 +58,18 @@
                 <span class="ml-2 nav-link-text">Schools</span>
               <% end %>
             </li>
+            <li class="<%= active_nav_item('subjects', 'index') %>">
+              <%= link_to subjects_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-chalkboard text-indigo"></i>
+                <span class="ml-2 nav-link-text">Subjects</span>
+              <% end %>
+            </li>
+            <li class="<%= active_nav_item('activities', 'index') %>">
+              <%= link_to activities_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-calendar-alt text-cyan"></i>
+                <span class="ml-2 nav-link-text">Activities</span>
+              <% end %>
+            </li>
           </ul>
           <!-- Divider -->
           <hr class="my-3">

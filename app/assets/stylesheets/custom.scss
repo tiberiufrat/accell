@@ -73,7 +73,7 @@ samp.dark {
     color: #f6f9fc;
 }
 
-.btn-check {
+.btn-check-color, .btn-check-icon, .btn-check-day {
     display: none;
 }
 
@@ -114,6 +114,12 @@ samp.dark {
     position: absolute;
     top: 36px;
     left: 64px;
+}
+
+.topnav-profile-badge {
+    position: absolute;
+    top: -3px;
+    left: 36px;
 }
 
 .width-height-150 {
