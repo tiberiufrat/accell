@@ -1,5 +1,5 @@
 class Subject < ApplicationRecord
-	has_many :activities
+	has_many :activities, dependent: :destroy
 
 	def evaluation_human
 		case evaluation

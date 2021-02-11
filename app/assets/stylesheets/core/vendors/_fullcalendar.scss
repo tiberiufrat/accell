@@ -11,6 +11,10 @@
     height: auto !important;
 }
 
+tbody .fc-scroller {
+    overflow: hidden !important;
+}
+
 .fc {
     th {
         padding: $table-head-spacer-y $table-head-spacer-x;
@@ -75,7 +79,7 @@
 
 .fc-timegrid {
     .fc-time, .fc-event-time {
-        margin: -1px 0 0 0;
+        margin: -1px -1px 0 0;
         border-radius: $border-radius-sm $border-radius-sm 0 0;
     }
 }
@@ -87,6 +91,8 @@
         height: 28px;
         display: flex;
         align-items: center;
+        width: 43px;
+        justify-content: center;
     }
 }
 

@@ -7,6 +7,7 @@ class AddPropertiesToUser < ActiveRecord::Migration[6.1]
   	add_column :users, :gender, :integer
   	add_column :users, :address, :string
   	add_column :users, :birth_date, :date
+	add_column :users, :locale, :string, default: :en
   	add_column :users, :newsletter, :boolean, null: false, default: true
     add_column :users, :active, :boolean, null: false, default: true
   	add_reference :users, :profile, polymorphic: true

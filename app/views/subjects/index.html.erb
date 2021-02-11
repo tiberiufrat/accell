@@ -58,7 +58,7 @@
               <% @subjects.each do |subject| %>
                 <tr>
                   <%# Title %>
-                  <td><%= link_to "<i class=\"#{ subject.fa_icon }\"></i> &nbsp;#{ subject.title }".html_safe, edit_subject_path(subject), class: "badge badge-lg badge-#{ subject.color }" %> &nbsp;<%= "<i class=\"far fa-lock-alt text-default\" data-toggle=\"tooltip\" title=\"#{ t 'activerecord.attributes.subject.staff_only' }\"></i>".html_safe if subject.staff_only %></td>
+                  <td><%= link_to "<i class=\"#{ subject.fa_icon } fa-fw mr-1\"></i> &nbsp;#{ subject.title }".html_safe, edit_subject_path(subject), class: "badge badge-lg badge-#{ subject.color }" %> &nbsp;<%= "<i class=\"far fa-lock-alt text-default\" data-toggle=\"tooltip\" title=\"#{ t 'activerecord.attributes.subject.staff_only' }\"></i>".html_safe if subject.staff_only %></td>
 
                   <%# Individual activity %>
                   <td><%= subject.individual_activity ? icon('far fa-fw fa-user text-yellow', ' ' + t('subjects.activity_types.individual')) : icon('far fa-fw fa-users-class text-info', ' ' + t('subjects.activity_types.classroom')) %></td>

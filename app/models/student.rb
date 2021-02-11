@@ -1,11 +1,17 @@
 class Student < ApplicationRecord
   belongs_to :form, class_name: :Classroom, foreign_key: :form_id, optional: true
   belongs_to :family
+  
   has_one :user, as: :profile, dependent: :destroy
   has_one :form_tutor, through: :form
-  has_and_belongs_to_many :classrooms
+
   has_many :observations, as: :observationable
+  has_many :activities, as: :activityable
+
+  has_and_belongs_to_many :classrooms
+
   accepts_nested_attributes_for :user, update_only: true
+
   after_create :set_enrollment_date
   before_destroy :delete_family_if_empty
 

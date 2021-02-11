@@ -25,49 +25,49 @@
             <li class="<%= active_nav_item('home', 'index') %>">
               <%= link_to root_path, class: "nav-link px-3" do %>
                 <i class="far fa-fw fa-columns text-primary"></i>
-                <span class="ml-2 nav-link-text">Dashboard</span>
+                <span class="ml-2 nav-link-text"><%= t 'pages.dashboard.title' %></span>
               <% end %>
             </li>
             <li class="<%= active_nav_item('staffs', 'index') %>">
               <%= link_to staffs_path, class: "nav-link px-3" do %>
                 <i class="far fa-fw fa-user-tie text-warning"></i>
-                <span class="ml-2 nav-link-text">Staff Members</span>
+                <span class="ml-2 nav-link-text"><%= t 'activerecord.models.staff.other' %></span>
               <% end %>
             </li>
             <li class="<%= active_nav_item('families', 'index') %>">
               <%= link_to families_path, class: "nav-link px-3" do %>
                 <i class="far fa-fw fa-users text-info"></i>
-                <span class="ml-2 nav-link-text">Families</span>
+                <span class="ml-2 nav-link-text"><%= t 'activerecord.models.family.other' %></span>
               <% end %>
             </li>
             <li class="<%= active_nav_item('students', 'index') %>">
               <%= link_to students_path, class: "nav-link px-3" do %>
                 <i class="far fa-fw fa-user-graduate text-success"></i>
-                <span class="ml-2 nav-link-text">Students</span>
+                <span class="ml-2 nav-link-text"><%= t 'activerecord.models.student.other' %></span>
               <% end %>
             </li>
             <li class="<%= active_nav_item('classrooms', 'index') %>">
               <%= link_to classrooms_path, class: "nav-link px-3" do %>
                 <i class="far fa-fw fa-users-class text-danger"></i>
-                <span class="ml-2 nav-link-text">Classrooms</span>
+                <span class="ml-2 nav-link-text"><%= t 'activerecord.models.classroom.other' %></span>
               <% end %>
             </li>
             <li class="<%= active_nav_item('schools', 'index') %>">
               <%= link_to schools_path, class: "nav-link px-3" do %>
                 <i class="far fa-fw fa-school text-warning"></i>
-                <span class="ml-2 nav-link-text">Schools</span>
+                <span class="ml-2 nav-link-text"><%= t 'activerecord.models.school.other' %></span>
               <% end %>
             </li>
             <li class="<%= active_nav_item('subjects', 'index') %>">
               <%= link_to subjects_path, class: "nav-link px-3" do %>
                 <i class="far fa-fw fa-chalkboard text-indigo"></i>
-                <span class="ml-2 nav-link-text">Subjects</span>
+                <span class="ml-2 nav-link-text"><%= t 'activerecord.models.subject.other' %></span>
               <% end %>
             </li>
             <li class="<%= active_nav_item('activities', 'index') %>">
               <%= link_to activities_path, class: "nav-link px-3" do %>
                 <i class="far fa-fw fa-calendar-alt text-cyan"></i>
-                <span class="ml-2 nav-link-text">Activities</span>
+                <span class="ml-2 nav-link-text"><%= t 'activerecord.models.activity.other' %></span>
               <% end %>
             </li>
           </ul>

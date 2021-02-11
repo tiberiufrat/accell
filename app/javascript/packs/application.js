@@ -29,6 +29,10 @@ require('select2')
 
 window.iziToast = require("izitoast")
 
+window.moment = require("moment")
+
+window.reloadWithTurbolinks = require('packs/custom_head.js')
+
 require("jquery.nicescroll")
 require("chart.js")
 require("Chart.extension.js")

@@ -1,0 +1,20 @@
+// Get urlParams from current url
+var urlParams = new URLSearchParams(window.location.search)
+urlParams.set('activityable_gid', '<%= params[:activityable_gid] %>') // set activityableGid to the new gid
+
+// Change the url without reloading the page
+var newRelativePathQuery = window.location.pathname + '?' + urlParams.toString()
+history.pushState(null, '', newRelativePathQuery)
+
+// Change the Choose activityable button title
+$('#dropdownMenuLink').text('<%= GlobalID::Locator.locate(params[:activityable_gid]).name %>')
+
+<% if GlobalID::Locator.locate(params[:activityable_gid]).class.to_s == "Classroom" %>
+    $('#dropdownMenuLink').removeClass().addClass('btn btn-<%= GlobalID::Locator.locate(params[:activityable_gid]).color %> dropdown-toggle btn-block')
+<% else %>
+    $('#dropdownMenuLink').removeClass().addClass('btn btn-primary dropdown-toggle btn-block')
+<% end %>
+
+// Rerender the calendar
+calendar.render()
+calendar.getEventSources().forEach(eventSource => eventSource.refetch())

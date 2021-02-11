@@ -2,11 +2,29 @@ class ActivitiesController < ApplicationController
   before_action :set_activity, only: %i[ show edit update destroy ]
 
   def index
-    @search = Activity.reverse_chronologically.ransack(params[:q])
+    if params[:activityable_gid]
+      activityable = GlobalID::Locator.locate(params[:activityable_gid])
+      puts "Class: " + activityable.class.to_s
+      @activities = case activityable.class.to_s
+      when 'Student'
+        puts 'Student!'
+        Activity.where(activityable: activityable) + Activity.where(activityable: activityable.form) + Activity.where(activityable: activityable.form.school)
+      when 'Classroom'
+        puts 'Classroom!'
+        Activity.where(activityable: activityable) + Activity.where(activityable: activityable.school)
+      else
+        puts 'Otherwise!'
+        Activity.where(activityable: activityable)
+      end
+      puts @activities
+    else
+      @activities = Activity.where(activityable: School.first)
+    end
 
     respond_to do |format|
-      format.any(:html, :json) { @activities = set_page_and_extract_portion_from @search.result }
-      format.csv { render csv: @search.result }
+      format.any(:html, :json) { @activities }
+      format.csv { render csv: @activities }
+      format.js
     end
   end
 
@@ -19,6 +37,7 @@ class ActivitiesController < ApplicationController
   end
 
   def edit
+    @activity = Activity.find(params[:id])
   end
 
   def create
@@ -28,6 +47,7 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @activity, notice: 'Activity was successfully created.' }
       format.json { render :show, status: :created }
+      format.js
     end
   end
 
@@ -36,6 +56,7 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @activity, notice: 'Activity was successfully updated.' }
       format.json { render :show }
+      format.js
     end
   end
 
@@ -44,6 +65,7 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to activities_url, notice: 'Activity was successfully destroyed.' }
       format.json { head :no_content }
+      format.js
     end
   end
 
@@ -53,7 +75,7 @@ class ActivitiesController < ApplicationController
     end
 
     def activity_params
-      params.require(:activity).permit(:all_day, :start, :end, :start_time, :end_time, :start_recur, :end_recur, :title, :description, :description_staff_only, :creator_id, :coordinator_id, :subject_id, days_of_week: [])
+      params.require(:activity).permit(:all_day, :start, :end, :start_time, :end_time, :start_recur, :end_recur, :title, :description, :description_staff_only, :creator_id, :coordinator_id, :subject_id, :activityable_gid, days_of_week: [])
     end
 
     def ajax_params

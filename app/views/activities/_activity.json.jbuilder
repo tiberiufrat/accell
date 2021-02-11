@@ -19,6 +19,13 @@ if activity.start_recur
   json.groupId activity.title
 end
 
+json.activityable_gid activity.activityable.to_global_id.uri if activity.activityable
+
+json.activityableName activity.activityable.name if activity.activityable
+json.subjectName activity.subject.title if activity.subject
+json.coordinatorName activity.coordinator.name if activity.coordinator
+json.subjectIcon activity.subject.fa_icon if activity.subject
+
 json.url activity_url(activity, format: :html)
 
 json.update_url activity_url(activity, method: :patch)

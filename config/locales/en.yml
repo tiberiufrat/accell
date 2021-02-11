@@ -38,6 +38,7 @@ en:
     edit: Edit
     view: View
     delete: Delete
+    create: Create
     deactivate: Deactivate
     activate: Activate
     show: Show
@@ -193,6 +194,14 @@ en:
       take: Take attendance
       do_not_take: Disabled
 
+  activities:
+    edit:
+      edit_activity: Edit activity
+    new:
+      add_activity: Add an activity
+    recurring_description: Make the activity recurring one or more times a week.
+    custom_activity: Custom activity
+
   iziToast: 
     types:
       notice: Notice
@@ -286,6 +295,20 @@ en:
         evaluation: Evaluation method
         staff_only: Staff only
         subject_type: Subject type
+      activity:
+        title: Name
+        description_staff_only: Description (visible only to staff members)
+        start: Start date & time
+        end: End date & time
+        start_recur: Recur starting from
+        end_recur: Recur until
+        start_time: Start time
+        end_time: End time
+        days_of_week: Repeat on
+        subject: Subject
+        coordinator: Coordinator staff member
+        activityable: Created for
+
   hello: "Hello world"
 
 # Custom formats

@@ -1,29 +1,308 @@
-ro:
+ro: 
   general:
     actions: Acțiuni
     new: Nou
     filters: Filtre
     list_of: Listă de
-    edit: Modifică
-    view: Vezi
-    delete: Șterge
+    edit: Modificare
+    view: Vizualizare
+    delete: Ștergere
+    create: Creare
+    deactivate: Dezactivare
+    activate: Activare
     show: Vizualizare
     back: Înapoi
-    add: Adaugă
-    add_new: Adaugă nou
+    add: Adăugare
+    add_new: Adăugare nou
     previous: Anterior
-    current: Curentă
+    current: Curent
     next: Următor
-    
+    are_you_sure_delete: Sunteți sigur că doriți să ștergeți acest element?
+    are_you_sure_deactivate: Sunteți sigur că doriți să dezactivați acest utilizator?
+    dashboard: Panou de control
+    login: Autentificare
+    register: Înregistrare
+    agree_privacy_policy: Sunt de acord cu <a href="%{link}">politica de confidențialitate</a>.
+    error: Eroare
+    active: Activ
+    inactive: Inactiv
+    archived: Arhivat
+    'no': Nu
+    'yes': Da
+    optional: Opțional
+    compulsory: Principal
+    success: Succes
+    copied_to_clipboard: Copiat în clipboard!
+    failed_to_copy_to_clipboard: Copierea a eșuat din motive necunoscute.
+    click_to_copy: Apăsați pentru a copia.
+    no_parents_for_student: Niciun părinte înregistrat.
+    from_date_until_present: "%{date} → Prezent"
+    gender:
+      male: masculin
+      female: feminin
+      unspecified: nespecificat
+    title:
+      male: D-l 
+      female_married: D-na 
+      female_unmarried: D-ra 
+      female_unknown: D-na 
+      unspecified: 
+      doctor: Dr. 
+    parent_qualities:
+      parent: Părinte
+      mother: Mamă
+      father: Tată
+      grandmother: Bunică
+      grandfather: Bunic
+      nanny: Bonă
+      guardian: Tutore
+    colors:
+      indigo: Indigo
+      purple: Violet
+      pink: Roz
+      yellow: Galben
+      cyan: Turcoaz
+      primary: Violet
+      info: Azuriu
+      warning: Oranj
+      danger: Roșu
+      success: Verde
+    contextmenu:
+      copy: Copiere
+
+  home:
+    index:
+      login: Autentificare
+
+  families:
+    show:
+      family_name: "Familia %{name}"
+      years_old: "%{age} ani"
+      add_parent: Adăugare părinte
+      add_student: Adăugare copil
+
+  parents:
+    parent:
+      account_not_activated: Contul nu a fost activat
+      account_activated: Contul este activ
+      main_parent: Acesta este părintele principal al familiei
+      years_old: "%{age} ani"
+
+  staffs:
+    staff:
+      remove_from_classroom: Înlătură din clasă
+
+  students:
+    student:
+      account_not_activated: Contul nu a fost activat
+      account_activated: Contul este activ
+      years_months_old: "%{years} ani și %{months} luni"
+
+    show:
+      years_old: "%{age} ani"
+      years_old_long: "%{age} ani"
+      account_not_activated: Contul nu a fost activat
+      account_activated: Contul este activ
+      classrooms_tab: Clase
+      family_tab: Familie
+      observations_tab: Observații
+      documents_tab: Documente
+      see_family: Accesează familia
+      no_form_for_student: Acest elev nu este în nicio clasă principală.
+      please_assign_form: Vă recomandăm să atribuiți acestui elev o clasă principală.
+
+  schools:
+    form:
+      accepted_phone_format: Vă rugăm să introduceți un număr de telefon din zece cifre, fără spații sau cratime, care începe cu „07” sau „02”.
+
+  classrooms:
+    classroom:
+      enrolled_since: Înscris din %{date}
+    show:
+      quick_actions: Acțiuni rapide
+      remove_from_classroom: Înlătură din clasă
+      add_student: Adaugă un elev nou
+      add_by_code: Adaugă prin codul de înregistrare
+      add_by_code_description: Trimite codul părinților, iar aceștia vor putea să își creeze un cont pentru elevul lor în această clasă, sau să se alăture direct dacă au deja cont. Apasă pe căsuța de deasupra pentru a copia codul.
+      transfer_student: Transferă un elev
+      transfer_preexistent_student: Transferă un elev deja înregistrat
+      transfer_preexistent_student_description: Transferă în această clasă un elev care este deja înregistrat și care este în altă clasă principală (sau nu are nicio clasă atribuită). Elevul va fi înlăturat din clasa sa principală trecută.
+      add_student_title: Adaugă un elev nou
+      add_student_description: Creează rapid un elev nou și adaugă-l automat în aceată clasă. Vei putea să modifici detaliile acestuia și să-i adaugi părinții mai târziu.
+      add_student_button: Adaugă un elev nou
+      add: Adăugare
+      add_preexistent_student_optional: Adaugă un elev deja înregistrat
+      add_preexistent_student_description_optional: Adaugă un elev deja înregistrat în această clasă opțională. Detaliile și clasa principală a elevului vor rămâne neschimbate.
+      add_preexisting_student_button: Adaugă un elev
+      change_form_tutor: Schimbă profesorul coordonator
+      change_form_tutor_description: Schimbă profesorul coordonator al acestei clase. Profesorul coordonator actual este %{current}.
+      add_teachers_title: Adaugă profesori
+      add_teachers_description: Adaugă unul sau mai mulți profesori în această clasă. Doar profesorii care predau la această clasă vor putea să interacționeze cu aceasta.
+      add_teachers: Adaugă profesori
+      students_tab: Elevi
+      classroom_tab: Informații generale
+      observations_tab: Observații
+      documents_tab: Documente
+      teachers_tab: Profesori
+  
+  observations:
+    observation:
+      date_author: '%{creator}, în data de %{date}'
+
+  subjects:
+    evaluations:
+      none: Fără evaluare
+      grades_romanian: Note (1 → 10)
+      letters: Litere (F → A)
+      qualificatives_romanian: Calificative (I, S, B, FB)
+      percentages: Procente (0% → 100%)
+    activity_types:
+      individual: Individual
+      classroom: Clasă
+    attendance:
+      take: Realizează prezența
+      do_not_take: Dezactivat
+
+  activities:
+    edit:
+      edit_activity: Modifică activitatea
+    new:
+      add_activity: Adaugă o activitate
+    index:
+      no_current_subjects: Nu există nicio materie.
+      please_create_subjects: Te rugăm să creezi o materie nouă pentru a o putea adăuga în calendar.
+      add_subject: Adaugă o materie
+    recurring_description: Repetă activitatea de una sau mai multe ori pe săptămână.
+    custom_activity: Activitate personalizată
+
+  iziToast: 
+    types:
+      notice: Anunț
+      error: Eroare
+
+  pages:
+    register:
+      title: Creează un cont
+      subtitle: Înregistrează-te acum pentru a accesa platforma noastră.
+      sign_in_credentials: Autentificare cu adresă de e-mail și parolă.
+      already_have_an_account: Ai deja un cont?
+    login:
+      title: Bine ai revenit!
+      subtitle: Autentifică-te acum pentru a accesa platforma noastră.
+      sign_in_credentials: Autentifică-te cu adresa de e-mail și parola.
+      remember_me: Ține-mă minte
+      sign_up: Înregistrare
+      forgot_password: Ai uitat parola?
+    dashboard:
+      title: Panou de control
+
   activerecord:
     models:
+      activity:
+        one: Activitate
+        other: Activități
+      classroom:
+        one: Clasă
+        other: Clase
+      family: 
+        one: Familie
+        other: Familii
+      parent:
+        one: Părinte
+        other: Parinți
+      school:
+        one: Școală
+        other: Școli
+      staff:
+        one: Membru din personal
+        other: Membri din personal
+      student:
+        one: Elev
+        other: Elevi
+      subject:
+        one: Materie
+        other: Materii
     attributes:
+      title: Nume
+      user:
+        name: Nume
+        active: Activ
+        email: Adresă de e-mail
+        password: Parolă
+        first_name: Prenume
+        last_name: Nume
+        phone: Telefon
+        title: Titlu
+        gender: Sex
+        address: Addresă
+        birth_date: Data nașterii
+        newsletter: Abonează-te la buletinul de informare
+      parent:
+        quality: Calitate
+        family: Familie
+      family:
+        name: Nume
+        parents: Părinți
+        children: Copii
+      student:
+        form: Clasă principală
+        teachers: Profesori
+        form_tutor: Profesor coordonator
+        parents: Părinți
+        parent: Părinte
+        enrollment_date: Înregistrat
+      classroom:
+        color: Culoare
+        form_tutor: Profesor coordonator
+        school: Școală
+        optional: Opțional
+        type: Tip
+        number_students: Număr de elevi
+        allow_registration: Permite înregistrarea
+        registration_code: Codul clasei
+        student: Elevi
+        status: Stare
+        staff: Profesor
+        staffs: Profesori
+      school:
+        country: Țară
+        city: Județ
+      subject:
+        evaluation: Metodă de evaluare
+        staff_only: Doar pentru personal
+        subject_type: Tip de materie
+        title: Nume
+        attendance: Prezență
+        color: Culoare
+        icon: Iconiță
+        individual_activity: Activitate individuală
+      activity:
+        title: Nume
+        description: Descriere
+        description_staff_only: Descriere (vizibilă doar pentru membri personalului)
+        start: Data și ora de început
+        end: Data și ora de sfârșit
+        start_recur: Repetă începând cu
+        end_recur: Repetă până pe
+        start_time: Timp de început
+        end_time: Timp de sfârșit
+        days_of_week: Repetă în zilele de
+        subject: Materie
+        coordinator: Profesor coordonator
+        activityable: Creat pentru
+        recurring: Repetă activitatea
     errors:
       messages:
         record_invalid: Validare nereușită %{errors}
       restrict_dependent_destroy:
           has_one: Nu se poate șterge elementul deoarece există un %{record} dependent de acesta.
           has_many: Nu se poate șterge elementul deoarece există unul sau mai multe %{record} dependente de acesta.
+
+  calendar:
+    month: Lună
+    week: Săptămână
+    day: Zi
+
   hello: "Hello world"
 
   number:

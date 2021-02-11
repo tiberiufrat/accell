@@ -20,10 +20,10 @@
           <a href="javascript:;" class="fullcalendar-btn-next btn btn-sm btn-neutral" onclick="calendar.next()">
             <i class="fas fa-angle-right"></i>
           </a>
-
-          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('dayGridMonth');">Month</a>
-          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridWeek');">Week</a>
-          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridDay');">Day</a>
+          
+          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('dayGridMonth');"><%= t 'calendar.month' %></a>
+          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridWeek');"><%= t 'calendar.week' %></a>
+          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridDay');"><%= t 'calendar.day' %></a>
         </div>
       </div>
     </div>
@@ -32,7 +32,79 @@
 
 <div class="container-fluid mt--6">
   <div class="row">
-    <div class="col">
+
+    <div class="col-lg-3 col-md-4 col-12">
+      <div class="card sticky-top" style="top: 30px">
+        <!-- <div class="card-header">
+          Select activityable
+        </div> -->
+        <div class="card-body">
+          <div class="dropdown w-100">
+            <a class="btn <%= params[:activityable_gid] && GlobalID::Locator.locate(params[:activityable_gid]).class.to_s == 'Classroom' ? 'btn-' + GlobalID::Locator.locate(params[:activityable_gid]).color : 'btn-primary' %> dropdown-toggle btn-block" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= params[:activityable_gid] ? GlobalID::Locator.locate(params[:activityable_gid]).name : 'Choose' %>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <h6 class="dropdown-header"><%= t 'activerecord.models.school.other' %></h6>
+              <% School.all.each do |school| %>
+                <%= link_to school.name, activities_path(activityable_gid: school.to_global_id), class: 'dropdown-item', remote: true %>
+              <% end %>
+              <h6 class="dropdown-header"><%= t 'activerecord.models.classroom.other' %></h6>
+                <% Classroom.all.each do |classroom| %>
+                  <%= link_to classroom.name, activities_path(activityable_gid: classroom.to_global_id), class: 'dropdown-item', remote: true %>
+                <% end %>
+              <h6 class="dropdown-header"><%= t 'activerecord.models.student.other' %></h6>
+                <% Student.all.each do |student| %>
+                  <%= link_to student.name, activities_path(activityable_gid: student.to_global_id), class: 'dropdown-item', remote: true %>
+                <% end %>
+            </div>
+          </div>
+
+          <% if Subject.all.any? %>
+            <div id="subject-list" class="mt-4">
+              <% Subject.all.each do |subject| %>
+                <a href="javascript:;" class="subject-draggable btn btn-sm btn-block btn-<%= subject.color %>" data-event='{ 
+                  "title": "<%= subject.title %>", 
+                  "duration": "00:50", 
+                  "backgroundColor": "var(--<%= subject.color %>)",
+                  "borderColor": "var(--<%= subject.color %>)", 
+                  "activityable_gid": "<%= GlobalID::Locator.locate(params[:activityable_gid]).to_global_id.uri rescue School.first.to_global_id.uri %>", 
+                  "subjectName": "<%= subject.title %>",
+                  "subjectIcon": "<%= subject.fa_icon %>",
+                  "subjectId": "<%= subject.id %>",
+                  "update_url": "<%= subject_url(subject) %>?method=patch",
+                  "edit_url": "<%= edit_subject_path(subject) %>"
+                  }'>
+                  <%= icon(subject.fa_icon, subject.title) %>
+                </a>
+              <% end %>
+            </div>
+
+          <% else %>
+
+            <div class="card bg-gradient-warning mb-0 mt-4">
+              <div class="card-body py-4 px-3">
+                <div class="text-center">
+                  <div class="icon icon-shape bg-white text-warning rounded-circle shadow">
+                    <i class="far fa-exclamation-triangle mt--1"></i>
+                  </div>
+                </div>
+                <div class="col">
+                  <p class="my-3 text-white">
+                    <span class="font-weight-bold"><%= t('.no_current_subjects') %></span><br>
+                    <%= t('.please_create_subjects') %>
+                  </p>
+                  <%= link_to icon('far fa-plus', t('.add_subject')), new_subject_path, class: 'btn btn-secondary btn-block' %>
+                </div>
+              </div>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-9 col-md-8 col-12">
       <div class="card">
         <!-- Card header -->
         <div class="card-header border-0">
@@ -53,55 +125,6 @@
         <div class="card-body p-0">
           <div id="calendar" class="calendar"></div>
         </div>
-        <!-- Light table -->
-        <!-- <div class="table-responsive">
-          <table class="table align-items-center table-flush" id="datatable-basic">
-            <thead class="thead-light">
-              <tr>
-                <th><%= t ("activerecord.attributes.activity.all_day") %></th>
-                <th><%= t ("activerecord.attributes.activity.start") %></th>
-                <th><%= t ("activerecord.attributes.activity.end") %></th>
-                <th><%= t ("activerecord.attributes.activity.days_of_week") %></th>
-                <th><%= t ("activerecord.attributes.activity.start_time") %></th>
-                <th><%= t ("activerecord.attributes.activity.end_time") %></th>
-                <th><%= t ("activerecord.attributes.activity.start_recur") %></th>
-                <th><%= t ("activerecord.attributes.activity.end_recur") %></th>
-                <th><%= t ("activerecord.attributes.activity.title") %></th>
-                <th><%= t ("activerecord.attributes.activity.description") %></th>
-                <th><%= t ("activerecord.attributes.activity.description_staff_only") %></th>
-                <th><%= t ("activerecord.attributes.activity.creator_id") %></th>
-                <th><%= t ("activerecord.attributes.activity.coordinator_id") %></th>
-                <th><%= t ("activerecord.attributes.activity.subject") %></th>
-              <th scope="col" class="no-sort"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @activities.each do |activity| %>
-                <tr>
-                  <td><%= t(activity.all_day) %></td>
-                  <td><%= l(activity.start) %></td>
-                  <td><%= l(activity.end) %></td>
-                  <td><%= activity.days_of_week %></td>
-                  <td><%= activity.start_time %></td>
-                  <td><%= activity.end_time %></td>
-                  <td><%= l(activity.start_recur) %></td>
-                  <td><%= l(activity.end_recur) %></td>
-                  <td><%= activity.title %></td>
-                  <td><%= activity.description %></td>
-                  <td><%= activity.description_staff_only %></td>
-                  <td><%= activity.creator_id %></td>
-                  <td><%= activity.coordinator_id %></td>
-                  <td><%= activity.subject %></td>
-                  <td class="table-actions">
-                    <%= link_to '<i class="far fa-eye"></i>'.html_safe, activity, class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.view') } %>
-                    <%= link_to '<i class="far fa-user-edit"></i>'.html_safe, edit_activity_path(activity), class: "table-action", data: { toggle: 'tooltip', 'original-title': t('general.edit') } %>
-                    <%= link_to '<i class="far fa-trash"></i>'.html_safe, activity, class: "table-action table-action-delete", data: { toggle: 'tooltip', 'original-title': t('general.delete'), confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div> -->
         <!-- Card footer -->
         <!-- <div class="card-footer py-4">
           <nav aria-label="...">

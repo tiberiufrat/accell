@@ -132,6 +132,10 @@ samp.dark {
     margin-right: 10px;
 }
 
+.modal select.form-control:not(:first-child) { // Add padding-left to modal selects
+    padding-left: 40px;
+}
+
 // Make select2 work with input-group-append
 .input-group-has-append > .select2-container--default {
     width: auto !important;

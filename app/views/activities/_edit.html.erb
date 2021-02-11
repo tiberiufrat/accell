@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="myModalLabel"><%= t('.add_activity') %></h4>
+  <h4 class="modal-title" id="myModalLabel"><%= t('.edit_activity') %></h4>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	  <span aria-hidden="true" style="color: var(--dark)"><i class="far fa-times"></i></span>
 	</button>
@@ -18,14 +18,24 @@
     </div>
 
     <%# Description %>
-    <!-- <div class="form-group mb-2">
+    <div class="form-group mb-2">
       <div class="input-group input-group-merge input-group-alternative mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text"><i class="far fa-fw fa-pen"></i></span>
         </div>
-        <%= form.text_area :description, class: 'form-control', placeholder: :description %>
+        <%= form.text_area :description, class: 'form-control', placeholder: t('activerecord.attributes.activity.description') %>
       </div>
-    </div> -->
+    </div>
+
+    <%# Description Staff %>
+    <div class="form-group mb-2">
+      <div class="input-group input-group-merge input-group-alternative mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="far fa-fw fa-pen"></i></span>
+        </div>
+        <%= form.text_area :description_staff_only, class: 'form-control', placeholder: t('activerecord.attributes.activity.description_staff_only') %>
+      </div>
+    </div>
 
     <hr>
 
@@ -93,7 +103,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="far fa-fw fa-clock"></i></span>
           </div>
-          <%= form.time_field :start_time, id: 'start_time_field', class: 'form-control', placeholder: :start_recur, data: { controller: 'datetime' } %>
+          <%= form.time_field :start_time, id: 'start_time_field', class: 'form-control', placeholder: :start_recur, data: { controller: 'datetime' }, value: @activity.start_time %>
         </div>
       </div>
 
@@ -104,19 +114,19 @@
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="far fa-fw fa-clock"></i></span>
           </div>
-          <%= form.time_field :end_time, id: 'end_time_field', class: 'form-control', placeholder: :end_recur, data: { controller: 'datetime' } %>
+          <%= form.time_field :end_time, id: 'end_time_field', class: 'form-control', placeholder: :end_recur, data: { controller: 'datetime' }, value: @activity.end_time %>
         </div>
       </div>
 
-      <%# All day %>
+      <%# Days of week %>
       <div class="form-group mb-2 col-12">
         <%= form.label :days_of_week, class: 'form-control-label d-block' %>
         
-        <% days = {1 => 'Mon', 2 => 'Tue', 3 => 'Wen', 4 => 'Thu', 5 => 'Fri'} %>
+        <% days = {'1' => 'Mon', '2' => 'Tue', '3' => 'Wen', '4' => 'Thu', '5' => 'Fri'} %>
 
         <% days.each do |index, day| %>
-          <%= form.check_box :days_of_week, { multiple: true, class: 'btn-check-day' }, index, false %>
-          <%= form.label "days_of_week_#{ index }", t("date.day_names")[index], class: 'btn btn-sm label-for-day btn-outline-default' %>
+          <%= form.check_box :days_of_week, { multiple: true, class: 'btn-check-day', checked: @activity.persisted? && @activity.days_of_week.include?(index) }, index, false %>
+          <%= form.label "days_of_week_#{ index }", t("date.day_names")[index.to_i], class: 'btn btn-sm label-for-day btn-outline-default' %>
         <% end %>
       </div>
     </div>
@@ -167,18 +177,18 @@
 
 
     <%# Activityable %>
-    <!-- <div class="form-group mb-2">
+    <div class="form-group mb-2">
       <%= form.label :activityable, class: 'form-control-label' %>
       <div class="input-group input-group-merge input-group-alternative mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text input-group-select2"><i class="far fa-chalkboard"></i></span>
+          <span class="input-group-text input-group-select2"><i class="far fa-building"></i></span>
         </div>
-        <%# form.select(:activityable_gid, grouped_options_for_select([
-            ['Schools', School.order(:name).collect {|v| [ v.name, v.to_global_id ] } ],
-            ['Classrooms', Classroom.order(:name).collect {|v| [ v.name, v.to_global_id ] } ],
-            ['Students', Student.includes(:user).order('users.first_name').collect {|v| [ v.name, v.to_global_id ] } ]
+        <%= form.select(:activityable_gid, grouped_options_for_select([
+            [t('activerecord.models.school.other'), School.order(:name).collect {|v| [ v.name, v.to_global_id ] } ],
+            [t('activerecord.models.classroom.other'), Classroom.order(:name).collect {|v| [ v.name, v.to_global_id ] } ],
+            [t('activerecord.models.student.other'), Student.includes(:user).order('users.first_name').collect {|v| [ v.name, v.to_global_id ] } ]
           ]), {
-          selected: ['null', '', nil ].exclude?(params[:activityable_gid]) ? GlobalID::Locator.locate(params[:activityable_gid]).to_global_id.uri : '',
+          include_blank: true
         }, { 
             class: 'form-control', 
             data: { 
@@ -188,14 +198,13 @@
             } 
           }) %>
       </div>
-    </div> -->
-
-    <%= form.hidden_field :activityable_gid, value: ['null', '', nil ].exclude?(params[:activityable_gid]) ? GlobalID::Locator.locate(params[:activityable_gid]).to_global_id : nil %>
+    </div>
 
     <div class="row mx-0">
-      <%= form.button :submit, class: 'btn btn-default col', title: t('.create') do %>
-        <i class="far fa-calendar-plus"></i> &nbsp;<%= t 'general.create' %>
-      <% end %>    
+      <%= form.button :submit, class: 'btn btn-default col-md-8', title: t('.create') do %>
+        <i class="far fa-calendar-edit"></i> &nbsp;<%= t 'general.edit' %>
+      <% end %>
+      <%= link_to icon('far fa-trash', t('general.delete')), @activity, method: :delete, remote: true, class: 'btn btn-danger col' %>
     </div>
 
   </div>
@@ -236,10 +245,11 @@
 
 
   // Days of week select
-  /* $(document).ready(function () {
-    var daysLabels = $('input.btn-check-day[checked="checked"]').next()
-    daysLabels.removeClass().addClass('btn label-for-day btn-sm btn-default text-lg')
-  }); */ // TO FIX
+  $(document).ready(function () {
+    $('input.btn-check-day[checked="checked"]').each(function (index, element) {
+      $(element).next().removeClass().addClass('btn btn-sm label-for-day btn-default')
+    });
+  });
 
   $('label.label-for-day').click(function (e) {
     if ($(this).hasClass('btn-default')) {

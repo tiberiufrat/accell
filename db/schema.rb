@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2021_01_25_051926) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -58,8 +59,11 @@ ActiveRecord::Schema.define(version: 2021_01_25_051926) do
     t.integer "creator_id"
     t.bigint "coordinator_id"
     t.bigint "subject_id"
+    t.string "activityable_type"
+    t.bigint "activityable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["activityable_type", "activityable_id"], name: "index_activities_on_activityable"
     t.index ["coordinator_id"], name: "index_activities_on_coordinator_id"
     t.index ["subject_id"], name: "index_activities_on_subject_id"
   end
@@ -139,6 +143,7 @@ ActiveRecord::Schema.define(version: 2021_01_25_051926) do
     t.string "city"
     t.string "address"
     t.string "registration_code"
+    t.hstore "settings"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -192,6 +197,7 @@ ActiveRecord::Schema.define(version: 2021_01_25_051926) do
     t.integer "gender"
     t.string "address"
     t.date "birth_date"
+    t.string "locale", default: "en"
     t.boolean "newsletter", default: true, null: false
     t.boolean "active", default: true, null: false
     t.string "profile_type"

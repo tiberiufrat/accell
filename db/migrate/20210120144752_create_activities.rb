@@ -15,6 +15,7 @@ class CreateActivities < ActiveRecord::Migration[6.1]
       t.integer :creator_id
       t.references :coordinator, foreign_key: {to_table: :staffs}
       t.references :subject, foreign_key: {to_table: :subjects}
+      t.references :activityable, polymorphic: true
 
       t.timestamps
     end
