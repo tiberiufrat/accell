@@ -1,0 +1,10 @@
+var form = $('form#marking-<%= @mark.activity.id %>-<%= @mark.student.id %>')
+
+form.find('.btn-check-mark:checked').each(function (index, element) {
+  element.checked = false
+});
+form.find('.label-for-mark.btn-default').removeClass('btn-default').addClass('btn-outline-default');
+
+form.find('#mark_grade').val('')
+
+form.find('.btn.btn-danger.btn-sm[data-method="delete"]').hide(100)

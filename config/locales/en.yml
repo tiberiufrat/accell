@@ -38,6 +38,8 @@ en:
     edit: Edit
     view: View
     delete: Delete
+    restore: Restore
+    reset: Reset
     create: Create
     deactivate: Deactivate
     activate: Activate
@@ -48,6 +50,7 @@ en:
     previous: Previous
     current: Current
     next: Next
+    next_step: Next step
     are_you_sure_delete: Are you sure you want to delete this item?
     are_you_sure_deactivate: Are you sure you want to deactivate this user?
     dashboard: Dashboard
@@ -60,6 +63,9 @@ en:
     archived: Archived
     'no': 'No'
     'yes': 'Yes'
+    like: Like
+    unlike: Unlike
+    reply: Reply
     optional: Optional
     compulsory: Main
     success: Success
@@ -201,6 +207,7 @@ en:
       add_activity: Add an activity
     recurring_description: Make the activity recurring one or more times a week.
     custom_activity: Custom activity
+    error_days_of_week: You have to check at least one option.
 
   iziToast: 
     types:
@@ -220,18 +227,130 @@ en:
       remember_me: Remember me
       sign_up: Sign up
       forgot_password: Forgot your password?
+    dashboard:
+      title: Dashboard
+
+  shared:
+    topnav:
+      welcome: Welcome!
+      profile: Profile
+      settings: Settings
+      activity: Activity
+      support: Support
+      logout: Sign out
+  
+  announcements:
+    compose: Compose
+    select_recipients_modal:
+      select_recipients: Choose recipients
+      select_all: Select all
+      deselect_all: Deselect all
+      students_no_form: Other students
+    form:
+      from: 'From:'
+      to: 'To:'
+      subject: 'Subject:'
+      choose_recipients: Choose recipients
+      zero: Zero
+      recipients_selected: recipients selected
+      no_recipients_selected: No recipients selected
+      error_minimum_recipients: You must select at least one recipient.
+    categories:
+      simple: Simple message
+      reminder: Reminder
+      alert: Alert
+    show:
+      to: 'To:'
+      recipient: recipient
+      recipients: recipients
+      view_recipients: View recipients
+    index:
+      inbox: Inbox
+      sent: Sent
+      scheduled: Scheduled
+      deleted: Deleted
+
+  profile:
+    title: Profile
+    index:
+      welcome: Welcome!
+      welcome_description: This is your profile page. Here you can edit your personal details and see data regarding your activity on this platform.
+      edit_details: Edit details
+      edit_profile: Edit profile
+      user_information: Peronal details
+      contact_information: Contact information
+      password: Change password
+      verify_changes: Confirm changes
+      dont_complete_no_change_password: Do not complete unless you wish to change your password.
+      we_need_current_password: Insert your current password so that we can confirm the changes.
+
+  user_activities:
+    index:
+      title: My activities
+      for: For
+      coordinator: Coordinated by
+      no_coordinator: No coordinator
+      related: Related 
+      today: Today
+      activities_on_date: My activities on %{date}
+      take_attendance: Take attendance
+      take_attendance_and_mark: Take attendance and mark students
+      save_attendances: Save all the attendances
+      award_mark: Award grade
+    presences:
+      present: Present
+      absent_unauth: Absent (unauthorised)
+      absent_auth: Absent (authorised)
+      absent_medical: Absent (medical)
+      present_online: Present online
+      late: Late
+
+  gradebooks:
+    index:
+      title: Gradebook
+      card_title: See student grades
+      card_subtitle: To see the grades of students in a certain form, press the button below and choose the desired form.
+      change_classroom: Pick a form
+    show_classroom:
+      title: Gradebook
+      classroom_title: "Classroom: %{name}"
+      change_classroom: Change classroom
+      add_mark: Add a grade
+      average: Average
+      average_short: Avg
+      average_disclaimer: The average is calculated only with the grades that exist at this moment and may differ significantly from the real average.
+  
+  marks:
+    new:
+      add_mark: Add a grade
+      choose_subject: Choose subject
+      choose_student: Choose student
+      choose_date: Choose date
+      choose_grade: Pick a grade
 
   activerecord:
     models:
       activity:
         one: Activity
         other: Activities
+      announcement:
+        one: Announcement
+        other: Announcements
+      attendance:
+        one: Attendance
+        other: Attendances
+      comment:
+        one: Comment
+        other: Comments
       classroom:
         one: Classroom
         other: Classrooms
       family: 
         one: Family
         other: Families
+      mark:
+        one: Mark
+        other: Marks
       parent:
         one: Parent
         other: Parents
@@ -297,6 +416,7 @@ en:
         subject_type: Subject type
       activity:
         title: Name
+        description: Description
         description_staff_only: Description (visible only to staff members)
         start: Start date & time
         end: End date & time
@@ -308,6 +428,16 @@ en:
         subject: Subject
         coordinator: Coordinator staff member
         activityable: Created for
+      announcement:
+        category: Category
+        scheduled_for: Scheduled for
+      attendance:
+        presence: Presence
+
+  calendar:
+    month: Month
+    week: Week
+    day: Day
 
   hello: "Hello world"
 
@@ -319,6 +449,8 @@ en:
     formats:
       default: "%d/%m/%Y"
       date: "%d/%m/%Y"
+      short: "%-d %b"
+      spaced: "%-d %b '%y"
   time:
     formats:
       default: "%Y/%m/%d %H:%M"

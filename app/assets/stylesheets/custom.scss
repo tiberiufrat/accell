@@ -9,7 +9,7 @@ table.dataTable tbody > tr.selected {
 }
 
 tr.selected a {
-	color: white !important;
+	color: var(--light) !important;
 }
 
 .input-group-select2 {
@@ -17,6 +17,7 @@ tr.selected a {
     position: absolute;
     top: 7px;
     left: 1px;
+    border: none;
 }
 
 .select2-selection__rendered {
@@ -37,8 +38,8 @@ tr.selected a {
     border-radius: 0.4375rem !important;
 }
 
-.select2-selection.select2-selection--single,
-.select2-selection.select2-selection--multiple {
+.input-group-alternative .select2-selection.select2-selection--single,
+.input-group-alternative .select2-selection.select2-selection--multiple {
 	border: none;
 }
 
@@ -55,7 +56,11 @@ tr.selected a {
     background-color: var(--lighter) !important;
 }
 
-.table-avatar {
+span#select2-announcement_category-container {
+    padding-left: 0 !important;
+}
+
+.avatar, .table-avatar {
     background-position: center;
     background-size: cover;
 }
@@ -68,12 +73,20 @@ samp {
     padding: .3em .5em;
 }
 
+samp:hover {
+    background-color: #e9ecef;
+}
+
 samp.dark {
     background-color: #444a51;
     color: #f6f9fc;
 }
 
-.btn-check-color, .btn-check-icon, .btn-check-day {
+samp.dark:hover {
+    background-color: #32325d;
+}
+
+.btn-check-color, .btn-check-icon, .btn-check-day, .btn-check-mark {
     display: none;
 }
 
@@ -98,8 +111,46 @@ samp.dark {
     font-size: 100% !important;
 }
 
+
+// Cursors
 .cursor-pointer {
-    cursor: pointer;
+    cursor: pointer !important;
+}
+
+.cursor-help {
+    cursor: help !important;
+}
+
+.cursor-wait {
+    cursor: wait !important;
+}
+
+.cursor-progress {
+    cursor: progress !important;
+}
+
+.cursor-alias {
+    cursor: alias !important;
+}
+
+.cursor-copy {
+    cursor: copy !important;
+}
+
+.cursor-move {
+    cursor: move !important;
+}
+
+.cursor-grab {
+    cursor: grab !important;
+}
+
+.cursor-grabbing {
+    cursor: grabbing !important;
+}
+
+.cursor-grabbing a.fc-timegrid-event {
+    cursor: grabbing !important;
 }
 
 .align-items-center {
@@ -132,6 +183,21 @@ samp.dark {
     margin-right: 10px;
 }
 
+.dropdown-menu .dropdown-item > i {
+    vertical-align: -4%;
+}
+
+.overflow-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.list-group-item.active .badge {
+    background-color: #fff;
+    color: #212529;
+}
+
 .modal select.form-control:not(:first-child) { // Add padding-left to modal selects
     padding-left: 40px;
 }
@@ -146,4 +212,131 @@ samp.dark {
     height: 100%;
     line-height: inherit;
     padding: 0.5rem 1rem;
+}
+
+// Cutsom webkit scrollbar
+::-webkit-scrollbar {
+    width: 15px;
+}
+ 
+::-webkit-scrollbar-track {
+    // box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 1000px;
+    background-color: hsla(240, 6, 85, 1);
+    border-color: transparent;
+    border-width: 3px;
+    background-clip: padding-box;
+    border-style: solid;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: hsla(240, 6, 75, 1);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: hsla(240, 6, 70, 1);
+}
+
+// Background gradients
+
+.bg-gradient-danger {
+    background: linear-gradient(87deg,#f5365c 0,#f56036 100%)!important;
+}
+
+.bg-gradient-info {
+    background: linear-gradient(87deg,#11cdef 0,#1171ef 100%)!important;
+}
+
+.bg-gradient-success {
+    background: linear-gradient(87deg,#2dce89 0,#2dcecc 100%)!important;
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(87deg,#fb6340 0,#fbb140 100%)!important;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(87deg,#5e72e4 0,#825ee4 100%)!important;
+}
+
+.bg-gradient-yellow {
+    background: linear-gradient(87deg,#ffd600 0,#beff00 100%)!important;
+}
+
+.bg-gradient-secondary {
+    background: linear-gradient(87deg,#f7fafc 0,#f7f8fc 100%)!important;
+}
+
+.bg-gradient-cyan {
+    background: linear-gradient(87deg,#2bffc6 0,#2be0ff 100%)!important;
+}
+
+.bg-gradient-pink {
+    background: linear-gradient(87deg,#f3a4b5 0,#f3b4a4 100%)!important;
+}
+
+.bg-gradient-default {
+    background: linear-gradient(87deg,#172b4d 0,#1a174d 100%)!important;
+}
+
+.bg-gradient-purple {
+    background: linear-gradient(87deg,#8965e0 0,#bc65e0 100%)!important;
+}
+
+.bg-gradient-indigo {
+    background: linear-gradient(87deg,#5603ad 0,#9d03ad 100%)!important;
+}
+
+.step {
+    display: none;
+}
+
+.datepicker.datepicker-inline {
+    background-color: white;
+    width: auto;
+}
+
+.day.today {
+    background-color: var(--yellow) !important;
+}
+
+.day.today.active {
+    background-color: var(--primary) !important;
+}
+
+// First column fixed
+@media only screen and (min-width: 768px) {
+    .first-col-fixed-table > thead:first-child > tr:first-child > th:first-child {
+        position: absolute;
+        display: block;
+        width: 160px;
+    }
+
+    .first-col-fixed-table > thead:first-child > tr:nth-child(2) > th:first-child,
+    .first-col-fixed-table > thead:first-child > tr:nth-child(2) > th:nth-child(2),
+    .first-col-fixed-table > thead:first-child > tr:nth-child(2) > th:nth-child(3) {
+        position: absolute;
+        display: block;
+        width: 160px;
+    }
+
+    .first-col-fixed-table > tbody > tr > td:first-child
+    .first-col-fixed-table > tbody > tr > td:nth-child(2)
+    .first-col-fixed-table > tbody > tr > td:nth-child(3) {
+        position: absolute;
+        display: inline-block;
+        background-color: white;
+        width: 160px;
+        height: 29px;
+        padding-top: 21px;
+    }
+
+    .first-col-fixed-table > tbody > tr > td:nth-child(4),
+    .first-col-fixed-table > thead > tr > th:nth-child(4) {
+        padding-left: 220px !important;
+    }
 }

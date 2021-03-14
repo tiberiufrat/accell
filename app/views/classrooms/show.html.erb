@@ -211,7 +211,7 @@
 
           <%# Add by code %>
           <li class="list-group-item bg-gradient-secondary">
-            <p><%= t '.add_by_code' %>:&nbsp; <samp class="dark cursor-pointer" data-toggle="tooltip" title="<%= t 'general.click_to_copy' %>" id="code_<%= @classroom.id %>" onclick="copy_to_clipboard(this.id)"><%= @classroom.registration_code %></samp></p>
+            <p><%= t '.add_by_code' %>:&nbsp; <samp class="dark cursor-copy" data-toggle="tooltip" title="<%= t 'general.click_to_copy' %>" id="code_<%= @classroom.id %>" onclick="copy_to_clipboard(this.id)"><%= @classroom.registration_code %></samp></p>
             <small><%= t '.add_by_code_description' %></small>
           </li>
 

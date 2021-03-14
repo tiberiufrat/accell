@@ -1,0 +1,150 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('activerecord.models.announcement.other').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item">
+                <%= link_to t('activerecord.models.announcement.other').titleize, announcements_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t 'general.new' %> <%= t('activerecord.models.announcement.one') %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="card">
+    <div class="card-header">
+      <% case @announcement.category when 'alert' %>
+        <h3 class="mb-0 text-danger"><i class="far fa-fw fa-siren-on"></i>&nbsp; <%= @announcement.title %></h3>
+      <% when 'reminder' %>
+        <h3 class="mb-0 text-success"><i class="far fa-fw fa-alarm-exclamation"></i>&nbsp; <%= @announcement.title %></h3>
+      <% else %>
+        <h3 class="mb-0"><i class="far fa-fw fa-scroll"></i>&nbsp; <%= @announcement.title %></h3>
+      <% end %>
+    </div>
+    <div class="card-body p-0 pb-1">
+      <ul class="list-group list-group-flush">
+        <%# Sender %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col">
+              <%= render @announcement.sender, no_margin_bottom: true, text_lg: true, avatar_size: 'sm' %>
+            </div>
+            <div class="col-auto">
+              <p class="mb-0 mt-1"><%= l @announcement.scheduled_for %></p>
+            </div>
+          </div>
+        </li>
+
+        <%# Recipients %>
+        <li class="list-group-item">
+          <% if @announcement.recipients.size > 1 %>
+            <%= t '.to' %> <%= @announcement.recipients.size %> <%= t('.recipients') %>&ensp;
+            <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <i class="far fa-users"></i>&nbsp; <%= t '.view_recipients' %>
+            </a>
+
+            <div class="collapse" id="collapseExample">
+              <div class="mt-3">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                  <% @announcement.recipients.each do |recipient| %>
+                    <div class="col">
+                      <% if recipient.profile_type == 'Student' %>
+                        <%= render 'students/student_avatar_name', student: recipient.profile, boxed: true %>
+                      <% else %>
+                        <%= render recipient.profile, boxed: true %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <div class="row">
+              <div class="col-auto pr-0">
+                <%= t '.to' %>
+              </div>
+              <div class="col">
+                <% if @announcement.recipients.first.profile_type == 'Student' %> 
+                  <%= render('students/student_avatar_name', student: @announcement.recipients.first.profile, avatar_size: 'xs', no_margin_bottom: true) %>
+                <% else %> 
+                  <%= render(@announcement.recipients.first.profile, avatar_size: 'xs', no_margin_bottom: true) %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </li>
+
+        <%# Message %>
+        <li class="list-group-item pb-0">
+          <%= @announcement.text.html_safe %>
+        </li>
+
+        <%# Likes %>
+        <li class="list-group-item">
+          <% if Like.where(user_id: current_user.id, likeable: @announcement).any? %>
+
+            <%= link_to like_path(Like.where(user_id: current_user.id, likeable: @announcement).first, likeable_gid: @announcement.to_global_id), method: :delete, remote: true, class: 'btn btn-primary btn-sm', id: 'unlike-button' do %>
+              <%= icon('far fa-thumbs-down', 'Unlike') %>
+              <span class="badge badge-neutral"><%= @announcement.likes.count %></span>
+            <% end %>
+
+          <% else %>
+
+            <%= link_to likes_path(likeable_gid: @announcement.to_global_id), method: :post, remote: true, class: 'btn btn-primary btn-sm', id: 'like-button' do %>
+              <%= icon('far fa-thumbs-up', 'Like') %>
+              <span class="badge badge-neutral" ><%= @announcement.likes.count %></span>
+            <% end %>
+
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <p class="font-weight-bold">
+        <i class="far fa-comments-alt"></i> 
+        <%= t 'activerecord.models.comment.other' %>&ensp;
+        <span class="badge badge-default"><%= @announcement.comments.size %></span>
+      </p>
+      <%= form_with(model: [@announcement, @announcement.comments.build]) do |f| %>
+        <div class="form-group mb-0">
+          <div class="input-group">
+            <%= f.text_area :body, class: 'form-control' %>
+            <div class="input-group-append">
+              <%= f.button :submit, class: 'btn btn-default' do %>
+                <i class="far fa-comment-alt-plus"></i>
+              <% end %>
+            </div>
+          </div>
+          
+        </div>
+        
+      <% end %>
+    </div>
+  </div>
+
+  <%= render @announcement.comments.order(created_at: :desc) %>
+
+  <%= link_to icon('far fa-arrow-left', t('general.back')), announcements_path, class: 'btn btn-sm btn-icon icon-left btn-secondary d-mobile-none' %>
+  <%= link_to icon('far fa-edit', t('general.edit')), edit_announcement_path(@announcement), class: 'btn btn-sm btn-icon icon-left btn-warning' %>
+  <%= link_to icon('far fa-trash', t('general.delete')), @announcement, class: "btn btn-sm btn-icon icon-left btn-danger", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
+</div>
+
+<% content_for(:page_title, t('general.show') + " Announcement") %>

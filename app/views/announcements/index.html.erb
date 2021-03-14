@@ -1,0 +1,131 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('activerecord.models.announcement.other').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t('activerecord.models.announcement.other').titleize %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-12">
+      <div class="card">
+        <div class="card-header">
+          <%= link_to icon('far fa-pen-nib', t('announcements.compose')), new_announcement_path, class: 'btn btn-success btn-block' %>
+        </div>
+        <div class="card-body p-0">
+
+          <div class="list-group list-group-flush" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <!-- Received -->
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
+              <div><i class="far fa-fw fa-inbox"></i>&nbsp; <%= t('.inbox') %></div>
+              <% if Announcement.joins(:users).where('users.id = ?  AND scheduled_for <= ?  AND deleted = false', current_user.id.to_s, DateTime.now.to_s).any? %>
+                <span class="badge badge-primary badge-pill"><%= Announcement.joins(:users).where('users.id = ?  AND scheduled_for <= ?  AND deleted = false', current_user.id.to_s, DateTime.now.to_s).size %></span>
+              <% end %>
+            </a>
+            <!-- Sent -->
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+              <div><i class="far fa-fw fa-paper-plane"></i>&nbsp; <%= t('.sent') %></div>
+              <% if Announcement.where('sender_id = ? AND scheduled_for <= ?  AND deleted = false', current_user.id, DateTime.now.to_s).any? %>
+                <span class="badge badge-primary badge-pill"><%= Announcement.where('sender_id = ? AND scheduled_for <= ?  AND deleted = false', current_user.id, DateTime.now.to_s).size %></span>
+              <% end %>
+            </a>
+            <!-- Scheduled -->
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+              <div><i class="far fa-fw fa-clock"></i>&nbsp; <%= t('.scheduled') %></div>
+              <% if Announcement.where('sender_id = ? AND scheduled_for > ?  AND deleted = false', current_user.id, DateTime.now.to_s).any? %>
+                <span class="badge badge-primary badge-pill"><%= Announcement.where('sender_id = ? AND scheduled_for > ?  AND deleted = false', current_user.id, DateTime.now.to_s).size %></span>
+              <% end %>
+            </a>
+            <!-- Deleted -->
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center rounded-bottom" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+              <div><i class="far fa-fw fa-trash-alt"></i>&nbsp; <%= t('.deleted') %></div>
+              <% if Announcement.where('sender_id = ? AND deleted = true', current_user.id).any? %>
+                <span class="badge badge-primary badge-pill"><%= Announcement.where('sender_id = ? AND deleted = true', current_user.id).size %></span>
+              <% end %>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-9 col-md-6 col-12">
+      <div class="card pb-3">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="row">
+            <div class="col-12">
+              <h3 class="mb-0"><%= t 'general.list_of' %> <%= t 'activerecord.models.announcement.other' %></h3>
+            </div>
+            <!-- <div class="col-6 text-right">
+              <%= link_to new_announcement_path, class: "btn btn-sm btn-primary btn-round btn-icon", data: { toggle: :tooltip, 'original-title': "#{ t 'general.add'} #{ t 'activerecord.models.announcement.one' }" } do %>
+                <span class="btn-inner--icon">
+                  <i class="fas fa-plus"></i>
+                </span>
+                <span class="btn-inner--text"><%= t 'general.add' %></span>
+              <% end %>
+            </div> -->
+          </div>
+        </div>
+        <!-- Card body -->
+        <div class="card-body p-0">
+          <div class="tab-content" id="v-pills-tabContent">
+
+            <%# Received tab %>
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+              <div class="list-group list-group-flush">
+                <%= render Announcement.joins(:users).where('users.id = ? AND scheduled_for <= ? AND deleted = false', current_user.id.to_s, DateTime.now.to_s).order(:scheduled_for => :desc) %>
+              </div>
+            </div>
+
+
+            <%# Sent tab %>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+              <div class="list-group list-group-flush">
+                <%= render Announcement.where('sender_id = ? AND scheduled_for <= ?  AND deleted = false', current_user.id, DateTime.now.to_s).order(:scheduled_for => :desc) %>
+              </div>
+            </div>
+
+
+            <%# Scheduled %>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+              <div class="list-group list-group-flush">
+                <%= render Announcement.where('sender_id = ? AND scheduled_for > ?  AND deleted = false', current_user.id, DateTime.now.to_s).order(:scheduled_for => :desc) %>
+              </div>
+            </div>
+
+
+            <%# Deleted %>
+            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+              <div class="list-group list-group-flush">
+                <%= render Announcement.where('sender_id = ? AND deleted = true', current_user.id).order(:scheduled_for => :desc) %>
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= render 'shared/footer' %>
+</div>
+
+<% content_for(:page_title, "#{ t 'general.list_of' } #{t('activerecord.models.announcement.other').titleize}") %>

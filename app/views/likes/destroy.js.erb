@@ -1,0 +1,4 @@
+$('#unlike-button').replaceWith(`<%= link_to likes_path(likeable_gid: @likeable.to_global_id), method: :post, remote: true, class: 'btn btn-primary btn-sm', id: 'like-button' do %>
+  <%= icon('far fa-thumbs-up', t('general.like')) %>
+  <span class="badge badge-neutral" ><%= @likeable.likes.count %></span>
+<% end %>`)

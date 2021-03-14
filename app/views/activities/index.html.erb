@@ -15,15 +15,15 @@
         </div>
         <div class="col-lg-6 col-5 text-right">
           <a href="javascript:;" class="fullcalendar-btn-prev btn btn-sm btn-neutral" onclick="calendar.prev()">
-            <i class="fas fa-angle-left"></i>
+            <i class="far fa-angle-left"></i>
           </a>
           <a href="javascript:;" class="fullcalendar-btn-next btn btn-sm btn-neutral" onclick="calendar.next()">
-            <i class="fas fa-angle-right"></i>
+            <i class="far fa-angle-right"></i>
           </a>
           
-          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('dayGridMonth');"><%= t 'calendar.month' %></a>
-          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridWeek');"><%= t 'calendar.week' %></a>
-          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridDay');"><%= t 'calendar.day' %></a>
+          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('dayGridMonth');"><i class="far fa-calendar-alt"></i>&nbsp;<%= t 'calendar.month' %></a>
+          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridWeek');"><i class="far fa-calendar-week"></i>&nbsp;<%= t 'calendar.week' %></a>
+          <a href="javascript:;" class="btn btn-sm btn-neutral fc-view-button" onclick="calendar.changeView('timeGridDay');"><i class="far fa-calendar-day"></i>&nbsp;<%= t 'calendar.day' %></a>
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@
           <% if Subject.all.any? %>
             <div id="subject-list" class="mt-4">
               <% Subject.all.each do |subject| %>
-                <a href="javascript:;" class="subject-draggable btn btn-sm btn-block btn-<%= subject.color %>" data-event='{ 
+                <a href="javascript:;" class="subject-draggable btn btn-sm btn-block btn-<%= subject.color %> cursor-grab" data-event='{ 
                   "title": "<%= subject.title %>", 
                   "duration": "00:50", 
                   "backgroundColor": "var(--<%= subject.color %>)",
@@ -162,3 +162,26 @@
 </div>
 
 <% content_for(:page_title, "#{ t 'general.list_of' } #{t('activerecord.models.activity.other').titleize}") %>
+
+<script>
+  $('.subject-draggable').mousedown(function () {
+    $(this).removeClass('cursor-grab');
+    $(this).addClass('cursor-grabbing');
+  });
+
+  $('.subject-draggable').mouseup(function () {
+    $(this).removeClass('cursor-grabbing');
+    $(this).addClass('cursor-grab');
+  });
+
+  $('.fc-timegrid-event-harness').mousedown(function () { 
+    console.log('mousedown')
+    $(this).removeClass('cursor-grab');
+    $(this).addClass('cursor-grabbing');
+  });
+
+  $('.fc-timegrid-event-harness').mouseup(function () { 
+    $(this).removeClass('cursor-grabbing');
+    $(this).addClass('cursor-grab');
+  });
+</script>

@@ -1,0 +1,51 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('activerecord.models.comment.other').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item">
+                <%= link_to t('activerecord.models.comment.other').titleize, comments_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t 'general.new' %> <%= t('activerecord.models.comment.one') %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0"><%= t 'general.show' %> Comment</h4>
+    </div>
+    <div class="card-body">
+      <dl class="row">
+	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.comment.body' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @comment.body %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.comment.announcement' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @comment.announcement %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.comment.parent_id' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @comment.parent_id %></dd>
+	      	    	      <dt class="col-sm-3"><%= t 'activerecord.attributes.comment.user' %>:</dt>
+	      	        <dd class="col-sm-9"><%= @comment.user %></dd>
+	      	          </dl>
+    </div>
+  </div>
+  <%= link_to icon('far fa-arrow-left', t('general.back')), comments_path, class: 'btn btn-icon icon-left btn-secondary d-mobile-none' %>
+  <%= link_to icon('far fa-edit', t('general.edit')), edit_comment_path(@comment), class: 'btn btn btn-icon icon-left btn-warning' %>
+  <%= link_to icon('far fa-trash', t('general.delete')), @comment, class: "btn btn btn-icon icon-left btn-danger", data: { confirm: t('general.are_you_sure_delete'), remote: true }, method: :delete %>
+</div>
+
+<% content_for(:page_title, t('general.show') + " Comment") %>

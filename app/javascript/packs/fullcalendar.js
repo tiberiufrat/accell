@@ -244,6 +244,16 @@ document.addEventListener('turbolinks:load', function() {
         }
       });
     },
+
+    // Start dragging event
+    eventDragStart: (info) => {
+      $('#calendar').addClass('cursor-grabbing');
+    },
+
+    // End dragging event
+    eventDragStop: (info) => {
+      $('#calendar').removeClass('cursor-grabbing');
+    },
   });
 
   calendar.render();

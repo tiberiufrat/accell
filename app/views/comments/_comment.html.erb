@@ -1,0 +1,51 @@
+<% if comment.persisted? && comment.parent_id.nil? %>
+<div class="card card-body">
+
+  <div class="media">
+
+    <% if comment.user.avatar.attached? %>
+      <div class="avatar avatar-xs rounded-circle mr-3" style="background-image: url('<%= url_for(comment.user.avatar) %>')" ></div>
+    <% else %>
+      <% if comment.user.female? # Female %>
+        <img src="/images/female-blue.jpg" class="avatar avatar-xs rounded-circle mr-3" />
+      <% else # Male or otherwise %>
+        <img src="/images/male-blue.jpg" class="avatar avatar-xs rounded-circle mr-3" />
+      <% end %>
+    <% end %>
+
+    <div class="media-body">
+      <h5 class="mt-0"><%= comment.user.name %></h5>
+      <p class="mb-1"><%= comment.body %></p>
+
+      <%= link_to icon('far fa-reply', t('general.reply')), new_announcement_comment_path(@announcement, parent_id: comment.id), remote: true, class: 'btn btn-sm btn-secondary mb-1' %>
+
+      <div id="reply-form-<%= comment.id %>"></div>
+
+      <% if comment.replies.any? %>
+        <% comment.replies.each do |reply| %> 
+          <div class="media mt-3">
+
+            <% if reply.user.avatar.attached? %>
+              <div class="avatar avatar-xs rounded-circle mr-3" style="background-image: url('<%= url_for(reply.user.avatar) %>')" ></div>
+            <% else %>
+              <% if reply.user.female? # Female %>
+                <img src="/images/female-blue.jpg" class="avatar avatar-xs rounded-circle mr-3" />
+              <% else # Male or otherwise %>
+                <img src="/images/male-blue.jpg" class="avatar avatar-xs rounded-circle mr-3" />
+              <% end %>
+            <% end %>
+
+            <div class="media-body">
+              <h5 class="mt-0"><%= reply.user.name %></h5>
+              <p class="mb-0"><%= reply.body %></p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+    </div>
+  </div>
+
+</div>
+
+<% end %>

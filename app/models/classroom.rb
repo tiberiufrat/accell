@@ -11,6 +11,9 @@ class Classroom < ApplicationRecord
 
   after_create :generate_registration_code
 
+  scope :optional, -> { where(:optional => true) }
+  scope :form, -> { where(:optional => false) }
+
   def generate_registration_code
     self.update! registration_code: Passgen.generate
   end
@@ -28,5 +31,21 @@ class Classroom < ApplicationRecord
     when 'yellow' then I18n.t('general.colors.yellow').titleize
     when 'cyan' then I18n.t('general.colors.cyan').titleize
     end
+  end
+
+  def self.with_students
+    array = []
+    Classroom.all.each do |c|
+      array << c if c.students.size + c.form_students.size > 0
+    end
+    return array
+  end
+
+  def all_students
+    students + form_students
+  end
+
+  def all_subjects
+    self.form_students.map {|s| s.subjects}.flatten.uniq.sort_by &:title
   end
 end

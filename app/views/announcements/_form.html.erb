@@ -1,0 +1,148 @@
+<%= form_with(model: announcement, data: { controller: 'validation' }) do |form| %>
+
+  <ul class="list-group">
+    <%# From %>
+    <li class="list-group-item">
+      <i class="far fa-user-tie fa-fw"></i>&ensp;<%= t '.from' %>&ensp;<%= current_user.name %>
+    </li>
+
+    <%# To %>
+    <li class="list-group-item" id="recipients-section">
+      <i class="far fa-users fa-fw"></i><span>&ensp;<%= t '.to' %>&ensp;</span>
+      <span id="selected-span"><span id="number-selected"><%= t '.zero' %></span> <%= t '.recipients_selected' %></span>&ensp;
+      <a href="javascript:;" id="select-recipients-button" class="btn btn-sm btn-primary"><%= t '.choose_recipients' %></a>
+    </li>
+
+    <%# Subject %>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-auto mt-1">
+          <i class="far fa-pen-nib fa-fw"></i>&ensp;<%= t '.subject' %>&ensp;
+        </div>
+        <div class="col">
+          <%= form.text_field :title, class: 'form-control form-control-sm form-control-flush border-bottom', required: true %>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <%= form.hidden_field :sender_id, value: current_user.id %>
+
+  <%# Hidden select %>
+  <div class="form-group mb-2 d-none">
+    <div class="input-group input-group-merge input-group-alternative mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text input-group-select2"><i class="far fa-users"></i></span>
+      </div>
+      <%= form.select(:user_ids, grouped_options_for_select([
+          [t('activerecord.models.staff.other'), Staff.joins(:user).order(:first_name).collect {|v| [ v.name, v.user.id ] } ],
+          [t('activerecord.models.student.other'), Student.includes(:user).order('users.first_name').collect {|v| [ v.name, v.user.id ] } ]
+        ], (@announcement.user_ids if @announcement) ), {
+        include_blank: true
+      }, { 
+          class: 'form-control',
+          id: 'users-select-field',
+          multiple: 'true',
+          data: { 
+            controller: 'select', 
+            toggle: 'select', 
+            placeholder: t('activerecord.models.subject.one')	        		
+          } 
+    }) %>
+    </div>
+  </div>
+
+  <%# Text %>
+  <div class="form-group my-4" data-controller="summernote">
+      <%= form.text_area :text, class: 'form-control', data: { editor: 'summernote' } %>
+  </div>
+
+  <%# Message type %>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-auto mt-1">
+          <i class="far fa-mail-bulk fa-fw"></i>&ensp;<%= t 'activerecord.attributes.announcement.category' %>&ensp;
+        </div>
+        <div class="col">
+          <%= form.select :category, options_for_select({ 
+            t('announcements.categories.simple').titleize => 'simple', 
+            t('announcements.categories.reminder').titleize => 'reminder', 
+            t('announcements.categories.alert').titleize => 'alert',
+          }, (@announcement.category || 'simple')), {}, { 
+            class: 'form-control form-control-sm', required: true, data: {
+              toggle: 'select', 
+              placeholder: t('activerecord.attributes.announcement.category'),
+              'minimum-results-for-search': "Infinity"
+            }
+          } %>
+        </div>
+      </div>
+    </li>
+
+    <%# Scheduled for %>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-auto mt-1">
+          <i class="far fa-calendar fa-fw"></i>&ensp;<%= t 'activerecord.attributes.announcement.scheduled_for' %>&ensp;
+        </div>
+        <div class="col">
+          <%= form.datetime_field :scheduled_for, class: 'form-control form-control-sm form-control-flush border-bottom' %>
+        </div>
+      </div>
+    </li>
+
+  </ul>
+
+<div class="card-footer pl-0">
+  <%= form.submit class: 'btn btn-success', id: 'submit-button' %>
+</div>
+<% end %>
+
+<script>
+  window.selected_people = []
+
+  $(document).ready(function () {
+    $('#users-select-field').find(':selected').each(function (index, element) {
+      window.selected_people.push( parseInt($(element).val()) )
+    });
+
+    if (window.selected_people.length == 0) {
+      $('#selected-span').text( '<%= t 'announcements.form.no_recipients_selected' %>' )
+    } else if (window.selected_people.length == 1) {
+      $('#selected-span').text( $('#users-select-field').find('[value="' + window.selected_people[0] + '"]').text() )
+    } else {
+      $('#selected-span').text( String(window.selected_people.length) + ' <%= t 'announcements.form.recipients_selected' %>' )
+    }
+  });
+
+  $('#select-recipients-button').click(function (e) { 
+    e.preventDefault();
+    $("#modal-window").find(".modal-content").html("<%= j (render 'select_recipients_modal') %>");
+
+    $('.person-container').each(function (index, element) {
+      if (window.selected_people.includes($(this).data('user-id'))) {
+        $(this).find('i.checkmark').show()
+      }
+    });
+
+    $('#modal-window').modal('show');
+    const open_modal = new Event('modal-opened')
+
+    $('#modal-submit').on('click', function() {
+      $('#modal-window').modal('hide');
+      const event = new Event('modal-closed')
+    });
+  });
+
+  $('#submit-button').click(function (e) {
+    if (window.selected_people.length == 0) {
+      e.preventDefault();
+      $('#recipients-section').addClass('bg-gradient-danger');
+      $('#recipients-section').contents().css('color', 'white')
+      $('<div class="text-white small d-inline"><i class="far fa-exclamation-triangle"></i> <%= t '.error_minimum_recipients' %></div>').insertAfter('#select-recipients-button');
+      $('html, body').stop().animate({ scrollTop: $('#recipients-section').offset().top }, 500);
+    }    
+  });
+
+</script>

@@ -1,0 +1,325 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-5">
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('.title').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item">
+                <%= link_to t('activerecord.models.activity.other').titleize, activities_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t('.title').titleize %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-7 text-right">
+          <%= link_to icon('far fa-angle-left'), user_activities_path(date: (@current_day - 1.day).iso8601), class: 'btn btn-sm btn-neutral' %>
+          <a href="javascript:;" id="datepicker" class="btn btn-sm btn-neutral"><i class="far fa-calendar-alt"></i></a>
+          <%= link_to icon('far fa-calendar-day', t('.today')), user_activities_path(date: Date.today.iso8601), class: 'btn btn-sm btn-neutral' %>
+          <%= link_to icon('far fa-angle-right'), user_activities_path(date: (@current_day + 1.day).iso8601), class: 'btn btn-sm btn-neutral' %>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="mb-0"><%= t '.activities_on_date', date: l(@current_day, format: :long) %></h3>
+        </div>
+        <div class="card-body">
+          <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
+            <% @activities.each do |activity| %>
+              <div class="timeline-block">
+                <span class="timeline-step badge-<%= activity.subject.present? ? activity.subject.color : 'default' %>">
+                  <i class="fa-fw <%= activity.subject.present? ? activity.subject.fa_icon : 'far fa-school' %>"></i>
+                </span>
+                <div class="timeline-content mw-100">
+                  <small class="text-muted font-weight-bold">
+                    <%= activity.start_recur ? activity.start_time : activity.start.strftime('%H:%M') %> – 
+                    <%= activity.start_recur ? activity.end_time   : activity.end.strftime('%H:%M') %>
+                  </small>
+                  <h4 class="mb-0"><%= activity.subject ? link_to(activity.title, activity.subject) : activity.title %></h4>
+                  <p class="mt-1 mb-0">
+                    <i class="far fa-fw fa-building"></i> <%= link_to activity.activityable.name, activity.activityable %> <br>
+                    <% if activity.coordinator.present? %>
+                      <i class="far fa-fw fa-user-tie"></i> <%= t('.coordinator') %> <%= link_to activity.coordinator.name, activity.coordinator %>
+                    <% end %>
+                  </p>
+
+                  <% if activity.subject.present? && activity.for_classroom? %>
+                    <% if activity.subject.attendance %>
+                      <a href="javascript:;" class="btn btn-sm btn-primary mt-2 toggle-attendance">
+                        <i class="far fa-clipboard-list-check"></i>
+                        <%= activity.subject.evaluation == 0 ? t('.take_attendance') : t('.take_attendance_and_mark') %>
+                        <i class="far fa-angle-down toggle-attendance-icon"></i>
+                      </a>
+                    <% end %>
+
+                    <% if activity.subject.attendance %>
+                      <div class="table-responsive rounded-lg bg-gradient-secondary attendance-table mt-3" style="display: none">
+                        <table class="table">
+                          <thead class="thead-light">
+                            <tr>
+                              <th><%= t 'activerecord.models.student.one' %></th>
+                              <th><%= t 'activerecord.models.attendance.one' %></th>
+                              <% unless activity.subject.evaluation == 0 %>
+                                <th><%= t 'activerecord.models.mark.one' %></th>
+                              <% end %>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% activity.activityable.all_students.each do |student| %>
+                              <tr>
+
+                                <td class="align-middle">
+                                  <%= render 'students/student_avatar_name', student: student, avatar_size: 'xs' %>
+                                </td>
+
+                                <%# Attendance %>
+                                <td class="py-3 align-middle">
+                                  <% @attendance = student.attendances.where(activity: activity).any? ? student.attendances.where(activity: activity).first : Attendance.new %>
+
+                                  <%= form_with(model: @attendance, data: { controller: 'validation' }, id: "attendance-#{activity.id}-#{student.id}", local: false) do |form| %>
+                                    <%= form.hidden_field :activity_id, value: activity.id %>
+                                    <%= form.hidden_field :student_id, value: student.id %>
+                                    <%= form.hidden_field :date, value: @current_day %>
+                                    <div class="form-group mb-0">
+                                      <div class="input-group input-group-sm input-group-has-append input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text input-group-select2"><i class="far fa-clipboard-list-check"></i></span>
+                                        </div>
+                                        <%= form.select :presence, options_for_select({ 
+                                          t('user_activities.presences.present') => :present,
+                                          t('user_activities.presences.absent_unauth') => :absent_unauth,
+                                          t('user_activities.presences.absent_auth') => :absent_auth,
+                                          t('user_activities.presences.absent_medical') => :absent_medical,
+                                          t('user_activities.presences.late') => :late,
+                                          t('user_activities.presences.present_online') => :present_online,
+                                        }, ( student.attendances.where(activity: activity, date: @current_day).first.presence )), { include_blank: true }, { 
+                                          class: 'form-control form-control-sm',
+                                          id: "activity#{activity.id}-student#{student.id}-presence",
+                                          required: true, 
+                                          data: {
+                                            toggle: 'select', 
+                                            placeholder: t('activerecord.models.attendance.one'),
+                                            'minimum-results-for-search': "Infinity"
+                                          }
+                                        } %>
+                                        <div class="input-group-append d-none">
+                                          <%= form.button :submit, class: 'btn btn-default btn-submit-presence-form' do %>
+                                            <i class="far fa-user-plus"></i>
+                                          <% end %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  <% end %>
+                                </td>
+
+                                <% unless activity.subject.evaluation == 0 # Unless the evaluation is set to ”None” %>
+                                  <td class="py-3 align-middle">
+                                    <% @mark = student.marks.where(activity: activity, date: @current_day).any? ? student.marks.where(activity: activity, date: @current_day).first : Mark.new %>
+
+                                    <%= form_with(model: @mark, data: { controller: 'validation' }, id: "marking-#{activity.id}-#{student.id}", class: "marking-form", local: false) do |form| %>
+                                      <%= form.hidden_field :activity_id, value: activity.id %>
+                                      <%= form.hidden_field :student_id, value: student.id %>
+                                      <%= form.hidden_field :staff_id, value: current_user.id %>
+                                      <%= form.hidden_field :date, value: @current_day %>
+                                      <div class="form-group mb-0 d-flex align-items-center">
+                                        <div class="input-group">
+                                          <% case activity.subject.evaluation when 1 # Grades romanian %>
+                                            <% num_in_letters = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'] %>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                              <% 10.downto 1 do |i| %>
+
+                                                <%= form.radio_button :grade, i, class: 'btn-check-mark', id: "mark_grade_#{num_in_letters[i]}_#{activity.id}-#{student.id}" %>
+
+                                                <%= form.label "grade_#{ num_in_letters[i] }", i.to_s, class: "btn label-for-mark btn-sm text-lg btn-outline-default mb-0 #{'rounded-left' if i == 10}", value: "#{activity.id}-#{student.id}" %>
+
+                                              <% end %>
+                                            </div>
+
+                                          <% when 2 # Letters %>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                              <% letters = ['A*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'U'] %>
+                                              <% letters.each_with_index do |element, index| %>
+
+                                                <%= form.radio_button :grade, element, class: 'btn-check-mark', id: "mark_grade_#{element}_#{activity.id}-#{student.id}" %>
+
+                                                <%= form.label "grade_#{ element }", element, class: "btn label-for-mark btn-sm text-lg btn-outline-default mb-0 #{'rounded-left' if index == 0}", value: "#{activity.id}-#{student.id}" %>
+
+                                              <% end %>
+                                            </div>
+
+                                          <% when 3 # Qualificatives %>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                              <% qualificatives = ['FB', 'B', 'S', 'I'] %>
+                                              <% qualificatives.each_with_index do |element, index| %>
+
+                                                <%= form.radio_button :grade, element, class: 'btn-check-mark', id: "mark_grade_#{element}_#{activity.id}-#{student.id}" %>
+
+                                                <%= form.label "grade_#{ element }", element, class: "btn label-for-mark btn-sm text-lg btn-outline-default mb-0 #{'rounded-left' if index == 0}", value: "#{activity.id}-#{student.id}" %>
+
+                                              <% end %>
+                                            </div>
+
+                                          <% when 4 # Percentages %>
+                                            <div class="form-group mb-0">
+                                              <div class="input-group input-group-sm input-group-has-append input-group-merge input-group-alternative">
+                                                <%= form.number_field :grade, class: 'form-control', min: '1', max: '100' %>
+
+                                                <div class="input-group-append">
+                                                  <span class="input-group-text"><i class="far fa-percentage"></i></span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          <% end %>
+
+                                          <div class="input-group-append d-none">
+                                            <%= form.button :submit, class: 'btn btn-default btn-submit-marking-form' do %>
+                                              <i class="far fa-user-plus"></i>
+                                            <% end %>
+                                          </div>
+                                        </div>
+
+                                        <%= link_to icon('far fa-trash-alt'), @mark, method: :delete, remote: true, class: "btn btn-danger btn-sm", style: "#{ 'display: none' unless @mark.grade.present? }" %>
+
+                                      </div>
+                                    <% end %>
+                                  </td>
+                                <% end %>
+
+                              </tr>
+                            <% end %>
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td colspan="3" class="text-right">
+                                <a href="javascript:;" class="btn btn-light btn-sm reset-forms">
+                                  <i class="far fa-undo-alt"></i>&nbsp; <%= t 'general.reset' %>
+                                </a>
+
+                                <a href="javascript:;" class="btn btn-default btn-sm send-all-presence-forms">
+                                  <i class="far fa-clipboard-check"></i>&nbsp;
+                                  <%= activity.subject.evaluation == 0 ? t('.save_attendance') : t('.save_attendance_and_marks') %>
+                                </a>
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    <% end %>
+
+                  <% end %>
+
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('select[data-toggle="select"]').each(function (index, element) {
+    $(element).select2()    
+  });
+
+  // Toggle attendance table
+  $('.toggle-attendance').click(function (e) { 
+    e.preventDefault();
+
+    let tableDiv = $(this).siblings('.attendance-table')
+    if (tableDiv.is(':hidden')) {
+      tableDiv.slideDown(200);
+    } else {
+      tableDiv.slideUp(200);
+    }
+    
+
+    let icon = $(this).find('.toggle-attendance-icon')
+    if (icon.hasClass('fa-angle-down')) {
+      icon.removeClass('fa-angle-down');
+      icon.addClass('far fa-angle-up');
+    } else {
+      icon.removeClass('fa-angle-up');
+      icon.addClass('far fa-angle-down');
+    }
+  });
+
+
+  // Send all forms
+  $('.send-all-presence-forms').click(function (e) {
+    e.preventDefault();
+    $(this).parents('.table-responsive').find('.btn-submit-presence-form').click()
+
+    // $(this).parents('.table-responsive').find('.btn-submit-marking-form').click()
+
+    // In case of percentages, send marking form only if percentage is completed
+    $(this).parents('.table-responsive').find('.marking-form').each(function (index, element) {
+      if ( $(element).find('input[type="number"]').length === 1 ) {
+        if ($(element).find('input[type="number"]').val() !== "") {
+          $(element).find('.btn-submit-marking-form').click()
+        }
+      } else {
+        $(element).find('.btn-submit-marking-form').click()
+      }    
+    });
+  });
+
+
+  // Mark labels
+  $(document).ready(function () {
+    var iconLabel = $('input.btn-check-mark[checked="checked"]').next()
+    iconLabel.removeClass('btn-outline-default').addClass('btn label-for-mark btn-sm btn-default text-lg')
+  });
+
+  $('label.label-for-mark').click(function (e) { 
+    $(this).siblings('label.label-for-mark').each(function (e) {
+      $(this).removeClass('btn-default')
+      $(this).addClass('btn-outline-default')
+    })
+    $(this).removeClass('btn-outline-default').addClass('btn-default')
+  });
+
+
+  // Reset
+  $('.reset-forms').click(function (e) { 
+    var tableDiv = $(this).parents('.table-responsive')
+
+    tableDiv.find('select').val(null).trigger('change');
+
+    tableDiv.find('.btn-check-mark:checked').each(function (index, element) {
+      element.checked = false
+    });   
+
+    tableDiv.find('.label-for-mark.btn-default').removeClass('btn-default').addClass('btn-outline-default');
+  });
+
+  $('#datepicker').datepicker({
+    format: "yyyy-mm-dd",
+    todayBtn: "linked",
+    language: "<%= current_user.locale %>",
+    todayHighlight: true,
+  });
+
+  $('#datepicker').on('changeDate', function(e) {
+    var dateString = moment(e.date).format('YYYY-MM-DD')
+
+    var urlParams = new URLSearchParams(window.location.search)
+    urlParams.set('date', dateString)
+
+    var newRelativePathQuery = window.location.pathname + '?' + urlParams.toString()
+    window.location = newRelativePathQuery
+  });
+</script>

@@ -1,6 +1,11 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :announcements do
+    resources :comments
+  end
+  resources :attendances
+  resources :marks
   resources :observations
   resources :students
   resources :parents
@@ -10,7 +15,13 @@ Rails.application.routes.draw do
   resources :classrooms
   resources :subjects
   resources :activities
+  resources :likes
   devise_for :users
+
+  get 'gradebook/:classroom_id', to: 'gradebooks#show_classroom', as: 'gradebook_classroom'
+  get 'gradebook', to: 'gradebooks#index', as: 'gradebook'
+
+  get 'user_activities/:id', to: 'user_activities#index', as: 'user_activities'
 
   get 'staffs/:id/activate', to: 'staffs#activate', as: 'activate_staff'
   get 'staffs/:id/deactivate', to: 'staffs#deactivate', as: 'deactivate_staff'
@@ -21,6 +32,7 @@ Rails.application.routes.draw do
 
   get 'staffs/:id/remove_staff_from_classroom/:classroom_id', to: 'staffs#remove_staff_from_classroom', as: 'remove_staff_from_classroom'
 
+  get 'profile', to: 'profile#index', as: 'profile'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'home#index'

@@ -81,7 +81,7 @@
                   <td><%= classroom.allow_registration ? icon('far fa-lock-open-alt text-success', ' ' + t('general.yes')) : icon('far fa-lock-alt text-warning', ' ' + t('general.no'))%></td>
 
                   <%# Registration code %>
-                  <td><samp class="cursor-pointer" data-toggle="tooltip" title="<%= t 'general.click_to_copy' %>" id="code_<%= classroom.id %>" onclick="copy_to_clipboard(this.id)"><%= classroom.registration_code %></samp></td>
+                  <td><samp class="cursor-copy" data-toggle="tooltip" title="<%= t 'general.click_to_copy' %>" id="code_<%= classroom.id %>" onclick="copy_to_clipboard(this.id)"><%= classroom.registration_code %></samp></td>
 
                   <%# Table actions %>
                   <td class="table-actions">

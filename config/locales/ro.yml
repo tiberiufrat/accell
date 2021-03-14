@@ -7,6 +7,8 @@ ro:
     edit: Modificare
     view: Vizualizare
     delete: Ștergere
+    restore: Restaurare
+    reset: Resetează
     create: Creare
     deactivate: Dezactivare
     activate: Activare
@@ -17,6 +19,7 @@ ro:
     previous: Anterior
     current: Curent
     next: Următor
+    next_step: Pasul următor
     are_you_sure_delete: Sunteți sigur că doriți să ștergeți acest element?
     are_you_sure_deactivate: Sunteți sigur că doriți să dezactivați acest utilizator?
     dashboard: Panou de control
@@ -29,6 +32,9 @@ ro:
     archived: Arhivat
     'no': Nu
     'yes': Da
+    like: Îmi place
+    unlike: Nu îmi mai place
+    reply: Răspunde
     optional: Opțional
     compulsory: Principal
     success: Succes
@@ -174,6 +180,7 @@ ro:
       add_subject: Adaugă o materie
     recurring_description: Repetă activitatea de una sau mai multe ori pe săptămână.
     custom_activity: Activitate personalizată
+    error_days_of_week: Trebuie să alegeți una sau mai multe opțiuni.
 
   iziToast: 
     types:
@@ -196,17 +203,128 @@ ro:
     dashboard:
       title: Panou de control
 
+  shared:
+    topnav:
+      welcome: Bine ai venit!
+      profile: Profil
+      settings: Configurări
+      activity: Activitate
+      support: Ajutor
+      logout: Deautentificare
+
+  announcements:
+    compose: Compune anunț
+    select_recipients_modal:
+      select_recipients: Alege destinatarii
+      select_all: Alege-i pe toți
+      deselect_all: Înlătură-i pe toți
+      students_no_form: Alți elevi
+    form:
+      from: 'De la:'
+      to: 'Către:'
+      subject: 'Subiect:'
+      choose_recipients: Alege destinatarii
+      zero: Zero
+      recipients_selected: destinatari aleși
+      no_recipients_selected: Niciun destinatar ales
+      error_minimum_recipients: Trebuie să alegeți cel puțin un destinatar.
+    categories:
+      simple: Mesaj simplu
+      reminder: Memento
+      alert: Avertisment
+    show:
+      to: 'Către:'
+      recipient: destinatar
+      recipients: destinatari
+      view_recipients: Vizualizează destinatarii
+    index:
+      inbox: Mesaje primite
+      sent: Trimise
+      scheduled: Programate
+      deleted: Șterse
+
+  profile:
+    title: Profil
+    index:
+      welcome: Bine ai venit!
+      welcome_description: Acesta este profilul tău. Aici îți poți modifica datele personale și poți vedea informații despre activitatea ta.
+      edit_details: Modifică informațiile
+      edit_profile: Modifică profilul
+      user_information: Informații personale
+      contact_information: Informații de contact
+      password: Modifică parola
+      verify_changes: Confirmă modificările
+      dont_complete_no_change_password: Nu completa dacă nu vrei să-ți schimbi parola.
+      we_need_current_password: Introdu parola ta actuală pentru ca să putem confirma modificările.
+
+  user_activities:
+    index:
+      title: Activitățile mele
+      for: Pentru
+      coordinator: Coordonat de către
+      no_coordinator: Fără coordonator
+      related: Vezi și 
+      today: Astăzi
+      activities_on_date: Activitățile mele de %{date}
+      take_attendance: Completează prezența
+      take_attendance_and_mark: Completează prezența și notează
+      save_attendance: Salvează prezența
+      save_attendance_and_marks: Salvează prezența și notele
+      award_mark: Notează un elev
+    presences:
+      present: Prezent
+      absent_unauth: Absent (nepermis)
+      absent_auth: Absent (permis)
+      absent_medical: Absent (medical)
+      present_online: Prezent on-line
+      late: Întârziat
+
+  gradebooks:
+    index:
+      title: Catalog
+      card_title: Vezi catalogul unei clase
+      card_subtitle: Pentru a vedea notele elevilor dintr-o clasă, apasă pe butonul de mai jos și alege clasa dorită.
+      change_classroom: Alege o clasă
+    show_classroom:
+      title: Catalog
+      classroom_title: Clasa %{name}
+      change_classroom: Alege o clasă
+      add_mark: Adaugă o notă
+      average: Medie
+      average_short: Med
+      average_disclaimer: Estimarea mediei este calculată doar cu notele care există în prezent și poate să nu reflecte întocmai media reală a elevului.
+      
+  marks:
+    new:
+      add_mark: Adaugă o notă
+      choose_subject: Alege o materie
+      choose_student: Alege un elev
+      choose_date: Alege o dată
+      choose_grade: Alege nota
+
   activerecord:
     models:
       activity:
         one: Activitate
         other: Activități
+      announcement:
+        one: Anunț
+        other: Anunțuri
+      attendance:
+        one: Prezență
+        other: Prezențe
+      comment:
+        one: Comentariu
+        other: Comentarii
       classroom:
         one: Clasă
         other: Clase
       family: 
         one: Familie
         other: Familii
+      mark:
+        one: Notă
+        other: Note
       parent:
         one: Părinte
         other: Parinți
@@ -229,6 +347,8 @@ ro:
         active: Activ
         email: Adresă de e-mail
         password: Parolă
+        password_confirmation: Confirmă parola
+        current_password: Parola actuală
         first_name: Prenume
         last_name: Nume
         phone: Telefon
@@ -291,6 +411,12 @@ ro:
         coordinator: Profesor coordonator
         activityable: Creat pentru
         recurring: Repetă activitatea
+      announcement:
+        category: Categorie
+        scheduled_for: Programat pentru
+      attendance:
+        presence: Prezență
+
     errors:
       messages:
         record_invalid: Validare nereușită %{errors}
@@ -341,8 +467,9 @@ ro:
     - sâmbată
     formats:
       default: "%d-%m-%Y"
-      long: "%d %B %Y"
-      short: "%d %b"
+      long: "%A, %-d %B %Y"
+      short: "%-d %b"
+      spaced: "%-d %b '%y"
     month_names:
     -
     - ianuarie
@@ -361,6 +488,10 @@ ro:
     - :day
     - :month
     - :year
+  time:
+    formats:
+      default: "%k:%M"
+
   datetime:
     distance_in_words:
       about_x_hours:

@@ -70,6 +70,24 @@
                 <span class="ml-2 nav-link-text"><%= t 'activerecord.models.activity.other' %></span>
               <% end %>
             </li>
+            <li class="<%= active_nav_item('user_activities', 'index') %>">
+              <%= link_to user_activities_path(current_user.id), class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-calendar-star text-yellow"></i>
+                <span class="ml-2 nav-link-text"><%= t 'user_activities.index.title' %></span>
+              <% end %>
+            </li>
+            <li class="<%= active_nav_item('announcements', 'index') %>">
+              <%= link_to announcements_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-bullhorn text-danger"></i>
+                <span class="ml-2 nav-link-text"><%= t 'activerecord.models.announcement.other' %></span>
+              <% end %>
+            </li>
+            <li class="<%= active_nav_item('gradebooks', 'index') %>">
+              <%= link_to gradebook_path, class: "nav-link px-3" do %>
+                <i class="far fa-fw fa-address-book text-primary"></i>
+                <span class="ml-2 nav-link-text"><%= t 'gradebooks.index.title' %></span>
+              <% end %>
+            </li>
           </ul>
           <!-- Divider -->
           <hr class="my-3">

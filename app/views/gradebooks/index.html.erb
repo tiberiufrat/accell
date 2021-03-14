@@ -1,0 +1,66 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('.title').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t('.title').titleize %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card pb-3">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="row">
+            <div class="col">
+              <h3 class="mb-0"><%= t '.title' %></h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col-12 col-lg-7">
+              <%= image_tag 'illustrations/woman-computer-books.png', class: 'w-100 px-4 mb-4 mb-lg-0' %>
+            </div>
+            <div class="col-12 col-lg-5 d-flex justify-content-center align-items-center flex-column">
+              <h1 class="mb-0"><%= t '.card_title' %></h1>
+              <p class="lead my-3"><%= t '.card_subtitle' %></p>
+              <div class="dropdown w-100 mt-2">
+                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <%= t '.change_classroom' %>
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <h6 class="dropdown-header"><%= t 'activerecord.models.classroom.other' %></h6>
+                  <% Classroom.where(optional: false).each do |classroom| %>
+                    <%= link_to classroom.name, gradebook_classroom_path(classroom_id: classroom.id), class: 'dropdown-item' %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

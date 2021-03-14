@@ -1,0 +1,58 @@
+<%# link_to announcement, class: "list-group-item list-group-item-action flex-column align-items-start py-4 px-4" do %>
+<div class="list-group-item list-group-item-action flex-column align-items-start py-4 px-4">
+  <div class="d-flex w-100 justify-content-between">
+    <div>
+      <div class="d-flex w-100 align-items-center">
+
+        <% if announcement.sender.user.avatar.attached? %>
+          <div class="avatar avatar-xs mr-2" style="background-image: url('<%= url_for(announcement.sender.user.avatar) %>')" ></div>
+        <% else %>
+          <% if announcement.sender.user.female? # Female %>
+            <img src="/images/female-blue.jpg" class="avatar avatar-xs mr-2" />
+          <% else # Male or otherwise %>
+            <img src="/images/male-blue.jpg" class="avatar avatar-xs mr-2" />
+          <% end %>
+        <% end %>
+
+        <h5 class="mb-1"><%= announcement.sender.user.name %></h5>
+      </div>
+    </div>
+    <div>
+      <% if user_signed_in? && current_user.id == announcement.sender.id %>
+        <% if announcement.deleted %>
+          <%= link_to announcement_path(announcement, { announcement: { deleted: false, restore: true } }), method: :patch do %>
+            <i class="far fa-trash-restore-alt text-info" data-toggle="tooltip" data-placement="left" title="<%= t 'general.restore' %>"></i>
+          <% end %>
+        <% else %>
+          <%= link_to announcement_path(announcement, { announcement: { deleted: true } }), method: :patch do %>
+            <i class="far fa-trash-alt text-danger" data-toggle="tooltip" data-placement="left" title="<%= t 'general.delete' %>"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+      <small><%= l announcement.scheduled_for %></small>
+    </div>
+  </div>
+  <%= link_to announcement do %>
+    <% case announcement.category when 'alert' %>
+      <h4 class="mb-1 mt-3 d-inline-block text-danger"><i class="far fa-fw fa-siren-on"></i>&nbsp; <%= announcement.title %></h5>
+    <% when 'reminder' %>
+      <h4 class="mb-1 mt-3 d-inline-block text-success"><i class="far fa-fw fa-alarm-exclamation"></i>&nbsp; <%= announcement.title %></h5>
+    <% else %>
+      <h4 class="mb-1 mt-3 d-inline-block"><i class="far fa-fw fa-scroll"></i>&nbsp; <%= announcement.title %></h5>
+    <% end %>
+
+    <% if announcement.likes.any? || announcement.comments.any? %>
+      <span class="badge badge-secondary">
+        <% if announcement.likes.any? %>
+          <%= announcement.likes.size %> <i class="far fa-thumbs-up"></i>
+        <% end %>
+        <% if announcement.comments.any? %>
+          &ensp;<%= announcement.comments.size %> <i class="far fa-comment-alt-dots"></i>
+        <% end %>
+      </span>
+    <% end %>
+  <% end %>
+  <p class="text-sm mb-0 overflow-ellipsis">
+    <%= strip_tags(announcement.text).split.join(' ') %>
+  </p>
+</div>

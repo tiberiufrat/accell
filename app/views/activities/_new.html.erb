@@ -108,8 +108,8 @@
         </div>
       </div>
 
-      <%# All day %>
-      <div class="form-group mb-2 col-12">
+      <%# Days of week %>
+      <div class="form-group mb-2 col-12" id="days-of-week">
         <%= form.label :days_of_week, class: 'form-control-label d-block' %>
         
         <% days = {1 => 'Mon', 2 => 'Tue', 3 => 'Wen', 4 => 'Thu', 5 => 'Fri'} %>
@@ -247,5 +247,14 @@
     } else {
       $(this).removeClass('btn-outline-default').addClass('btn-default')
     }
+  });
+
+  // Prevent send if days_of_week is not selected
+  $('button[type="submit"]').click(function (e) { 
+    if( $('#recurring_check').is(':checked') && $('.btn-check-day:checked').length < 1 ) {
+      e.preventDefault();
+      $('#days-of-week-error').remove()
+      $('<div class="text-danger small" id="days-of-week-error"><i class="far fa-exclamation-triangle"></i>&ensp;<%= t 'activities.error_days_of_week' %></div>').appendTo('#days-of-week');
+    }    
   });
 </script>

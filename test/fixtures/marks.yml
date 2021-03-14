@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student: one
+  activity: one
+  grade: MyString
+  date: 2021-02-27
+  staff: one
+  quarter_weight: false
+
+two:
+  student: two
+  activity: two
+  grade: MyString
+  date: 2021-02-27
+  staff: two
+  quarter_weight: false

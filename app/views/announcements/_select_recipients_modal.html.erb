@@ -1,0 +1,164 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel"><%= t('.select_recipients') %></h4>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	  <span aria-hidden="true" style="color: var(--dark)"><i class="far fa-times"></i></span>
+	</button>
+</div>
+
+<div class="modal-body pt-0">
+
+  <div class="row">
+    <div class="col-3">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link mb-2 modal-tab active" id="v-pills-staff-tab" data-toggle="pill" href="#v-pills-staff" role="tab" aria-controls="v-pills-staff" aria-selected="true" onclick="window.current_tab = 'v-pills-staff-tab'">
+          <%= t 'activerecord.models.staff.other' %>
+        </a>
+
+        <h6 class="dropdown-header pl-0"><%= t 'activerecord.models.student.other' %></h6>
+
+        <% Classroom.with_students.each do |classroom| %>
+          <a class="nav-link mb-2 modal-tab nav-link-<%= classroom.color %>" id="v-pills-students-<%= classroom.id %>-tab" data-toggle="pill" href="#v-pills-students-<%= classroom.id %>" role="tab" aria-controls="v-pills-students-<%= classroom.id %>" aria-selected="false" onclick="window.current_tab = 'v-pills-students-<%= classroom.id %>-tab'">
+            <%= classroom.name %>
+          </a>
+        <% end %>
+        
+        <% if Student.with_no_form.any? %>
+          <a class="nav-link mb-2 modal-tab nav-link-light" id="v-pills-students-no-form-tab" data-toggle="pill" href="#v-pills-students-no-form" role="tab" aria-controls="v-pills-students-no-form" aria-selected="false" onclick="window.current_tab = 'v-pills-students-no-form-tab'">
+            <%= t('.students_no_form') %>
+          </a>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="tab-content" id="v-pills-tabContent">
+
+        <div class="tab-pane fade show active" id="v-pills-staff" role="tabpanel" aria-labelledby="v-pills-staff-tab">
+          <%= render Staff.all, boxed: true, bg_white: true, selectable: true %>
+          <div class="row">
+            <div class="col text-right">
+              <a href="javascript:;" class="deselect-all-toggle btn btn-neutral"><i class="far fa-object-ungroup"></i> <%= t '.deselect_all' %></a>
+              <a href="javascript:;" class="select-all-toggle btn btn-neutral"><i class="far fa-object-group"></i> <%= t '.select_all' %></a>
+            </div>
+          </div>
+        </div>
+
+        <% Classroom.with_students.each do |classroom| %>
+          <div class="tab-pane fade mt--1" id="v-pills-students-<%= classroom.id %>" role="tabpanel" aria-labelledby="v-pills-students-<%= classroom.id %>-tab">
+            <% (classroom.form_students + classroom.students).each do |student| %>
+              <%= render 'students/student_avatar_name', student: student, boxed: true, bg_white: true, selectable: true, avatar_size: 'sm' %>
+            <% end %>
+            <div class="row">
+              <div class="col text-right mt-1">
+                <a href="javascript:;" class="deselect-all-toggle btn btn-neutral"><i class="far fa-object-ungroup"></i> <%= t '.deselect_all' %></a>
+                <a href="javascript:;" class="select-all-toggle btn btn-neutral"><i class="far fa-object-group"></i> <%= t '.select_all' %></a>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <% if Student.with_no_form.any? %>
+          <div class="tab-pane fade mt--1" id="v-pills-students-no-form" role="tabpanel" aria-labelledby="v-pills-students-no-form-tab">
+            <% Student.with_no_form.each do |student| %>
+              <%= render 'students/student_avatar_name', student: student, boxed: true, bg_white: true, selectable: true, avatar_size: 'sm' %>
+            <% end %>
+            <div class="row">
+              <div class="col text-right mt-1">
+                <a href="javascript:;" class="deselect-all-toggle btn btn-neutral"><i class="far fa-object-ungroup"></i> <%= t '.deselect_all' %></a>
+                <a href="javascript:;" class="select-all-toggle btn btn-neutral"><i class="far fa-object-group"></i> <%= t '.select_all' %></a>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let updateRecipients = () => {
+    if (window.selected_people.length == 0) {
+      $('#selected-span').text( '<%= t 'announcements.form.no_recipients_selected' %>' )
+    } else if (window.selected_people.length == 1) {
+      $('#selected-span').text( $('#users-select-field').find('[value="' + window.selected_people[0] + '"]').text() )
+    } else {
+      $('#selected-span').text( String(window.selected_people.length) + ' <%= t 'announcements.form.recipients_selected' %>' )
+    }
+  }
+
+  // Click on person
+  $('.person-container').click(function (e) { 
+    e.preventDefault();
+    $(this).find('i.checkmark').toggle(100);
+
+    var userId = $(this).data('user-id')
+
+    if( window.selected_people.includes(userId) ) {
+      window.selected_people = window.selected_people.filter(item => item !== userId)
+    } else {
+      window.selected_people.push(userId)
+    }
+
+    $('.person-container').each(function (index, element) {
+      if (window.selected_people.includes($(element).data('user-id'))) {
+        $(element).find('i.checkmark').show(100)
+      } else {
+        $(element).find('i.checkmark').hide(100)
+      }
+    });
+
+    $('.form-control.select2-hidden-accessible').val(window.selected_people).change()
+
+    updateRecipients()
+  });
+
+  // Show/hide ckeckmarks on switching tabs
+  $('.modal-tab').click(function (e) { 
+    $('.person-container').each(function (index, element) {
+      if (window.selected_people.includes($(element).data('user-id'))) {
+        $(element).find('i.checkmark').show()
+      } else {
+        $(element).find('i.checkmark').hide()
+      }
+    });
+  });
+
+  // Select all
+  $('.select-all-toggle').click(function (e) { 
+    e.preventDefault();
+    var parentDiv = $(this).parent().parent().parent()
+
+    parentDiv.children('.person-container').each(function (index, element) {
+      $(this).find('i.checkmark').show(100);
+
+      var userId = $(this).data('user-id')
+
+      if( !window.selected_people.includes(userId) ) {
+        window.selected_people.push(userId)
+      }
+    });
+    
+    $('.form-control.select2-hidden-accessible').val(window.selected_people).change()
+    updateRecipients()
+  });
+
+  // Deselect all
+  $('.deselect-all-toggle').click(function (e) { 
+    e.preventDefault();
+    var parentDiv = $(this).parent().parent().parent()
+
+    parentDiv.children('.person-container').each(function (index, element) {
+      $(this).find('i.checkmark').hide(100);
+
+      var userId = $(this).data('user-id')
+
+      if( window.selected_people.includes(userId) ) {
+        window.selected_people = window.selected_people.filter(item => item !== userId)
+      }
+    });
+    
+    $('.form-control.select2-hidden-accessible').val(window.selected_people).change()
+    updateRecipients()
+  });
+</script>

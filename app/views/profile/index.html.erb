@@ -1,0 +1,399 @@
+<!-- Header -->
+<div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url(<%= image_path 'theme/profile-cover.jpg' %>); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-default opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white"><%= t '.welcome' %></h1>
+        <p class="text-white mt-0 mb-5"><%= t '.welcome_description' %></p>
+        <a href="#edit-profile" class="btn btn-neutral"><%= t '.edit_profile' %></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-xl-4 order-xl-2">
+      <div class="card card-profile">
+        <%= image_tag 'theme/img-1-1000x600.jpg', class: 'card-img-top' %>
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="#">
+                <% if current_user.avatar.attached? %>
+                  <div class="rounded-circle img-center img-fluid shadow shadow-lg--hover table-avatar width-height-150" style="background-image: url('<%= url_for(current_user.avatar) %>')" ></div>
+                <% else %>
+                  <% if current_user.female? # Female %>
+                    <img src="/images/female-blue.jpg" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px" />
+                  <% else # Male or otherwise %>
+                    <img src="/images/male-blue.jpg" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" width="150px" />
+                  <% end %>
+                <% end %>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class="d-flex justify-content-between">
+            <a href="#" class="btn btn-sm btn-info  mr-4 ">Connect</a>
+            <a href="#" class="btn btn-sm btn-default float-right">Message</a>
+          </div>
+        </div>
+        <div class="card-body pt-0">
+          <div class="row">
+            <div class="col">
+              <div class="card-profile-stats d-flex justify-content-center">
+                <div>
+                  <span class="heading">22</span>
+                  <span class="description">Friends</span>
+                </div>
+                <div>
+                  <span class="heading">10</span>
+                  <span class="description">Photos</span>
+                </div>
+                <div>
+                  <span class="heading">89</span>
+                  <span class="description">Comments</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <h5 class="h3">
+              Jessica Jones<span class="font-weight-light">, 27</span>
+            </h5>
+            <div class="h5 font-weight-300">
+              <i class="ni location_pin mr-2"></i>Bucharest, Romania
+            </div>
+            <div class="h5 mt-4">
+              <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
+            </div>
+            <div>
+              <i class="ni education_hat mr-2"></i>University of Computer Science
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Progress track -->
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header">
+          <!-- Title -->
+          <h5 class="h3 mb-0">Progress track</h5>
+        </div>
+        <!-- Card body -->
+        <div class="card-body">
+          <!-- List group -->
+          <ul class="list-group list-group-flush list my--3">
+            <li class="list-group-item px-0">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <!-- Avatar -->
+                  <a href="#" class="avatar rounded-circle">
+                    <%= image_tag 'theme/bootstrap.jpg' %>
+                  </a>
+                </div>
+                <div class="col">
+                  <h5>Argon Design System</h5>
+                  <div class="progress progress-xs mb-0">
+                    <div class="progress-bar bg-orange" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item px-0">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <!-- Avatar -->
+                  <a href="#" class="avatar rounded-circle">
+                    <%= image_tag 'theme/angular.jpg' %>
+                  </a>
+                </div>
+                <div class="col">
+                  <h5>Angular Now UI Kit PRO</h5>
+                  <div class="progress progress-xs mb-0">
+                    <div class="progress-bar bg-green" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item px-0">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <!-- Avatar -->
+                  <a href="#" class="avatar rounded-circle">
+                    <%= image_tag 'theme/sketch.jpg' %>
+                  </a>
+                </div>
+                <div class="col">
+                  <h5>Black Dashboard</h5>
+                  <div class="progress progress-xs mb-0">
+                    <div class="progress-bar bg-red" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%;"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item px-0">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <!-- Avatar -->
+                  <a href="#" class="avatar rounded-circle">
+                    <%= image_tag 'theme/react.jpg' %>
+                  </a>
+                </div>
+                <div class="col">
+                  <h5>React Material Dashboard</h5>
+                  <div class="progress progress-xs mb-0">
+                    <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item px-0">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <!-- Avatar -->
+                  <a href="#" class="avatar rounded-circle">
+                    <%= image_tag 'theme/vue.jpg' %>
+                  </a>
+                </div>
+                <div class="col">
+                  <h5>Vue Paper UI Kit PRO</h5>
+                  <div class="progress progress-xs mb-0">
+                    <div class="progress-bar bg-green" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 order-xl-1">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card bg-gradient-info border-0">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0 text-white">Total traffic</h5>
+                  <span class="h2 font-weight-bold mb-0 text-white">350,897</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-white text-dark rounded-circle shadow">
+                    <i class="ni ni-active-40"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-white mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap text-light">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card bg-gradient-danger border-0">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0 text-white">Performance</h5>
+                  <span class="h2 font-weight-bold mb-0 text-white">49,65%</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-white text-dark rounded-circle shadow">
+                    <i class="ni ni-spaceship"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-white mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap text-light">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card" id="edit-profile">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0"><%= t '.edit_profile' %></h3>
+            </div>
+            <div class="col-4 text-right">
+              <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <%= form_with(model: current_user, url: user_registration_path, method: :patch, data: { controller: 'validation' }) do |form| %>
+            <h6 class="heading-small text-muted mb-4"><%= t '.user_information' %></h6>
+            <div class="pl-lg-4">
+
+              <div class="row">
+                <!-- First Name -->
+                <div class="form-group col-md-6 mb-2">
+                  <%= form.label :first_name, class: 'form-control-label' %>
+                  <div class="input-group input-group-merge mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-user"></i></span>
+                    </div>
+                    <%= form.text_field :first_name, autofocus: true, class: 'form-control', placeholder: :first_name, required: true, value: current_user.first_name %>
+                  </div>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group col-md-6 mb-2">
+                  <%= form.label :last_name, class: 'form-control-label' %>
+                  <div class="input-group input-group-merge mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-user"></i></span>
+                    </div>
+                    <%= form.text_field :last_name, class: 'form-control', placeholder: :last_name, required: true, value: current_user.last_name %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="form-group mb-2">
+                <%= form.label :email, class: 'form-control-label' %>
+                <div class="input-group input-group-merge mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-envelope"></i></span>
+                  </div>
+                  <%= form.email_field :email, class: 'form-control', placeholder: :email, required: true, value: current_user.email %>
+                </div>
+              </div>
+
+              <div class="row">
+                <!-- Gender -->
+                <div class="form-group col-md-6 mb-2">
+                  <%= form.label :gender, class: 'form-control-label' %>
+                  <div class="input-group input-group-merge mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text input-group-select2"><i class="far fa-venus-mars"></i></span>
+                    </div>
+                    <%= form.select :gender, options_for_select({ t('general.gender.male').titleize => 0, t('general.gender.female').titleize => 1, t('general.gender.unspecified').titleize => 3 }, (current_user.gender)), {}, { 
+                      class: 'form-control', required: true, data: {
+                        toggle: 'select', 
+                        placeholder: t('activerecord.attributes.user.gender'),
+                        'minimum-results-for-search': "Infinity"
+                      }
+                    } %>
+                  </div>
+                </div>
+                <!-- Birth Date -->
+                <div class="form-group col-md-6 mb-2">
+                  <%= form.label :birth_date, class: 'form-control-label' %>
+                  <div class="input-group input-group-merge mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-calendar"></i></span>
+                    </div>
+                    <%= form.date_field :birth_date, class: 'form-control', placeholder: :birth_date, required: true %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4">
+            <h6 class="heading-small text-muted mb-4"><%= t '.contact_information' %></h6>
+            <div class="pl-lg-4">
+              <!-- Address -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <%= form.label :address, class: 'form-control-label' %>
+                    <%= form.text_field :address, class: 'form-control', value: current_user.address %>
+                  </div>
+                </div>
+              </div>
+              <!-- Phone -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <%= form.label :phone, class: 'form-control-label' %>
+                    <%= form.telephone_field :phone, class: 'form-control', value: current_user.phone %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+            <h6 class="heading-small text-muted mb-4"><%= t '.password' %></h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= form.label :password, class: 'form-control-label' %>
+                    <%= form.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+                    <small class="form-text text-muted"><%= t '.dont_complete_no_change_password' %></small>
+                    <% if @minimum_password_length %>
+                      <br />
+                      <small class="form-text text-muted"><%= @minimum_password_length %> characters minimum</small>
+                    <% end %>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= form.label :password_confirmation, class: 'form-control-label' %><br />
+                    <%= form.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+            <h6 class="heading-small text-muted mb-4"><%= t '.verify_changes' %></h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-12">
+                  <%= form.label :current_password, class: 'form-control-label' %>
+                  <%= form.password_field :current_password, class: 'form-control', required: true %>
+                  <small class="form-text text-muted"><%= t '.we_need_current_password' %></small>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mx-0 float-right">
+              <%= form.button :submit, class: 'btn btn-default col', title: t('general.edit') do %>
+                <i class="far fa-user-edit"></i> &nbsp;<%= t '.edit_details' %>
+              <% end %>    
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="footer pt-0">
+    <div class="row align-items-center justify-content-lg-between">
+      <div class="col-lg-6">
+        <div class="copyright text-center  text-lg-left  text-muted">
+          © 2020 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+          <li class="nav-item">
+            <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+          </li>
+          <li class="nav-item">
+            <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a href="https://www.creative-tim.com/license" class="nav-link" target="_blank">License</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>

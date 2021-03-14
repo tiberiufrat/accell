@@ -1660,13 +1660,65 @@ var DatatableBasic = (function() {
       }
     }
 
+    var english = {
+      "emptyTable": "There is no data to display in this table.",
+      "info": "Showing entries from _START_ to _END_ out of _TOTAL_ total",
+      "infoEmpty": "Showing entries from 0 to 0 out of 0 total",
+      "infoFiltered": "(filtered from _MAX_ total entries",
+      "infoThousands": ",",
+      "lengthMenu": "Display _MENU_ entries on each page",
+      "loadingRecords": "Loading...",
+      "processing": "Processing...",
+      "search": "Search:",
+      "zeroRecords": "There weren't found any matching entries.",
+      "thousands": ",",
+      "decimal": ".",
+      "paginate": {
+        "first": "First",
+        "last": "Last",
+        "next": "<i class=\"fas fa-angle-right\"></i>",
+        "previous": "<i class=\"fas fa-angle-left\"></i>"
+      },
+      "buttons": {
+        "collection": "Collection <span class='ui-button-icon-primary ui-icon ui-icon-triangle-1-s'\/>",
+        "colvis": "Column Visibility",
+        "colvisRestore": "Restore visibility",
+        "copy": '<i class="far fa-clipboard"></i> Copy',
+        "copyKeys": "Press ctrl or u2318 + C to copy the table data to your system clipboard.<br><br>To cancel, click this message or press escape.",
+        "copySuccess": {
+            "1": "Copied 1 row to clipboard",
+            "_": "Copied %d rows to clipboard"
+        },
+        "copyTitle": "Copy to clipboard",
+        "csv": '<i class="far fa-file-csv"></i> CSV',
+        "excel": '<i class="far fa-file-excel"></i> Excel',
+        "pageLength": {
+            "-1": "Show all rows",
+            "1": "Show 1 row",
+            "_": "Show %d rows"
+        },
+        "pdf": '<i class="far fa-file-pdf"></i> PDF',
+        "print": '<i class="far fa-print"></i> Print'
+      },
+    }
+
+    var htmlLanguage = $('html').prop('lang')
+    var tableLanguage
+
+    if (htmlLanguage == 'ro') {
+      tableLanguage = romanian
+    } else {
+      tableLanguage = english
+    }
+
 		var options = {
       // Disable the next two options to enable lengthChange
       lengthChange: !1,
 			dom: 'Bfrtip',
-			select: {
-				style: "os"
-			},
+      // Enable selection
+			// select: {
+			// 	style: "os"
+			// },
       order: [],
       columnDefs: [ {
         targets: 'no-sort',
@@ -1676,16 +1728,16 @@ var DatatableBasic = (function() {
       //         "header": "bootstrap",
       //         "pageButton": "bootstrap"
       // },
-      language: romanian,
+      language: tableLanguage,
       buttons: [
-        'copy', 'csv', 'print'
+        /* 'copy',*/ 'csv', 'print', 'pdfHtml5'
       ],
 		};
 
 		// Init the datatable
 
 		var table = $this.on( 'init.dt', function () {
-		    $('div.dataTables_length').addClass('d-inline-block')
+      $('div.dataTables_length').addClass('d-inline-block')
 			$('div.dataTables_length select').removeClass('custom-select custom-select-sm');
 			$('div.dataTables_length select').addClass('form-control form-control-sm d-inline')
 			$('div.dataTables_length select').css({'width': '60px'})

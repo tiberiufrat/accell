@@ -25,7 +25,17 @@ require('datatables.net-buttons/js/buttons.html5.js')
 require('datatables.net-buttons/js/buttons.print.js')
 require('datatables.net-bs4')
 
+window.pdfmake = require("pdfmake/build/pdfmake")
+window.pdfFonts = require("pdfmake/build/vfs_fonts")
+window.pdfMake.vfs = window.pdfFonts.pdfMake.vfs;
+
+require('controllers') // import controllers, which also imports summernote_controller
+
 require('select2')
+
+require('bootstrap-datepicker')
+
+require('@popperjs/core')
 
 window.iziToast = require("izitoast")
 
@@ -45,3 +55,17 @@ require("jquery.scrollbar.min.js")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+// Datepicker
+$.fn.datepicker.dates['ro'] = {
+    days: ["Duminică", "Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă"],
+    daysShort: ["Dum", "Lun", "Mar", "Mie", "Joi", "Vin", "Sâm"],
+    daysMin: ["Du", "Lu", "Ma", "Mi", "Jo", "Vi", "Sâ"],
+    months: ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"],
+    monthsShort: ["Ian", "Feb", "Mar", "Apr", "Mai", "Iun", "Iul", "Aug", "Sep", "Oct", "Noi", "Dec"],
+    today: "Astăzi",
+    clear: "Șterge",
+    format: "dd-mm-yyyy",
+    titleFormat: "MM yyyy",
+    weekStart: 1
+  };

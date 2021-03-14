@@ -66,6 +66,8 @@ gem 'platform_agent'
 gem 'geared_pagination'
 gem 'spreadsheet_architect'
 
+gem 'image_processing', '~> 1.2'
+
 group :production do
   gem 'redis'
   gem 'sidekiq'

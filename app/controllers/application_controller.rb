@@ -14,5 +14,9 @@ class ApplicationController < ActionController::Base
 
     def set_locale
       I18n.locale = user_signed_in? ? current_user.locale.to_sym : I18n.default_locale
-    end    
+    end
+
+    def after_sign_out_path_for(resource_or_scope)
+      new_user_session_path
+    end  
 end

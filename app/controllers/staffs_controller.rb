@@ -54,10 +54,11 @@ class StaffsController < ApplicationController
   def update
     @staff.update!(staff_params)
     @staff.user.avatar.attach(params[:user][:avatar]) if params[:user] && params[:user][:avatar]
-    @staff.user.update!(user_params)
+    @staff.user.update!(user_params) if params[:user]
     respond_to do |format|
       format.html { redirect_to @staff, notice: 'Staff was successfully updated.' }
       format.json { render :show }
+      format.js
     end
   end
 
@@ -108,7 +109,7 @@ class StaffsController < ApplicationController
     end
 
     def staff_params
-      params.require(:staff).permit(:initial_password, user: [ :first_name, :last_name, :gender, :phone, :email, :birth_date, :avatar ])
+      params.require(:staff).permit(:initial_password, :current_school_id, user: [ :first_name, :last_name, :gender, :phone, :email, :birth_date, :avatar ])
     end
 
     def user_params

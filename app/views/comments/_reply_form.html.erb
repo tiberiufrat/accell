@@ -1,0 +1,15 @@
+<div class="card mt-3 mb-0">
+  <div class="card-body p-3">
+    <%= form_with(model: [@announcement, @comment]) do |f| %>
+      <%= f.hidden_field :parent_id %>
+      <div class="form-group mb-3">
+        <%= f.text_area :body, class: 'form-control' %>
+      </div>
+      <%= f.button :submit, class: 'btn btn-sm btn-primary' do %>
+        <i class="far fa-reply"></i>
+        <%= t('general.reply') %>
+      <% end %>
+      <a href="javascript:;" onclick="$('#reply-form-<%= comment.parent_id %>').html('');" class="btn btn-sm btn-secondary"><i class="far fa-times"></i><%= t('general.cancel') %></a>
+    <% end %>
+  </div>
+</div>

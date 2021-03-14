@@ -4,7 +4,6 @@ class ActivitiesController < ApplicationController
   def index
     if params[:activityable_gid]
       activityable = GlobalID::Locator.locate(params[:activityable_gid])
-      puts "Class: " + activityable.class.to_s
       @activities = case activityable.class.to_s
       when 'Student'
         puts 'Student!'
@@ -16,7 +15,20 @@ class ActivitiesController < ApplicationController
         puts 'Otherwise!'
         Activity.where(activityable: activityable)
       end
-      puts @activities
+
+    elsif params[:qdate] && params[:qweekday] && params[:qsubject] && params[:qstudent]
+      student = Student.find(params[:qstudent])
+
+      unique_activity = Activity.one_time.where(subject_id: params[:qsubject]).select {|a| a.start.to_date.iso8601 == params[:qdate] && student.has_activity_own_or_inherited?(a) }
+
+      recurring_activity = Activity.recurring.where(subject_id: params[:qsubject]).select {|a| a.start_recur.iso8601 < params[:qdate] && (a.end_recur ? a.end_recur.iso8601 > params[:qdate] : true) && a.days_of_week.include?(params[:qweekday]) && student.has_activity_own_or_inherited?(a) }
+
+      @activities = unique_activity + recurring_activity
+
+      # if @activities.empty?
+      #   @activities = Activity.where(subject_id: params[:qsubject])
+      # end
+        
     else
       @activities = Activity.where(activityable: School.first)
     end

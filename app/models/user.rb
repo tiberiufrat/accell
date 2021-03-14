@@ -9,6 +9,8 @@ class User < ApplicationRecord
   has_many :created_observations, class_name: :Observation, foreign_key: :creator_id
   has_one_attached :avatar
 
+  has_and_belongs_to_many :announcements
+
   after_create :set_title_by_gender
   after_destroy :delete_family_if_empty
 
@@ -76,7 +78,21 @@ class User < ApplicationRecord
     "#{ first_name } #{ last_name }"
   end
 
+  def is_student?
+    profile_type == 'Student'
+  end
+
+  def is_staff?
+    profile_type == 'Staff'
+  end
+
+  def is_parent?
+    profile_type == 'Parent'
+  end
+
   alias full_name name
+
+  alias received_announcements announcements
 
   def active_for_authentication?
     super and active

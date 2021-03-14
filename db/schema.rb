@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_051926) do
+ActiveRecord::Schema.define(version: 2021_02_27_092323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -68,6 +68,36 @@ ActiveRecord::Schema.define(version: 2021_01_25_051926) do
     t.index ["subject_id"], name: "index_activities_on_subject_id"
   end
 
+  create_table "announcements", force: :cascade do |t|
+    t.string "title"
+    t.string "text"
+    t.string "category"
+    t.datetime "scheduled_for", default: -> { "now()" }
+    t.boolean "deleted", default: false, null: false
+    t.bigint "sender_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sender_id"], name: "index_announcements_on_sender_id"
+  end
+
+  create_table "announcements_users", id: false, force: :cascade do |t|
+    t.bigint "announcement_id"
+    t.bigint "user_id"
+    t.index ["announcement_id"], name: "index_announcements_users_on_announcement_id"
+    t.index ["user_id"], name: "index_announcements_users_on_user_id"
+  end
+
+  create_table "attendances", force: :cascade do |t|
+    t.bigint "student_id", null: false
+    t.bigint "activity_id", null: false
+    t.string "presence"
+    t.date "date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_id"], name: "index_attendances_on_activity_id"
+    t.index ["student_id"], name: "index_attendances_on_student_id"
+  end
+
   create_table "classrooms", force: :cascade do |t|
     t.string "name"
     t.boolean "optional"
@@ -97,12 +127,47 @@ ActiveRecord::Schema.define(version: 2021_01_25_051926) do
     t.index ["student_id"], name: "index_classrooms_students_on_student_id"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "body"
+    t.bigint "announcement_id", null: false
+    t.integer "parent_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["announcement_id"], name: "index_comments_on_announcement_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "families", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "main_parent_id"
     t.index ["main_parent_id"], name: "index_families_on_main_parent_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.string "likeable_type", null: false
+    t.bigint "likeable_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "marks", force: :cascade do |t|
+    t.bigint "student_id", null: false
+    t.bigint "activity_id", null: false
+    t.string "grade", null: false
+    t.date "date", null: false
+    t.bigint "staff_id", null: false
+    t.boolean "quarter_weight", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_id"], name: "index_marks_on_activity_id"
+    t.index ["staff_id"], name: "index_marks_on_staff_id"
+    t.index ["student_id"], name: "index_marks_on_student_id"
   end
 
   create_table "observations", force: :cascade do |t|
@@ -148,10 +213,19 @@ ActiveRecord::Schema.define(version: 2021_01_25_051926) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "schools_staffs", id: false, force: :cascade do |t|
+    t.bigint "school_id"
+    t.bigint "staff_id"
+    t.index ["school_id"], name: "index_schools_staffs_on_school_id"
+    t.index ["staff_id"], name: "index_schools_staffs_on_staff_id"
+  end
+
   create_table "staffs", force: :cascade do |t|
     t.string "initial_password"
+    t.bigint "current_school_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["current_school_id"], name: "index_staffs_on_current_school_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -219,11 +293,21 @@ ActiveRecord::Schema.define(version: 2021_01_25_051926) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activities", "staffs", column: "coordinator_id"
   add_foreign_key "activities", "subjects"
+  add_foreign_key "announcements", "staffs", column: "sender_id"
+  add_foreign_key "attendances", "activities"
+  add_foreign_key "attendances", "students"
   add_foreign_key "classrooms", "schools"
   add_foreign_key "classrooms", "staffs", column: "form_tutor_id"
+  add_foreign_key "comments", "announcements"
+  add_foreign_key "comments", "users"
   add_foreign_key "families", "parents", column: "main_parent_id"
+  add_foreign_key "likes", "users"
+  add_foreign_key "marks", "activities"
+  add_foreign_key "marks", "staffs"
+  add_foreign_key "marks", "students"
   add_foreign_key "observations", "users", column: "creator_id"
   add_foreign_key "parents", "families"
+  add_foreign_key "staffs", "schools", column: "current_school_id"
   add_foreign_key "students", "classrooms", column: "form_id"
   add_foreign_key "students", "families"
 end

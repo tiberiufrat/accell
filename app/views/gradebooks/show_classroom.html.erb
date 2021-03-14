@@ -1,0 +1,126 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"><%= t('.title').titleize %></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <%= link_to '<i class="far fa-home"></i>'.html_safe, root_path %>
+              </li>
+              <li class="breadcrumb-item"><%= link_to t('.title').titleize, gradebook_path %></li>
+              <li class="breadcrumb-item active" aria-current="page"><%= t('.classroom_title', name: @classroom.name) %></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.new' %></a>
+          <a href="#" class="btn btn-sm btn-neutral"><%= t 'general.filters' %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card pb-3">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="row">
+            <div class="col-6">
+              <h3 class="mb-0"><%= t '.classroom_title', name: @classroom.name %></h3>
+            </div>
+            <div class="col-6 text-right">
+              <div class="dropdown">
+                <a class="btn btn-sm btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <%= t '.change_classroom' %>
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <h6 class="dropdown-header"><%= t 'activerecord.models.classroom.other' %></h6>
+                  <% Classroom.where(optional: false).each do |classroom| %>
+                    <%= link_to classroom.name, gradebook_classroom_path(classroom_id: classroom.id), class: 'dropdown-item' %>
+                  <% end %>
+                </div>
+              </div>
+              <a class="btn btn-sm btn-primary" href="javascript:$.getScript('/marks/new?classroom_id=<%= @classroom.id %>');" role="button">
+                <i class="far fa-notes-medical"></i> &nbsp;<%= t '.add_mark' %>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table align-items-center table-bordered first-col-fixed-table" id="datatable-basic">
+              <thead class="thead-light">
+                <tr>
+                  <th colspan="3"><i class="far fa-user-graduate"></i> <%= t 'activerecord.models.student.one' %></th>
+                  <% @subjects.each do |subject| %>
+                    <th colspan="2"><i class="<%= subject.fa_icon %>"></i> <%= subject.title %></th>
+                  <% end %>
+                </tr>
+                <tr>
+                  <th class="no-sort"></th>
+                  <th><%= t 'activerecord.attributes.user.first_name' %></th>
+                  <th><%= t 'activerecord.attributes.user.last_name' %></th>
+                  <% @subjects.each do |subject| %>
+                    <th><%= t 'activerecord.models.mark.other' %></th>
+                    <th><%= t '.average' %></th>
+                  <% end %>
+                </tr>
+              </thead>
+              <tbody>
+                <% @students.each do |student| %>
+                  <tr>
+                    <td><i class="far fa-user-circle"></i></td>
+                    <td><%= student.user.first_name %></td>
+                    <td><%= student.user.last_name %></td>
+
+                    <% @subjects.each do |subject| %>
+                      <td class="table-<%= subject.color %>">
+                        <% if student.marks_for_subject(subject).any? %>
+                          <% student.marks_for_subject(subject).sort.each do |mark| %>
+
+                            <%# Popover %>
+                            <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-html="true"  class="badge badge-secondary cursor-help" title="<%= t 'activerecord.models.mark.one' %>: <b><%= mark.grade %></b>&ensp;<span class='text-gray'>(<%= l mark.date %>)</span>" data-content="<i class='fa-fw <%= subject.fa_icon %>'></i>&nbsp; <%= subject.title %><br><i class='fa-fw far fa-chalkboard-teacher'></i>&nbsp; <%= mark.staff.name %>">
+
+                              <span class="text-lg"><%= mark.grade %></span>
+                              <span class="text-sm text-lowercase text-gray">/ <%= l mark.date, format: :short %></span>
+                            </a>
+                          <% end %>
+                        <% end %>
+                      </td>
+                      <td class="table-<%= subject.color %>">
+                        <%# Average %>
+                        <% unless student.average_for_subject(subject) == 'N/A' %>
+                          <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-html="true"  class="badge badge-primary cursor-help" title="<%= t '.average' %>: <%= student.average_for_subject subject %>" data-content="<i class='fa-fw <%= subject.fa_icon %>'></i>&nbsp; <%= subject.title %><br><span class='font-italic text-gray small mt-1'><%= t '.average_disclaimer' %></span>">
+
+                            <span class="text-white"><%= t '.average_short' %></span>
+                            <span class="text-lg text-white"><%= student.average_for_subject subject %></span>
+                          </a>
+                        <% end %>
+                      </td>
+                    <% end %>
+
+                  </tr>
+
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+</script>
