@@ -231,12 +231,14 @@ ActiveRecord::Schema.define(version: 2021_02_27_092323) do
   create_table "students", force: :cascade do |t|
     t.bigint "form_id"
     t.bigint "family_id", null: false
+    t.bigint "school_id", null: false
     t.string "initial_password"
     t.date "enrollment_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["family_id"], name: "index_students_on_family_id"
     t.index ["form_id"], name: "index_students_on_form_id"
+    t.index ["school_id"], name: "index_students_on_school_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -310,4 +312,5 @@ ActiveRecord::Schema.define(version: 2021_02_27_092323) do
   add_foreign_key "staffs", "schools", column: "current_school_id"
   add_foreign_key "students", "classrooms", column: "form_id"
   add_foreign_key "students", "families"
+  add_foreign_key "students", "schools"
 end

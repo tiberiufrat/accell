@@ -1,6 +1,7 @@
 class Student < ApplicationRecord
   belongs_to :form, class_name: :Classroom, foreign_key: :form_id, optional: true
   belongs_to :family
+  belongs_to :school
   
   has_one :user, as: :profile, dependent: :destroy
   has_one :form_tutor, through: :form

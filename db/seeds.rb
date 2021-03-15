@@ -27,13 +27,13 @@ c4 = Classroom.create! name: '8A', optional: false, color: 'success', form_tutor
 
 family1 = Family.create! name: 'Frățilă'
 
-student1 = Student.create! initial_password: 'password', form: c2, family: family1
+student1 = Student.create! initial_password: 'password', form: c2, family: family1, school: school
 user4 = User.create! profile: student1, email: 'tiberiu.fratila@gmail.com', first_name: 'Tiberiu', last_name: 'Frățilă', phone: '0758043386', gender: 0, address: 'Strada Dunării', birth_date: Date.parse('2003/12/05'), newsletter: true, active: true, password: 'password'
 student1.classrooms << c3
 
 family2 = Family.create! name: 'Băbiceanu'
 
-student2 = Student.create! initial_password: 'password', form: c1, family: family2
+student2 = Student.create! initial_password: 'password', form: c1, family: family2, school: school
 user5 = User.create! profile: student2, email: 'babiceanum4@gmail.com', first_name: 'Matei', last_name: 'Băbiceanu', phone: '0758043386', gender: 0, address: 'Strada Sofia', birth_date: Date.parse('2003/06/11'), newsletter: true, active: true, password: 'password'
 
 parent1 = Parent.create! initial_password: 'password', family: family2
