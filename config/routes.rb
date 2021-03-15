@@ -18,6 +18,12 @@ Rails.application.routes.draw do
   resources :likes
   devise_for :users
 
+  namespace :api do
+    namespace :v1 do
+      resources :schools
+    end
+  end
+
   get 'gradebook/:classroom_id', to: 'gradebooks#show_classroom', as: 'gradebook_classroom'
   get 'gradebook', to: 'gradebooks#index', as: 'gradebook'
 
