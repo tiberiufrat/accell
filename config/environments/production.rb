@@ -6,12 +6,18 @@ Rails.application.configure do
   config.action_controller.asset_host = ENV['CLOUDFRONT_URL']
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_CACHE_URL'] }
 
+  # Redis credentials
+  ENV["REDISTOGO_URL"] = 'redis://redistogo:a3f1c54d1feb5a19858a2ea1eac6ff77@barb.redistogo.com:10241'
+  uri = URI.parse(ENV["REDISTOGO_URL"])
+  REDIS = Redis.new(:url => uri)
+
   config.middleware.use(
     Rack::Ratelimit, name: 'API',
     conditions: ->(env) { ActionDispatch::Request.new(env).format.json? },
     rate:   [50, 10.seconds],
-    redis:  Redis.new
+    redis:  REDIS
   ) { |env| ActionDispatch::Request.new(env).ip }
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
