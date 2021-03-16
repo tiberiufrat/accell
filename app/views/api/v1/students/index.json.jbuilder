@@ -1,0 +1,1 @@
+json.array! @students, partial: "api/v1/students/student", as: :student

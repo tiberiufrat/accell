@@ -10,12 +10,12 @@ class Api::V1::StudentsController < Api::V1::BaseController
       @students = Student.all
     end
 
-    render(json: @students)
+    render :index, formats: :json
   end
 
   def show
     @student = Student.find(params[:id])
 
-    render(json: @student.to_json)
+    render :show, formats: :json
   end
 end

@@ -29,7 +29,7 @@ class User < ApplicationRecord
 			  	end
   end
 
-  def gender_string
+  def gender_string # Localised (for views)
   	case gender
   	when 0
   		I18n.t('general.gender.male')
@@ -37,6 +37,17 @@ class User < ApplicationRecord
   		I18n.t('general.gender.female')
   	else
   		I18n.t('general.gender.unspecified')
+  	end
+  end
+  
+  def api_gender_string # NOT Localised (for API)
+  	case gender
+  	when 0
+  		'male'
+  	when 1
+  		'female'
+  	else
+  		'unspecified'
   	end
   end
 
