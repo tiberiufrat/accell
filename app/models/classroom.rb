@@ -33,6 +33,21 @@ class Classroom < ApplicationRecord
     end
   end
 
+  def hex_color
+    case color
+    when 'primary' then '#5e72e4'
+    when 'info' then '#11cdef'
+    when 'danger' then '#f5365c'
+    when 'success' then '#2dce89'
+    when 'warning' then '#fb6340' 
+    when 'indigo' then '#5603ad'
+    when 'purple' then '#8965e0'
+    when 'pink' then '#f3a4b5'
+    when 'yellow' then '#ffd600'
+    when 'cyan' then '#2bffc6'
+    end
+  end
+
   def self.with_students
     array = []
     Classroom.all.each do |c|

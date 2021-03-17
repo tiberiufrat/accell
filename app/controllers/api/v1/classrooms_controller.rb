@@ -6,12 +6,12 @@ class Api::V1::ClassroomsController < Api::V1::BaseController
       @classrooms = Classroom.all
     end
 
-    render(json: @classrooms)
+    render :index, formats: :json
   end
 
   def show
     @classroom = Classroom.find(params[:id])
 
-    render(json: @classroom.to_json)
+    render :show, formats: :json
   end
 end
