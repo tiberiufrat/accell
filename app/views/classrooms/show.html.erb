@@ -319,6 +319,7 @@
                 </div>
 
                 <%= form.hidden_field :form_id, value: @classroom.id %>
+                <%= form.hidden_field :school_id, value: @classroom.school.id %>
 
                 <%= form.button :submit, class: 'btn btn-default btn-block btn-sm mt--2', title: t('.add') do %>
                   <i class="far fa-user-plus"></i> <%= t('.add_student_button') %>
