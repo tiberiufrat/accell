@@ -8,7 +8,7 @@ json.email student.user.email
 json.phone student.user.phone
 json.gender student.user.api_gender_string
 json.address student.user.address
-json.birth_date student.user.birth_date.iso8601 if student.birth_date
+json.birth_date student.user.birth_date.iso8601 if student.user.birth_date
 json.locale student.user.locale
 
 json.form_name (student.form ? student.form.name : nil)
