@@ -12,7 +12,7 @@ json.birth_date student.user.birth_date.iso8601
 json.locale student.user.locale
 
 json.form_name (student.form ? student.form.name : nil)
-json.enrollment_date student.enrollment_date.iso8601
+json.enrollment_date student.enrollment_date.iso8601 if student.enrollment_date
 json.form_tutor_id (student.form && student.form.form_tutor ? student.form.form_tutor.name : nil)
 
 # json.teachers student.form.staffs, partial: "api/v1/staffs/staff", as: :staff
