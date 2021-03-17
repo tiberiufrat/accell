@@ -13,6 +13,11 @@
  *= require @nguyenthanh1995/fontawesomepro/css/all
  *= require select2/dist/css/select2
  *= require izitoast/dist/css/iziToast
+ *= require ./vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css
+ *= require ./vendor/select2/dist/css/select2.min.css
+ *= require ./vendor/fullcalendar/dist/fullcalendar.min.css
+ *= require ./vendor/fullcalendar/dist/fullcalendar.print.min.css
+ *= require ./vendor/sweetalert2/dist/sweetalert2.min.css
  */
 
 $fa-font-path: '@nguyenthanh1995/fontawesomepro/webfonts';
@@ -24,13 +29,13 @@ $fa-font-path: '@nguyenthanh1995/fontawesomepro/webfonts';
 @import '@nguyenthanh1995/fontawesomepro/scss/duotone';
 @import '@nguyenthanh1995/fontawesomepro/scss/v4-shims';
 
-@import "vendor/nucleo/css/nucleo";
-@import "vendor/font-awesome/css/font-awesome.min.css";
-@import "vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css";
-@import "vendor/select2/dist/css/select2.min.css";
-@import "vendor/fullcalendar/dist/fullcalendar.min.css";
-@import "vendor/fullcalendar/dist/fullcalendar.print.min.css";
-@import "vendor/sweetalert2/dist/sweetalert2.min.css";
+// @import "vendor/nucleo/css/nucleo";
+// @import "vendor/font-awesome/css/font-awesome.min.css";
+// @import "vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css";
+// @import "vendor/select2/dist/css/select2.min.css";
+// @import "vendor/fullcalendar/dist/fullcalendar.min.css";
+// @import "vendor/fullcalendar/dist/fullcalendar.print.min.css";
+// @import "vendor/sweetalert2/dist/sweetalert2.min.css";
 
 // Bootstrap functions
 @import 'bootstrap/functions';
