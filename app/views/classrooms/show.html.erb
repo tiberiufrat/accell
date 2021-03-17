@@ -128,10 +128,12 @@
                     <th><%= t ("activerecord.attributes.classroom.name") %></th>
                     <td><%= @classroom.name %></td>
                   </tr>
-                  <tr>
-                    <th><%= t ("activerecord.attributes.classroom.form_tutor") %></th>
-                    <td><%= render @classroom.form_tutor, no_margin_bottom: true, avatar_size: 'sm' %></td>
-                  </tr>
+                  <% if @classroom.form_tutor %>
+                    <tr>
+                      <th><%= t ("activerecord.attributes.classroom.form_tutor") %></th>
+                      <td><%= render @classroom.form_tutor, no_margin_bottom: true, avatar_size: 'sm' %></td>
+                    </tr>
+                  <% end %>
                   <tr>
                     <th><%= t ("activerecord.attributes.classroom.color") %></th>
                     <td><span class="badge badge-<%= @classroom.color %>"><%= @classroom.human_color %></span></td>
