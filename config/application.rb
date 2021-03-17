@@ -15,10 +15,9 @@ module Accell
     config.generators.scaffold_stylesheet = false
 
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
+    
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
-
-    config.serve_static_assets = true
 
     # Configuration for the application, engines, and railties goes here.
     #

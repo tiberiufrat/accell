@@ -1,20 +1,11 @@
-// $fa-font-path: '@nguyenthanh1995/fontawesomepro/webfonts';
-// @import '@nguyenthanh1995/fontawesomepro/scss/fontawesome';
-// @import '@nguyenthanh1995/fontawesomepro/scss/solid';
-// @import '@nguyenthanh1995/fontawesomepro/scss/regular';
-// @import '@nguyenthanh1995/fontawesomepro/scss/brands';
-// @import '@nguyenthanh1995/fontawesomepro/scss/light';
-// @import '@nguyenthanh1995/fontawesomepro/scss/duotone';
-// @import '@nguyenthanh1995/fontawesomepro/scss/v4-shims';
-
-$fa-font-path: 'vendor/fontawesomepro/webfonts';
-@import 'vendor/fontawesomepro/fontawesome';
-@import 'vendor/fontawesomepro/solid';
-@import 'vendor/fontawesomepro/regular';
-@import 'vendor/fontawesomepro/brands';
-@import 'vendor/fontawesomepro/light';
-@import 'vendor/fontawesomepro/duotone';
-@import 'vendor/fontawesomepro/v4-shims';
+$fa-font-path: '@nguyenthanh1995/fontawesomepro/webfonts';
+@import '@nguyenthanh1995/fontawesomepro/scss/fontawesome';
+@import '@nguyenthanh1995/fontawesomepro/scss/solid';
+@import '@nguyenthanh1995/fontawesomepro/scss/regular';
+@import '@nguyenthanh1995/fontawesomepro/scss/brands';
+@import '@nguyenthanh1995/fontawesomepro/scss/light';
+@import '@nguyenthanh1995/fontawesomepro/scss/duotone';
+@import '@nguyenthanh1995/fontawesomepro/scss/v4-shims';
 
 @import "vendor/nucleo/css/nucleo";
 @import "vendor/font-awesome/css/font-awesome.min.css";

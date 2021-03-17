@@ -31,8 +31,6 @@ window.pdfMake.vfs = window.pdfFonts.pdfMake.vfs;
 
 require('controllers') // import controllers, which also imports summernote_controller
 
-require('@nguyenthanh1995/fontawesomepro')
-
 require('select2')
 
 require('bootstrap-datepicker')
