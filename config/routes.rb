@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :classrooms
       resources :schools
+      resources :staffs
       resources :students
     end
   end

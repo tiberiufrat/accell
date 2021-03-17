@@ -13,6 +13,10 @@ class Staff < ApplicationRecord
 
 	accepts_nested_attributes_for :user, update_only: true
 
+	def self.has_school school
+		Staff.all.filter {|s| s.schools.include? school}
+	end
+
 	def name
 		user.name
 	end
