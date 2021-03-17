@@ -8,13 +8,13 @@ json.email student.user.email
 json.phone student.user.phone
 json.gender student.user.api_gender_string
 json.address student.user.address
-json.birth_date student.user.birth_date.iso8601
+json.birth_date student.user.birth_date.iso8601 if student.birth_date
 json.locale student.user.locale
 
 json.form_name (student.form ? student.form.name : nil)
 json.form_color (student.form ? student.form.hex_color : nil)
 
-json.enrollment_date student.enrollment_date.iso8601 if student.enrollment_date
+json.enrollment_date student.enrollment_date.iso8601
 json.form_tutor_id (student.form && student.form.form_tutor ? student.form.form_tutor.name : nil)
 
 # json.teachers student.form.staffs, partial: "api/v1/staffs/staff", as: :staff
