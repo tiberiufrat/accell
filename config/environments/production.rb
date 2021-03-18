@@ -6,6 +6,9 @@ Rails.application.configure do
   config.action_controller.asset_host = ENV['CLOUDFRONT_URL']
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_CACHE_URL'] }
 
+  # Serve static files
+  config.serve_static_files = true
+
   # Redis credentials
   ENV["REDISTOGO_URL"] = 'redis://redistogo:a3f1c54d1feb5a19858a2ea1eac6ff77@barb.redistogo.com:10241'
   uri = URI.parse(ENV["REDISTOGO_URL"])
