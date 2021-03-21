@@ -20,9 +20,6 @@ document.addEventListener('turbolinks:load', function() {
     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     locale: roLocale,
     headerToolbar: false,
-    // themeSystem: 'bootstrap',
-    // height: 734,
-    // aspectRatio: 1.35,
     contentHeight: 'auto',
     height: 'auto',
     nowIndicator: true,
@@ -32,7 +29,6 @@ document.addEventListener('turbolinks:load', function() {
     editable: true,
     droppable: true,
     eventLimit: true,
-    // dayMaxEventRows: 4,
     eventTimeFormat: {
       hour: 'numeric',
       minute: '2-digit',
@@ -81,8 +77,9 @@ document.addEventListener('turbolinks:load', function() {
             return null;
           }
         },
-        failure: function() {
+        failure: function(e) {
           alert('there was an error while fetching events!');
+          console.log(e)
         },
       }
     ],
