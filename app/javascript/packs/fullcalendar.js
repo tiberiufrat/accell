@@ -67,7 +67,7 @@ document.addEventListener('turbolinks:load', function() {
 
     eventSources: [
       {
-        url: '/activities.json',
+        url: 'api/v1/activities',
         method: 'GET',
         extraParams: function() {
           let urlParams = new URLSearchParams(window.location.search)
